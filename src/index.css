@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #ffffff;
+    color: #101012;
+  }
+
+  ::selection {
+    background-color: rgba(22, 168, 106, 0.2);
+    color: #06432f;
+  }
+}
+
+@layer utilities {
+  .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #16a86a 0%, #38c082 50%, #59a8ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .bg-grid-dark {
+    background-image:
+      linear-gradient(to right, rgba(10, 10, 11, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(10, 10, 11, 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .bg-dots {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .shadow-glow {
+    box-shadow: 0 0 40px -8px rgba(22, 168, 106, 0.25);
+  }
+
+  .shadow-glow-blue {
+    box-shadow: 0 0 40px -8px rgba(89, 168, 255, 0.3);
+  }
+
+  .glow-ring {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 20px 60px -20px rgba(0, 0, 0, 0.5),
+      0 0 80px -20px rgba(22, 168, 106, 0.15);
+  }
+
+  .mask-fade-r {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent);
+    mask-image: linear-gradient(to bottom, black 60%, transparent);
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-ink-950 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-ink-800 hover:shadow-lg active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ink-200 bg-white px-5 py-2.5 text-sm font-semibold text-ink-900 transition-all duration-200 hover:border-ink-300 hover:bg-ink-50 active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-ink-700 transition-all duration-200 hover:bg-ink-100 hover:text-ink-950;
+  }
+
+  /* Size modifier for primary conversion CTAs (hero + closing CTA),
+     so the main call to action reads at hero scale instead of nav scale. */
+  .btn-lg {
+    @apply gap-2.5 px-8 py-4 text-base hover:-translate-y-0.5;
+  }
+
+  .tag {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-ink-200 bg-white px-3 py-1 text-xs font-medium text-ink-500;
+  }
+
+  .card-border {
+    @apply border border-ink-100;
+  }
+
+  /* Shared section rhythm — keeps every section on the same vertical scale,
+     container width, heading size, and intro spacing. Colors stay per-section. */
+  .section {
+    @apply py-20 lg:py-28;
+  }
+
+  .section-container {
+    @apply mx-auto max-w-7xl px-5 lg:px-8;
+  }
+
+  .section-intro {
+    @apply mx-auto mb-14 max-w-2xl text-center;
+  }
+
+  .section-title {
+    @apply text-3xl font-bold tracking-tight text-balance sm:text-4xl;
+  }
+
+  .section-lead {
+    @apply mt-4 text-lg;
+  }
+
+  .eyebrow {
+    @apply mb-4 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold;
+  }
+}
