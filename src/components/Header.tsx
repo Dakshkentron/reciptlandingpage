@@ -94,6 +94,9 @@ export default function Header() {
                               <a
                                 key={child.label}
                                 href={child.href}
+                                {...(child.href.startsWith('http')
+                                  ? { target: '_blank', rel: 'noreferrer' }
+                                  : {})}
                                 className="group flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-ink-50"
                               >
                                 {Icon && (
@@ -159,6 +162,9 @@ export default function Header() {
                       <a
                         key={item.label}
                         href={item.href}
+                        {...(item.href.startsWith('http')
+                          ? { target: '_blank', rel: 'noreferrer' }
+                          : {})}
                         className="block rounded-lg px-2 py-2 text-sm font-medium text-ink-700 hover:bg-ink-50"
                         onClick={() => setMobileOpen(false)}
                       >

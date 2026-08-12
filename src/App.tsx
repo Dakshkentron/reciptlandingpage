@@ -18,10 +18,16 @@ import UseCasesPage from '@/components/UseCasesPage';
 import UseCaseDetailPage from '@/components/UseCaseDetailPage';
 import ResourcePage from '@/components/ResourcePage';
 import UseCasesTeaser from '@/components/UseCasesTeaser';
-import { resourcePages, type ResourceKind } from '@/data/resources';
+import { DOCS_URL, resourcePages, type ResourceKind } from '@/data/resources';
 
 function getRoute() {
   const hash = window.location.hash.replace(/^#/, '');
+
+  // Docs moved to the Mintlify site — send the old in-app link there.
+  if (hash === '/docs') {
+    window.location.replace(DOCS_URL);
+    return { name: 'home', slug: '' };
+  }
 
   // `#/department/*` predates the use-case pages — keep the old links working.
   const legacyDepartment = hash.match(/^\/department\/(.+)$/);
