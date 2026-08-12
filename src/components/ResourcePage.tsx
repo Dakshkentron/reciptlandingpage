@@ -75,6 +75,7 @@ export default function ResourcePage({ kind }: { kind: ResourceKind }) {
                 <a
                   key={r.href}
                   href={r.href}
+                  {...(r.external ? { target: '_blank', rel: 'noreferrer' } : {})}
                   className="group flex items-start gap-3 rounded-2xl border border-ink-100 bg-white p-5 transition-all duration-200 hover:-translate-y-1 hover:border-brand-200 hover:shadow-md"
                 >
                   <OtherIcon className="mt-0.5 h-5 w-5 flex-none text-brand-500" />

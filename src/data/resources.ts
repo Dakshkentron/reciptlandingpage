@@ -1,12 +1,17 @@
 /**
- * Resource pages: Docs, Blog, Research, Case studies.
+ * Resource pages: Blog, Research, Case studies.
+ *
+ * Docs are not one of them — they live in the Mintlify site, so the Resources
+ * menu links straight out to `DOCS_URL` instead of rendering a page here.
  *
  * Case studies are written against anonymised company profiles rather than named
  * logos — the shape of the deployment is the useful part, and it is the part we
  * can actually stand behind.
  */
 
-export type ResourceKind = 'docs' | 'blog' | 'research' | 'case-studies';
+export const DOCS_URL = 'https://reciptwebsite.mintlify.app/introduction';
+
+export type ResourceKind = 'blog' | 'research' | 'case-studies';
 
 export interface ResourceItem {
   title: string;
@@ -31,47 +36,6 @@ export interface ResourcePageData {
   /** Shown in the closing panel. */
   cta: { title: string; desc: string };
 }
-
-const docs: ResourcePageData = {
-  kind: 'docs',
-  eyebrow: 'Documentation',
-  icon: 'FileText',
-  title: 'Everything Receipt does, written down.',
-  lead: 'Start with a connected system and one prompt. The rest — policy gates, the receipt chain, replay, the API — is here when you need it.',
-  sections: [
-    {
-      heading: 'Start here',
-      items: [
-        { title: 'Quickstart', desc: 'Connect your first system and run a job end to end in under ten minutes.', meta: '10 min', tag: 'Guide', href: 'https://beetle.run/auth/sign-up' },
-        { title: 'Core concepts', desc: 'Runs, receipts, policy gates, and the sandbox — the four ideas everything else is built on.', meta: '8 min', tag: 'Concepts', href: '#/security' },
-        { title: 'Connecting your first tool', desc: 'OAuth flows, API keys, and how credentials stay with the connector layer rather than with us.', meta: '6 min', tag: 'Guide', href: '#/integrations' },
-        { title: 'Working from Slack', desc: 'Install the app, mention Receipt in a thread, and keep the whole run in the channel.', meta: '4 min', tag: 'Guide', href: '#/integrations/slack' },
-      ],
-    },
-    {
-      heading: 'Governance',
-      items: [
-        { title: 'Policy gates', desc: 'Decide which operations run immediately, which wait for approval, and who can approve them.', meta: 'Reference', tag: 'Security', href: '#/security' },
-        { title: 'The receipt chain', desc: 'How receipts are hashed, chained, exported to your SIEM, and independently verified.', meta: 'Reference', tag: 'Security', href: '#/security' },
-        { title: 'Replay and recovery', desc: 'Re-execute a past run step by step, and how a crashed run resumes without duplicating side effects.', meta: 'Reference', tag: 'Operations', href: '#/security' },
-        { title: 'Roles and permissions', desc: 'Per-connection, per-team access, SSO/SAML, and SCIM provisioning on Enterprise.', meta: 'Reference', tag: 'Admin', href: '#/pricing' },
-      ],
-    },
-    {
-      heading: 'Build on it',
-      items: [
-        { title: 'Public API', desc: 'Trigger runs, read receipts, and manage connections from your own systems.', meta: 'Reference', tag: 'API', href: '#/integrations' },
-        { title: 'Custom connectors', desc: 'Point Receipt at your API docs, or drive an internal endpoint straight from the sandbox.', meta: 'Guide', tag: 'API', href: '#/integrations' },
-        { title: 'Scheduled runs', desc: 'Recurring jobs — the Monday report, the nightly reconciliation, the quarterly access review.', meta: 'Guide', tag: 'Automation', href: '#/use-cases' },
-        { title: 'Audit export', desc: 'Stream the receipt chain into your warehouse or SIEM in the format your auditor expects.', meta: 'Reference', tag: 'Security', href: '#/security' },
-      ],
-    },
-  ],
-  cta: {
-    title: 'Something missing from the docs?',
-    desc: 'Tell us what you were trying to do and we will write the page — or answer it directly, which is usually faster.',
-  },
-};
 
 const blog: ResourcePageData = {
   kind: 'blog',
@@ -166,14 +130,19 @@ const caseStudies: ResourcePageData = {
 };
 
 export const resourcePages: Record<ResourceKind, ResourcePageData> = {
-  docs,
   blog,
   research,
   'case-studies': caseStudies,
 };
 
-export const resourceNavChildren = [
-  { label: 'Docs', href: '#/docs', desc: 'Quickstart, concepts, and the API', icon: 'FileText' },
+export const resourceNavChildren: {
+  label: string;
+  href: string;
+  desc: string;
+  icon: string;
+  external?: boolean;
+}[] = [
+  { label: 'Docs', href: DOCS_URL, desc: 'Quickstart, concepts, and the API', icon: 'FileText', external: true },
   { label: 'Blog', href: '#/blog', desc: 'Notes on building auditable agents', icon: 'Newspaper' },
   { label: 'Research', href: '#/research', desc: 'Papers, benchmarks, and design notes', icon: 'BarChart3' },
   { label: 'Case studies', href: '#/case-studies', desc: 'How teams actually deploy it', icon: 'Sparkles' },
