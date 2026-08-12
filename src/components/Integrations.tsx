@@ -1,31 +1,26 @@
-import { Plug, Database, GitBranch, Workflow, MessageSquare, Code2, Lock, Cloud, Briefcase } from 'lucide-react';
+import { ArrowRight, Plug, Database, GitBranch, Workflow, Code2, Lock, Cloud, Briefcase } from 'lucide-react';
 import { integrations, integrationHighlights } from '@/data/content';
+import { catalogCounts } from '@/data/integrations';
+import { safeIntegrationHref } from '@/data/integrationDetail';
+import IntegrationLogo from '@/components/IntegrationLogo';
 
-function IntegrationIcon({ name }: { name: string }) {
-  const iconMap: Record<string, React.ReactNode> = {
-    aws: <Cloud className="h-5 w-5" />,
-    azure: <Cloud className="h-5 w-5" />,
-    gcp: <Cloud className="h-5 w-5" />,
-    snowflake: <Database className="h-5 w-5" />,
-    bigquery: <Database className="h-5 w-5" />,
-    dbt: <Workflow className="h-5 w-5" />,
-    github: <GitBranch className="h-5 w-5" />,
-    gitlab: <GitBranch className="h-5 w-5" />,
-    airflow: <Workflow className="h-5 w-5" />,
-    slack: <MessageSquare className="h-5 w-5" />,
-    notion: <MessageSquare className="h-5 w-5" />,
-    jira: <Briefcase className="h-5 w-5" />,
-    hubspot: <Briefcase className="h-5 w-5" />,
-    salesforce: <Briefcase className="h-5 w-5" />,
-    api: <Code2 className="h-5 w-5" />,
-  };
-
-  return (
-    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-ink-850 text-ink-200 border border-ink-700/60">
-      {iconMap[name] ?? <Plug className="h-5 w-5" />}
-    </div>
-  );
+/** Our own API has no vendor logo — everything else renders the real brand mark. */
+function IntegrationIcon({ name, logo }: { name: string; logo: string }) {
+  if (logo === 'api') {
+    return (
+      <div className="flex h-10 w-10 flex-none items-center justify-center rounded-xl border border-ink-700/60 bg-ink-850 text-ink-200">
+        <Code2 className="h-5 w-5" />
+      </div>
+    );
+  }
+  return <IntegrationLogo name={name} />;
 }
+
+/** Split the featured connectors into two rails that scroll in opposite directions. */
+const rails = [
+  integrations.filter((_, i) => i % 2 === 0),
+  integrations.filter((_, i) => i % 2 === 1),
+];
 
 export default function Integrations() {
   return (
@@ -43,20 +38,43 @@ export default function Integrations() {
             Instant integration with the whole stack
           </h2>
           <p className="section-lead text-ink-200">
-            Out-of-the-box connections and flexible APIs make setup a breeze.
+            {catalogCounts.total} managed connectors, {catalogCounts.ready + catalogCounts.connected} ready
+            to connect today. Out-of-the-box OAuth and flexible APIs make setup a breeze.
           </p>
+          <a
+            href="#/integrations"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-ink-700/60 bg-ink-850 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-ink-600 hover:bg-ink-800"
+          >
+            Browse all {catalogCounts.total} integrations
+            <ArrowRight className="h-4 w-4" />
+          </a>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-12">
-          {integrations.map((integration) => (
-            <div
-              key={integration.name}
-              className="group flex items-center gap-3 rounded-xl border border-ink-700/60 bg-ink-850 p-4 transition-all duration-200 hover:border-ink-600 hover:bg-ink-800"
-            >
-              <IntegrationIcon name={integration.logo} />
-              <div className="min-w-0">
-                <div className="text-sm font-semibold text-white leading-tight">{integration.name}</div>
-                <div className="text-[11px] text-ink-400">{integration.category}</div>
+        {/* Two counter-scrolling rails — the catalog moves past you instead of sitting still. */}
+        <div className="mb-12 space-y-3">
+          {rails.map((rail, r) => (
+            <div key={r} className="mask-fade-r group overflow-hidden">
+              <div
+                className={`flex w-max gap-3 ${
+                  r % 2 ? 'animate-marquee-reverse' : 'animate-marquee'
+                } group-hover:[animation-play-state:paused]`}
+              >
+                {[...rail, ...rail].map((integration, i) => (
+                  <a
+                    key={`${integration.name}-${i}`}
+                    href={integration.logo === 'api' ? '#/integrations' : safeIntegrationHref(integration.name)}
+                    aria-hidden={i >= rail.length}
+                    className="flex w-64 flex-none items-center gap-3 rounded-xl border border-ink-700/60 bg-ink-850 p-4 transition-all duration-200 hover:border-ink-600 hover:bg-ink-800"
+                  >
+                    <IntegrationIcon name={integration.name} logo={integration.logo} />
+                    <div className="min-w-0">
+                      <div className="truncate text-sm font-semibold leading-tight text-white">
+                        {integration.name}
+                      </div>
+                      <div className="text-[11px] text-ink-400">{integration.category}</div>
+                    </div>
+                  </a>
+                ))}
               </div>
             </div>
           ))}

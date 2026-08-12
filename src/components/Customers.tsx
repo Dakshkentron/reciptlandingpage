@@ -1,4 +1,4 @@
-import { Star, Quote, Users } from 'lucide-react';
+import { ArrowRight, Star, Quote, Users } from 'lucide-react';
 import { customerStories, testimonials } from '@/data/content';
 
 export default function Customers() {
@@ -20,16 +20,21 @@ export default function Customers() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {customerStories.map((story) => (
-            <div
+            <a
               key={story.company}
-              className="flex flex-col rounded-2xl border border-ink-100 bg-white p-6 transition-all duration-300 hover:shadow-xl hover:shadow-ink-950/5 hover:-translate-y-1"
+              href={story.href}
+              className="group flex flex-col rounded-2xl border border-ink-100 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-xl hover:shadow-ink-950/5"
             >
               <div className="mb-4 flex h-10 items-center">
                 <span className="text-xl font-bold text-ink-900">{story.logo}</span>
               </div>
               <h3 className="text-base font-bold text-ink-950 mb-2">{story.title}</h3>
               <p className="text-sm text-ink-500 leading-relaxed flex-1">{story.desc}</p>
-            </div>
+              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700">
+                Read the story
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </a>
           ))}
         </div>
 

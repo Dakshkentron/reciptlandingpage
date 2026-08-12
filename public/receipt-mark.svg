@@ -1,0 +1,8 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Receipt logo">
+  <path d="M150 82H396V398L372 382L348 398L324 382L300 398L276 382L252 398L228 382L204 398L180 382L156 398V82Z" fill="none" stroke="#16a86a" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M226 116C226 148 248 166 274 166C300 166 322 148 322 116" fill="none" stroke="#16a86a" stroke-width="24" stroke-linecap="round"/>
+  <path d="M224 214C224 184 248 160 274 160C300 160 324 184 324 214V294C324 332 300 360 274 360C248 360 224 332 224 294V214Z" fill="#16a86a"/>
+  <path d="M274 166V354" fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round"/>
+  <path d="M232 230C244 218 258 212 274 212C290 212 304 218 316 230M232 292C244 306 258 314 274 314C290 314 304 306 316 292" fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M248 170L230 146M300 170L318 146M224 246H196M224 284H196M324 246H352M324 284H352" fill="none" stroke="#16a86a" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
