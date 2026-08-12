@@ -1,162 +1,194 @@
-import { useState } from 'react';
-import { ChevronDown, ChevronRight, Menu, X, Users, Code2, Headphones, TrendingUp, Megaphone, Building2, ShoppingBag, UserCog, Server, Wallet, Scale, type LucideIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import { navLinks } from '@/data/content';
+import { iconMap } from '@/components/icons';
+import ReceiptMark from '@/components/ReceiptMark';
 
-const iconMap: Record<string, LucideIcon> = {
-  Users, Code2, Headphones, TrendingUp, Megaphone, Building2, ShoppingBag, UserCog, Server, Wallet, Scale,
-};
-
+/**
+ * Floating header. The nav is a rounded card sitting over the page rather than a
+ * full-bleed bar attached to the viewport — so the hero's gradient runs behind it
+ * and the chrome reads as part of the product, not part of the browser.
+ */
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [openSection, setOpenSection] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Past the fold the card tightens up and takes a stronger shadow, so it stays
+  // legible over whatever section happens to be behind it.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // A hash change means the mobile sheet has done its job.
+  useEffect(() => {
+    const close = () => setMobileOpen(false);
+    window.addEventListener('hashchange', close);
+    return () => window.removeEventListener('hashchange', close);
+  }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-ink-100 bg-white/85 backdrop-blur-xl">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 lg:px-8">
-        <div className="flex items-center gap-8">
-          <a href="#" className="flex items-center gap-2 text-ink-950">
-            <span className="text-lg font-bold tracking-tight">Receipt</span>
-          </a>
-
-          <div className="hidden items-center gap-1 lg:flex">
-            {navLinks.map((link) => {
-              const hasChildren = !!link.children;
-              return (
-                <div
-                  key={link.label}
-                  className="relative"
-                  onMouseEnter={() => hasChildren && setOpenDropdown(link.label)}
-                  onMouseLeave={() => {
-                    setOpenDropdown(null);
-                    setOpenSection(null);
-                  }}
-                >
-                  <a
-                    href={link.href ?? '#'}
-                    className="flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium text-ink-600 transition-colors hover:text-ink-950"
-                  >
-                    {link.label}
-                    {hasChildren && <ChevronDown className="h-3.5 w-3.5 opacity-60" />}
-                  </a>
-
-                  {hasChildren && openDropdown === link.label && (
-                    <div className="absolute left-0 top-full pt-2 w-80">
-                      <div className="rounded-xl border border-ink-100 bg-white p-2 shadow-xl shadow-ink-950/5 ring-1 ring-ink-950/5">
-                        {link.children!.map((child) => (
-                          <div
-                            key={child.label}
-                            className="relative"
-                            onMouseEnter={() => child.submenu && setOpenSection(child.label)}
-                            onMouseLeave={() => child.submenu && setOpenSection(null)}
-                          >
-                            <a
-                              href={child.href}
-                              className={`flex items-center justify-between rounded-lg px-3 py-2.5 transition-colors hover:bg-ink-50 ${
-                                openSection === child.label ? 'bg-ink-50' : ''
-                              }`}
-                            >
-                              <div>
-                                <div className="text-sm font-semibold text-ink-900">{child.label}</div>
-                                <div className="mt-0.5 text-xs text-ink-400">{child.desc}</div>
-                              </div>
-                              {child.submenu && (
-                                <ChevronRight className="h-4 w-4 shrink-0 text-ink-400" />
-                              )}
-                            </a>
-
-                            {child.submenu && openSection === child.label && (
-                              <div className="absolute left-full top-0 z-10 ml-2 w-80 rounded-xl border border-ink-100 bg-white p-2 shadow-xl shadow-ink-950/5 ring-1 ring-ink-950/5">
-                                <div className="px-3 pb-1.5 pt-1 text-[11px] font-semibold uppercase tracking-wider text-ink-400">
-                                  Departments
-                                </div>
-                                <div className="grid max-h-[28rem] grid-cols-1 gap-0.5 overflow-y-auto">
-                                  {child.submenu.map((item) => {
-                                    const Icon = item.icon ? iconMap[item.icon] : null;
-                                    return (
-                                      <a
-                                        key={item.label}
-                                        href={item.href}
-                                        className="flex items-start gap-2.5 rounded-lg px-3 py-2 transition-colors hover:bg-ink-50"
-                                      >
-                                        {Icon && (
-                                          <Icon className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" />
-                                        )}
-                                        <div>
-                                          <div className="text-sm font-semibold text-ink-900">{item.label}</div>
-                                          <div className="mt-0.5 text-xs text-ink-400">{item.desc}</div>
-                                        </div>
-                                      </a>
-                                    );
-                                  })}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="hidden items-center gap-2 lg:flex">
-          <a href="https://beetle.run/auth/sign-up" className="btn-ghost">Sign in</a>
-          <a href="https://beetle.run/auth/sign-up" className="btn-primary">Get started</a>
-        </div>
-
-        <button
-          className="flex h-9 w-9 items-center justify-center rounded-lg text-ink-700 lg:hidden"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
+    <header
+      className={`fixed inset-x-0 top-0 z-50 px-3 transition-all duration-300 sm:px-5 ${
+        scrolled ? 'pt-2' : 'pt-4'
+      }`}
+    >
+      <div
+        className={`mx-auto max-w-7xl rounded-2xl border border-ink-100/80 bg-white/90 backdrop-blur-xl transition-all duration-300 ${
+          scrolled
+            ? 'shadow-lg shadow-ink-950/[0.07]'
+            : 'shadow-sm shadow-ink-950/[0.03]'
+        }`}
+      >
+        <nav
+          className={`flex items-center justify-between px-4 transition-all duration-300 sm:px-6 ${
+            scrolled ? 'h-14' : 'h-16'
+          }`}
         >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
-      </nav>
+          <div className="flex items-center gap-7">
+            <a href="#" className="flex items-center gap-2 text-ink-950" aria-label="Receipt home">
+              <ReceiptMark className="h-7 w-7 flex-none text-brand-500" paperClassName="text-white" />
+              <span className="text-[19px] font-bold tracking-tight">Receipt</span>
+            </a>
 
-      {mobileOpen && (
-        <div className="border-t border-ink-100 bg-white px-5 py-4 lg:hidden">
-          {navLinks.map((link) =>
-            link.children ? (
-              <div key={link.label} className="py-2.5">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-400">
-                  {link.label}
-                </div>
-                <div className="mt-2 space-y-1">
-                  {link.children
-                    .flatMap((child): { label: string; href: string }[] => child.submenu ?? [child])
-                    .map((item) => (
+            <div className="hidden items-center gap-0.5 lg:flex">
+              {navLinks.map((link) => {
+                const hasChildren = !!link.children;
+                const open = openDropdown === link.label;
+                return (
+                  <div
+                    key={link.label}
+                    className="relative"
+                    onMouseEnter={() => hasChildren && setOpenDropdown(link.label)}
+                    onMouseLeave={() => setOpenDropdown(null)}
+                  >
                     <a
-                      key={item.label}
-                      href={item.href}
-                      className="block rounded-lg px-2 py-2 text-sm font-medium text-ink-700 hover:bg-ink-50"
-                      onClick={() => setMobileOpen(false)}
+                      href={link.href ?? '#'}
+                      className={`flex items-center gap-1 rounded-lg px-3 py-2 text-[15px] font-medium transition-colors ${
+                        open ? 'text-ink-950' : 'text-ink-600 hover:text-ink-950'
+                      }`}
                     >
-                      {item.label}
+                      {link.label}
+                      {hasChildren && (
+                        <ChevronDown
+                          className={`h-3.5 w-3.5 opacity-60 transition-transform duration-200 ${
+                            open ? 'rotate-180' : ''
+                          }`}
+                        />
+                      )}
                     </a>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <a
-                key={link.label}
-                href={link.href}
-                className="block py-2.5 text-sm font-medium text-ink-700"
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </a>
-            )
-          )}
-          <div className="mt-3 flex gap-2 border-t border-ink-100 pt-4">
-            <a href="https://beetle.run/auth/sign-up" className="btn-secondary flex-1">Sign in</a>
-            <a href="https://beetle.run/auth/sign-up" className="btn-primary flex-1">Get started</a>
+
+                    {hasChildren && open && (
+                      <div className={`absolute left-0 top-full pt-3 ${link.wide ? 'w-[42rem]' : 'w-[22rem]'}`}>
+                        <div
+                          className={`grid animate-fade-in gap-0.5 rounded-2xl border border-ink-100 bg-white p-2 shadow-2xl shadow-ink-950/10 ${
+                            link.wide ? 'grid-cols-2' : 'grid-cols-1'
+                          }`}
+                        >
+                          {link.children!.map((child) => {
+                            const Icon = child.icon ? iconMap[child.icon] : null;
+                            return (
+                              <a
+                                key={child.label}
+                                href={child.href}
+                                className="group flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-ink-50"
+                              >
+                                {Icon && (
+                                  <span className="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-100">
+                                    <Icon className="h-4 w-4" />
+                                  </span>
+                                )}
+                                <div className="min-w-0">
+                                  <div className="text-sm font-semibold text-ink-900">{child.label}</div>
+                                  {child.desc && (
+                                    <div className="mt-0.5 text-xs leading-relaxed text-ink-400">
+                                      {child.desc}
+                                    </div>
+                                  )}
+                                </div>
+                              </a>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
+
+          <div className="hidden items-center gap-2 lg:flex">
+            <a
+              href="https://beetle.run/auth/sign-up"
+              className="rounded-full border border-ink-200 px-5 py-2.5 text-[15px] font-semibold text-ink-900 transition-colors hover:border-ink-300 hover:bg-ink-50"
+            >
+              Sign in
+            </a>
+            <a
+              href="https://beetle.run/auth/sign-up"
+              className="rounded-full bg-ink-950 px-5 py-2.5 text-[15px] font-semibold text-white transition-all duration-200 hover:bg-ink-800 hover:shadow-lg active:scale-[0.98]"
+            >
+              Get started for free
+            </a>
+          </div>
+
+          <button
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-ink-700 transition-colors hover:bg-ink-50 lg:hidden"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </nav>
+
+        {mobileOpen && (
+          <div className="max-h-[calc(100vh-6rem)] overflow-y-auto rounded-b-2xl border-t border-ink-100 px-4 py-4 lg:hidden">
+            {navLinks.map((link) =>
+              link.children ? (
+                <div key={link.label} className="py-2.5">
+                  <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-400">
+                    {link.label}
+                  </div>
+                  <div className="mt-2 space-y-1">
+                    {link.children.map((item) => (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        className="block rounded-lg px-2 py-2 text-sm font-medium text-ink-700 hover:bg-ink-50"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {item.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="block py-2.5 text-sm font-medium text-ink-700"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </a>
+              )
+            )}
+            <div className="mt-3 flex gap-2 border-t border-ink-100 pt-4">
+              <a href="https://beetle.run/auth/sign-up" className="btn-secondary flex-1">
+                Sign in
+              </a>
+              <a href="https://beetle.run/auth/sign-up" className="btn-primary flex-1">
+                Get started
+              </a>
+            </div>
+          </div>
+        )}
+      </div>
     </header>
   );
 }

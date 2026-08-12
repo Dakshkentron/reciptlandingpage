@@ -42,6 +42,20 @@ export default function HowItWorks() {
     };
   }, [steps]);
 
+  /**
+   * The steps look interactive because they are — clicking one scrolls the page to
+   * the middle of that step's range, which is what drives `active`. Without this the
+   * list highlights on scroll but swallows every click.
+   */
+  const goToStep = (i: number) => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const scrollable = el.offsetHeight - window.innerHeight;
+    if (scrollable <= 0) return;
+    const sectionTop = window.scrollY + el.getBoundingClientRect().top;
+    window.scrollTo({ top: sectionTop + ((i + 0.5) / steps) * scrollable, behavior: 'smooth' });
+  };
+
   return (
     <div id="how-it-works">
       {/* Desktop: pinned panel driven by scroll */}
@@ -66,26 +80,29 @@ export default function HowItWorks() {
                   const isActive = i === active;
                   return (
                     <li key={feature.id}>
-                      <div
-                        className={`flex items-start gap-4 rounded-xl px-4 py-3 transition-colors duration-300 ${
-                          isActive ? 'bg-ink-50' : ''
+                      <button
+                        type="button"
+                        onClick={() => goToStep(i)}
+                        aria-current={isActive ? 'step' : undefined}
+                        className={`group flex w-full items-start gap-4 rounded-xl px-4 py-3 text-left transition-colors duration-300 ${
+                          isActive ? 'bg-ink-50' : 'hover:bg-ink-50/60'
                         }`}
                       >
                         <span
                           className={`mt-0.5 font-mono text-xs font-semibold tabular-nums transition-colors duration-300 ${
-                            isActive ? 'text-brand-600' : 'text-ink-300'
+                            isActive ? 'text-brand-600' : 'text-ink-300 group-hover:text-brand-500'
                           }`}
                         >
                           /0{i + 1}
                         </span>
                         <span
                           className={`text-sm font-semibold transition-colors duration-300 ${
-                            isActive ? 'text-ink-950' : 'text-ink-400'
+                            isActive ? 'text-ink-950' : 'text-ink-400 group-hover:text-ink-700'
                           }`}
                         >
                           {feature.eyebrow}
                         </span>
-                      </div>
+                      </button>
                       <div
                         className={`ml-4 h-px origin-left bg-brand-500 transition-transform duration-500 ${
                           isActive ? 'scale-x-100' : 'scale-x-0'

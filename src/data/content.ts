@@ -1,51 +1,41 @@
+import { catalogCounts } from '@/data/integrations';
+import { teamNavChildren, teams, useCaseCount } from '@/data/useCases';
+import { resourceNavChildren } from '@/data/resources';
+
 export const announcements = [
   { icon: '📊', text: 'AI analytics use case: how Mercor unlocked $100M in revenue', href: '#' },
   { icon: '🤯', text: 'Generative data apps: Gorgeous, interactive dashboards and apps you can build with just a prompt', href: '#' },
   { icon: '📖', text: 'State of Data Teams 2026 — discover key insights from data leaders', href: '#' },
 ];
 
-export const departments = [
-  { label: 'All Teams', href: '#/department/all-teams', desc: 'One workspace for every team', icon: 'Users' },
-  { label: 'Engineering', href: '#/department/engineering', desc: 'Ship insights alongside code', icon: 'Code2' },
-  { label: 'Customer Service', href: '#/department/customer-service', desc: 'Resolve tickets with real data', icon: 'Headphones' },
-  { label: 'Sales', href: '#/department/sales', desc: 'Close faster with live account context', icon: 'TrendingUp' },
-  { label: 'Marketing', href: '#/department/marketing', desc: 'Measure and optimize every campaign', icon: 'Megaphone' },
-  { label: 'B2B Marketing', href: '#/department/b2b-marketing', desc: 'Pipeline analytics for demand gen', icon: 'Building2' },
-  { label: 'B2C Marketing', href: '#/department/b2c-marketing', desc: 'Segment and grow your customer base', icon: 'ShoppingBag' },
-  { label: 'People', href: '#/department/people', desc: 'HR analytics for the whole org', icon: 'UserCog' },
-  { label: 'IT', href: '#/department/it', desc: 'Govern access and track adoption', icon: 'Server' },
-  { label: 'Finance', href: '#/department/finance', desc: 'Trusted numbers for reporting', icon: 'Wallet' },
-  { label: 'Legal', href: '#/department/legal', desc: 'Audit-ready analysis and evidence', icon: 'Scale' },
-];
-
-export type Department = {
-  label: string;
-  href: string;
-  desc: string;
-  icon: string;
-};
-
 export type NavChild = {
   label: string;
   href: string;
   desc?: string;
-  submenu?: Department[];
+  icon?: string;
 };
 
 export type NavLink = {
   label: string;
   href?: string;
   children?: NavChild[];
+  /** Render the dropdown as a two-column panel — for menus with many entries. */
+  wide?: boolean;
 };
 
 export const navLinks: NavLink[] = [
-  { label: 'Solutions', children: [
-    { label: 'Use Cases', href: '#', desc: 'From exploration to production in one workspace', submenu: departments },
-  ]},
-  { label: 'How it works', href: '#how-it-works' },
+  {
+    label: 'Solution',
+    children: [
+      { label: 'Integrations', href: '#/integrations', desc: `${catalogCounts.total} connectors, browsable A–Z`, icon: 'Plug' },
+      { label: 'Use cases', href: '#/use-cases', desc: `${useCaseCount} worked examples across ${teams.length} teams`, icon: 'Sparkles' },
+    ],
+  },
+  { label: 'For Teams', wide: true, children: teamNavChildren },
+  { label: 'Resources', children: resourceNavChildren },
   { label: 'Customers', href: '#customers' },
-  { label: 'Integrations', href: '#integrations' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Security', href: '#/security' },
+  { label: 'Pricing', href: '#/pricing' },
 ];
 
 export const trustedBy = [
@@ -161,10 +151,10 @@ export const testimonials = [
 ];
 
 export const customerStories = [
-  { company: 'Notion', title: 'One place for insights', desc: 'Notion made Receipt the one place for everyone \u2014 from data science to CX and sales \u2014 to make decisions with data.', logo: 'Notion', href: '#' },
-  { company: 'Mercor', title: 'Scaling self-serve AI analytics', desc: 'Mercor democratizes analysis across their org with Notebook Agent.', logo: 'Mercor', href: '#' },
-  { company: 'Figma', title: 'Lowering barriers to insight', desc: 'Figma\u2019s team focuses on strategy over syntax using Receipt\u2019s AI agents.', logo: 'Figma', href: '#' },
-  { company: 'Neo Financial', title: 'Breaking data silos', desc: 'Neo drives insights right where they work using Threads and Slack integration.', logo: 'Neo', href: '#' },
+  { company: 'Notion', title: 'One place for insights', desc: 'Notion made Receipt the one place for everyone \u2014 from data science to CX and sales \u2014 to make decisions with data.', logo: 'Notion', href: '#/case-studies' },
+  { company: 'Mercor', title: 'Scaling self-serve AI analytics', desc: 'Mercor democratizes analysis across their org with Notebook Agent.', logo: 'Mercor', href: '#/case-studies' },
+  { company: 'Figma', title: 'Lowering barriers to insight', desc: 'Figma\u2019s team focuses on strategy over syntax using Receipt\u2019s AI agents.', logo: 'Figma', href: '#/case-studies' },
+  { company: 'Neo Financial', title: 'Breaking data silos', desc: 'Neo drives insights right where they work using Threads and Slack integration.', logo: 'Neo', href: '#/case-studies' },
 ];
 
 export const integrations = [
@@ -241,12 +231,11 @@ export const faqs = [
 export const footerLinks = {
   Product: [
     { label: 'How it works', href: '#how-it-works' },
-    { label: 'Dashboards', href: '#dashboard' },
-    { label: 'Integrations', href: '#integrations' },
+    { label: 'Integrations', href: '#/integrations' },
+    { label: 'Use cases', href: '#/use-cases' },
+    { label: 'Pricing', href: '#/pricing' },
+    { label: 'Security', href: '#/security' },
   ],
-  Solutions: departments.slice(0, 5).map((d) => ({ label: d.label, href: d.href })),
-  Resources: [
-    { label: 'Customers', href: '#customers' },
-    { label: 'FAQ', href: '#faq' },
-  ],
+  'Use cases': teams.slice(0, 6).map((t) => ({ label: t.label, href: `#/use-cases/${t.slug}` })),
+  Resources: resourceNavChildren.map((r) => ({ label: r.label, href: r.href })),
 };

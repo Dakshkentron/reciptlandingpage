@@ -62,6 +62,7 @@ export default {
         'slide-in': 'slideIn 0.5s ease-out forwards',
         'marquee': 'marquee 40s linear infinite',
         'marquee-slow': 'marquee 60s linear infinite',
+        'marquee-reverse': 'marqueeReverse 50s linear infinite',
         'pulse-soft': 'pulseSoft 2.5s ease-in-out infinite',
         'blink': 'blink 1s step-end infinite',
         'shimmer': 'shimmer 3s linear infinite',
@@ -84,6 +85,10 @@ export default {
         marquee: {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
+        },
+        marqueeReverse: {
+          '0%': { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0)' },
         },
         pulseSoft: {
           '0%, 100%': { opacity: '1' },

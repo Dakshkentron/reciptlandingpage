@@ -10,12 +10,37 @@ import Integrations from '@/components/Integrations';
 import FAQ from '@/components/FAQ';
 import CTA from '@/components/CTA';
 import Footer from '@/components/Footer';
-import DepartmentPage from '@/components/DepartmentPage';
+import IntegrationsPage from '@/components/IntegrationsPage';
+import IntegrationDetailPage from '@/components/IntegrationDetailPage';
+import PricingPage from '@/components/PricingPage';
+import SecurityPage from '@/components/SecurityPage';
+import UseCasesPage from '@/components/UseCasesPage';
+import UseCaseDetailPage from '@/components/UseCaseDetailPage';
+import ResourcePage from '@/components/ResourcePage';
+import UseCasesTeaser from '@/components/UseCasesTeaser';
+import { resourcePages, type ResourceKind } from '@/data/resources';
 
 function getRoute() {
   const hash = window.location.hash.replace(/^#/, '');
-  const match = hash.match(/^\/department\/(.+)$/);
-  return match ? { name: 'department', slug: match[1] } : { name: 'home', slug: '' };
+
+  // `#/department/*` predates the use-case pages — keep the old links working.
+  const legacyDepartment = hash.match(/^\/department\/(.+)$/);
+  if (legacyDepartment) return { name: 'use-case', slug: legacyDepartment[1] };
+
+  const useCase = hash.match(/^\/use-cases\/(.+)$/);
+  if (useCase) return { name: 'use-case', slug: useCase[1] };
+  if (hash === '/use-cases') return { name: 'use-cases', slug: '' };
+
+  const integration = hash.match(/^\/integrations\/(.+)$/);
+  if (integration) return { name: 'integration', slug: integration[1] };
+  if (hash === '/integrations') return { name: 'integrations', slug: '' };
+
+  const resource = hash.replace(/^\//, '');
+  if (resource in resourcePages) return { name: 'resource', slug: resource };
+
+  if (hash === '/pricing') return { name: 'pricing', slug: '' };
+  if (hash === '/security') return { name: 'security', slug: '' };
+  return { name: 'home', slug: '' };
 }
 
 function App() {
@@ -25,7 +50,7 @@ function App() {
     const onHashChange = () => {
       const next = getRoute();
       setRoute((prev) => {
-        if (next.name === 'department' || prev.name === 'department') {
+        if (next.name !== prev.name || next.slug !== prev.slug) {
           window.scrollTo(0, 0);
         }
         return next;
@@ -43,14 +68,27 @@ function App() {
     <div className="min-h-screen bg-white">
       <Header />
       <main>
-        {route.name === 'department' ? (
-          <DepartmentPage slug={route.slug} onBack={goHome} />
+        {route.name === 'use-cases' ? (
+          <UseCasesPage />
+        ) : route.name === 'use-case' ? (
+          <UseCaseDetailPage slug={route.slug} />
+        ) : route.name === 'resource' ? (
+          <ResourcePage kind={route.slug as ResourceKind} />
+        ) : route.name === 'integration' ? (
+          <IntegrationDetailPage slug={route.slug} />
+        ) : route.name === 'integrations' ? (
+          <IntegrationsPage onBack={goHome} />
+        ) : route.name === 'pricing' ? (
+          <PricingPage />
+        ) : route.name === 'security' ? (
+          <SecurityPage />
         ) : (
           <>
             <Hero />
             <Showcase />
             <LogoMarquee />
             <HowItWorks />
+            <UseCasesTeaser />
             <DashboardDemo />
             <Customers />
             <Integrations />
