@@ -19,6 +19,7 @@ import UseCaseDetailPage from '@/components/UseCaseDetailPage';
 import ResourcePage from '@/components/ResourcePage';
 import UseCasesTeaser from '@/components/UseCasesTeaser';
 import { DOCS_URL, resourcePages, type ResourceKind } from '@/data/resources';
+import { applyRouteMeta } from '@/lib/pageMeta';
 
 function getRoute() {
   const hash = window.location.hash.replace(/^#/, '');
@@ -65,6 +66,12 @@ function App() {
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
+
+  // Title, description, and canonical follow the hash route — otherwise every
+  // page reports the home page's metadata to crawlers and agents.
+  useEffect(() => {
+    applyRouteMeta(route.name, route.slug);
+  }, [route]);
 
   const goHome = () => {
     window.location.hash = '';
