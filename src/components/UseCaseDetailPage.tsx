@@ -118,20 +118,92 @@ export default function UseCaseDetailPage({ slug }: { slug: string }) {
             <span className="font-medium text-ink-700">{team.label}</span>
           </nav>
 
-          <div className="mt-10 grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-14">
+            {/* the run, as it appears in Slack */}
+            <div
+              className={`relative overflow-hidden rounded-[2rem] bg-gradient-to-br ${team.accent} p-6 shadow-2xl shadow-ink-950/15 lg:p-9`}
+            >
+              <div className="absolute inset-0 bg-grid opacity-20" />
+
+              <div className="relative">
+                <div className="text-sm font-semibold text-white/80">#{team.slug}-alerts</div>
+                <div className="text-[15px] font-semibold text-white">{team.thread.title}</div>
+
+                <div className="mt-6 space-y-3">
+                  {team.thread.messages.map((msg, i) => {
+                    const isAgent = msg.from === 'receipt';
+                    return (
+                      <div key={i} className="rounded-2xl bg-white p-4 shadow-lg lg:p-5">
+                        <div className="flex items-center gap-2">
+                          {isAgent ? (
+                            <div className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-brand-500 text-white">
+                              <ReceiptMark className="h-4 w-4" paperClassName="text-brand-500" />
+                            </div>
+                          ) : (
+                            <div className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-ink-200 text-[11px] font-bold text-ink-700">
+                              {msg.name.slice(0, 2).toUpperCase()}
+                            </div>
+                          )}
+                          <span className="text-[13px] font-bold text-ink-950">{msg.name}</span>
+                          {isAgent && (
+                            <span className="rounded bg-ink-100 px-1 py-px text-[9px] font-bold uppercase tracking-wide text-ink-500">
+                              App
+                            </span>
+                          )}
+                          <span className="text-[11px] text-ink-400">{msg.time}</span>
+                        </div>
+
+                        <p className="mt-2 text-[13.5px] leading-relaxed text-ink-700">{msg.text}</p>
+
+                        {msg.reactions && (
+                          <div className="mt-3 flex gap-1.5">
+                            {msg.reactions.map((r) => (
+                              <span
+                                key={r}
+                                className="rounded-full border border-ink-100 bg-ink-50 px-2 py-0.5 text-[11px] font-medium text-ink-600"
+                              >
+                                {r}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
             <div>
-              <div
-                className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${team.accent} text-white shadow-lg`}
-              >
-                <Icon className="h-7 w-7" />
+              <div className="flex items-center gap-3">
+                <div
+                  className={`flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${team.accent} text-white shadow-lg`}
+                >
+                  <Icon className="h-5 w-5" />
+                </div>
+                <span className="rounded-full bg-ink-100 px-3 py-1 text-xs font-semibold text-ink-700">
+                  {team.label}
+                </span>
               </div>
-              <div className="mt-6 text-sm font-semibold uppercase tracking-wider text-ink-400">
-                {team.label}
-              </div>
-              <h1 className="mt-2 text-4xl font-bold leading-[1.06] tracking-tight text-ink-950 text-balance lg:text-5xl">
+
+              <h1 className="mt-6 text-4xl font-bold leading-[1.06] tracking-tight text-ink-950 text-balance lg:text-5xl">
                 {team.headline}
               </h1>
               <p className="mt-6 text-lg leading-relaxed text-ink-500">{team.intro}</p>
+
+              {/* the systems this run touches, up front */}
+              <div className="mt-7 flex flex-wrap items-center gap-3">
+                {team.stack.slice(0, 6).map((name) => (
+                  <a
+                    key={name}
+                    href={safeIntegrationHref(name)}
+                    title={name}
+                    className="transition-transform duration-200 hover:-translate-y-1"
+                  >
+                    <IntegrationLogo name={name} />
+                  </a>
+                ))}
+              </div>
 
               <div className="mt-7 flex items-start gap-3 rounded-2xl border border-ink-100 bg-white p-4">
                 <Ban className="mt-0.5 h-4 w-4 flex-none text-accent-500" />
@@ -152,57 +224,15 @@ export default function UseCaseDetailPage({ slug }: { slug: string }) {
                 </a>
               </div>
             </div>
+          </div>
 
-            {/* the run, as it appears in Slack */}
-            <div className="rounded-3xl border border-ink-100 bg-white p-6 shadow-xl shadow-ink-950/5 lg:p-8">
-              <div className="text-[15px] font-semibold text-ink-950">{team.thread.title}</div>
-              <div className="mt-6 space-y-4">
-                {team.thread.messages.map((msg, i) => {
-                  const isAgent = msg.from === 'receipt';
-                  return (
-                    <div key={i} className={`flex gap-3 rounded-2xl p-3 ${isAgent ? 'bg-brand-50/70' : ''}`}>
-                      {isAgent ? (
-                        <div className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-brand-500 text-white">
-                          <ReceiptMark className="h-5 w-5" paperClassName="text-brand-500" />
-                        </div>
-                      ) : (
-                        <div className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-ink-200 text-[11px] font-bold text-ink-700">
-                          {msg.name.slice(0, 2).toUpperCase()}
-                        </div>
-                      )}
-                      <div className="min-w-0">
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-[13px] font-semibold text-ink-950">{msg.name}</span>
-                          <span className="text-[11px] text-ink-400">{msg.time}</span>
-                        </div>
-                        <p className="mt-1 text-[13.5px] leading-relaxed text-ink-700">{msg.text}</p>
-                        {msg.reactions && (
-                          <div className="mt-2 flex gap-1.5">
-                            {msg.reactions.map((r) => (
-                              <span
-                                key={r}
-                                className="rounded-full border border-ink-100 bg-ink-50 px-2 py-0.5 text-[11px] font-medium text-ink-600"
-                              >
-                                {r}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
+          <div className="mt-12 grid grid-cols-1 gap-6 border-t border-ink-100 pt-8 sm:grid-cols-3">
+            {team.metrics.map((m) => (
+              <div key={m.label}>
+                <div className="text-3xl font-bold tracking-tight text-ink-950">{m.value}</div>
+                <div className="mt-1 text-sm leading-snug text-ink-400">{m.label}</div>
               </div>
-
-              <div className="mt-6 grid grid-cols-3 gap-3 border-t border-ink-100 pt-6">
-                {team.metrics.map((m) => (
-                  <div key={m.label}>
-                    <div className="text-xl font-bold tracking-tight text-ink-950">{m.value}</div>
-                    <div className="mt-1 text-[11px] leading-snug text-ink-400">{m.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -233,8 +263,8 @@ export default function UseCaseDetailPage({ slug }: { slug: string }) {
             The stack {team.label} usually connects
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-ink-500">
-            Any of the {catalogCounts.total} connectors work here — these are the ones this team reaches for
-            first.
+            Any connector in the {catalogCounts.total}-strong catalog works here — these are the ones this team
+            reaches for first.
           </p>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
             {team.stack.map((name) => (

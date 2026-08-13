@@ -4,7 +4,8 @@ import Hero from '@/components/Hero';
 import Showcase from '@/components/Showcase';
 import LogoMarquee from '@/components/LogoMarquee';
 import HowItWorks from '@/components/HowItWorks';
-import DashboardDemo from '@/components/DashboardDemo';
+import GetStarted from '@/components/GetStarted';
+import ReceiptChain from '@/components/ReceiptChain';
 import Customers from '@/components/Customers';
 import Integrations from '@/components/Integrations';
 import FAQ from '@/components/FAQ';
@@ -19,6 +20,7 @@ import UseCaseDetailPage from '@/components/UseCaseDetailPage';
 import ResourcePage from '@/components/ResourcePage';
 import UseCasesTeaser from '@/components/UseCasesTeaser';
 import { DOCS_URL, resourcePages, type ResourceKind } from '@/data/resources';
+import { applyRouteMeta } from '@/lib/pageMeta';
 
 function getRoute() {
   const hash = window.location.hash.replace(/^#/, '');
@@ -66,6 +68,12 @@ function App() {
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
+  // Title, description, and canonical follow the hash route — otherwise every
+  // page reports the home page's metadata to crawlers and agents.
+  useEffect(() => {
+    applyRouteMeta(route.name, route.slug);
+  }, [route]);
+
   const goHome = () => {
     window.location.hash = '';
   };
@@ -91,11 +99,12 @@ function App() {
         ) : (
           <>
             <Hero />
+            <GetStarted />
             <Showcase />
             <LogoMarquee />
             <HowItWorks />
             <UseCasesTeaser />
-            <DashboardDemo />
+            <ReceiptChain />
             <Customers />
             <Integrations />
             <FAQ />

@@ -12,7 +12,7 @@ import { getIcon } from '@/components/icons';
 import { teams, useCaseCount, teamUseCaseHref } from '@/data/useCases';
 
 const PAGE_SIZE = 24;
-const liveCount = catalogCounts.connected + catalogCounts.ready;
+const liveCount = catalogCounts.live;
 
 function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });

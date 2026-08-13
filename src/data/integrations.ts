@@ -1059,6 +1059,14 @@ export const catalogCounts = {
   connected: integrationCatalog.filter((i) => i.status === 'connected').length,
   ready: integrationCatalog.filter((i) => i.status === 'ready').length,
   comingSoon: integrationCatalog.filter((i) => i.status === 'coming-soon').length,
+  /**
+   * Connectors that can be authorized today. `total` counts the whole catalog,
+   * most of which is still being brought up — quote the two separately, never
+   * `total` on its own as though every entry were connectable.
+   */
+  get live() {
+    return this.connected + this.ready;
+  },
 };
 
 /** Distinct auth methods, for the auth-method filter. */

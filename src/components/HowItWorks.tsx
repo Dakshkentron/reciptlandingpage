@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { Workflow } from 'lucide-react';
 import { features } from '@/data/content';
 import {
-  NotebookMockup, ThreadsMockup, ContextStudioMockup, DataAppMockup,
+  ObjectiveMockup, OperateMockup, ReceiptChainMockup, ReplayMockup,
 } from './mockups';
 
 const stepVisuals: Record<string, JSX.Element> = {
-  notebooks: <NotebookMockup />,
-  threads: <ThreadsMockup />,
-  context: <ContextStudioMockup />,
-  'data-apps': <DataAppMockup />,
+  objective: <ObjectiveMockup />,
+  operate: <OperateMockup />,
+  receipts: <ReceiptChainMockup />,
+  replay: <ReplayMockup />,
 };
 
 /**
@@ -72,7 +72,7 @@ export default function HowItWorks() {
                 How it works
               </div>
               <h2 className="text-4xl font-bold tracking-tight text-ink-950 text-balance xl:text-5xl">
-                From question to proven answer — in one workspace.
+                From one sentence to a run you can prove.
               </h2>
 
               <ol className="mt-10 space-y-1">
@@ -159,7 +159,7 @@ export default function HowItWorks() {
               How it works
             </div>
             <h2 className="section-title text-ink-950">
-              From question to proven answer — in one workspace.
+              From one sentence to a run you can prove.
             </h2>
           </div>
 

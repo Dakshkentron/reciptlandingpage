@@ -1,0 +1,677 @@
+# Receipt — full site content
+
+Source: https://reciptlandingpage.vercel.app
+Generated from the site's own content data. Docs live at https://reciptwebsite.mintlify.app/introduction.
+
+## What Receipt is
+
+Your AI coworker that proves what it did. Receipt runs tasks across your SaaS apps and servers, then backs every result with a verifiable receipt.
+
+- Describe the outcome. In Slack, like a colleague.: Mention Receipt in a thread or launch a run from the web workbench — both create the same receipt-backed run. Receipt replies “Accepted. Starting a background run,” then keeps working after you close the tab.
+- Your systems are the substrate, not its memory.: A worker is leased to the run and works through connected systems — browsers, terminals, repositories, and scoped connector actions inside its lane. Query AWS, open a pull request, read Datadog, update Jira, with the evidence attached as it goes.
+- Every material step is written down before the run moves on.: Objective accepted, worker leased, actions executed, checks passed, review recorded, receipt issued. The chain is typed, immutable, and previous-hash linked — tamper with one entry and every entry after it breaks.
+- Reconstruct what the agent saw and why it was allowed.: Replay covers model interaction, action selection, queue movement, and policy decisions. What the run learns — a stronger check, a corrected runbook — is promoted into memory so the next run starts with the fix already in place.
+
+# Use cases by team
+
+## Engineering — Everything between the alert and the pull request.
+
+Status: live. Engineers rarely lose the day to writing code. They lose it to the connective work around it — reading the trace, finding the commit, checking whether the deploy is the cause, updating the ticket, telling everyone. Receipt does that span in one run and hands you a diff to review.
+
+Stops doing by hand: Twenty browser tabs open at 2am to answer one question: what changed?
+Connected stack: GitHub, Sentry, Linear, Vercel, Datadog, Slack, AWS, Terraform Cloud
+- One run from the alert to a reviewable revert PR
+- 0 context switches to answer "what changed?"
+- 100% of production calls replayable
+
+### Root-cause an alert before anyone joins the call
+Prompt: "Checkout error rate tripled at 14:00. What changed?"
+Steps:
+  1. Reads the Sentry issue, groups the stack traces, and pulls the first-seen timestamp
+  1. Correlates that window against Vercel deploys, Datadog metrics, and merged GitHub PRs
+  1. Names the suspect commit, quotes the changed lines, and opens a revert PR for review
+  1. Posts the timeline into the incident channel with links to every artifact it read
+Tools: Sentry, Datadog, Vercel, GitHub, Slack
+Proof: Each API response — Sentry, Vercel, GitHub — is stored verbatim, hashed and chained, so the postmortem cites evidence instead of memory.
+
+### Clear the flaky-test backlog on a schedule
+Prompt: "Every Monday, find tests that failed intermittently last week and file them."
+Steps:
+  1. Scans CI runs for tests that both passed and failed on the same commit
+  1. Ranks by how often they blocked a merge, not by raw failure count
+  1. Opens one Linear issue per flake with the failing seed, the run links, and a suspected owner from git blame
+  1. Closes issues automatically when the test has been green for fourteen days
+Tools: GitHub, Linear, Slack
+Proof: Every issue it opened, edited, or closed is one receipt — so nobody has to trust that the backlog groomed itself honestly.
+
+### Answer the dependency question in minutes, not days
+Prompt: "Which of our services still use the deprecated auth SDK, and who owns them?"
+Steps:
+  1. Searches every repository in the org for the import, not just the ones you remembered
+  1. Cross-checks the lockfiles for transitive versions the search would miss
+  1. Maps each hit to a team via CODEOWNERS and the service catalog in Confluence
+  1. Returns a table with owners, and files a tracking issue per team when you say go
+Tools: GitHub, GitLab, Confluence, Linear
+Proof: The full repository list it searched is in the receipt — including the repos that returned nothing, which is what makes the answer trustworthy.
+
+### Run the pre-deploy check nobody has time for
+Prompt: "Before the release, diff the Terraform plan against prod and flag anything destructive."
+Steps:
+  1. Pulls the pending Terraform Cloud plan and reads the resource-level changes
+  1. Compares live AWS state for the resources being replaced or deleted
+  1. Flags every destructive action with its blast radius and the ticket that requested it
+  1. Holds the apply behind a policy gate until a named human approves in Slack
+Tools: Terraform Cloud, AWS, GitHub, Slack
+Proof: The approval, the approver, and the exact plan hash they approved are chained together — the apply cannot drift from what was reviewed.
+
+## Customer Support — The answer is in five systems. Receipt reads all five.
+
+Status: live. Support does not usually need a smarter reply — it needs the truth. Was the charge refunded? Did the webhook fire? Is this the known bug or a new one? Receipt goes and looks, in the billing system, the logs, and the tracker, then writes the reply with the evidence attached.
+
+Stops doing by hand: Escalating to engineering to ask a question the logs already answered.
+Connected stack: Zendesk, Stripe (API Key), Linear, Slack, Intercom, Notion, HubSpot, Sentry
+- Evidenced every reply cites the system of record
+- Draft first nothing reaches a customer unreviewed
+- Every refund gated on human approval
+
+### Verify the billing complaint instead of trusting it
+Prompt: "Did this customer actually get charged twice, and if so, why?"
+Steps:
+  1. Matches the ticket email to the Stripe customer and pulls the charge history
+  1. Checks whether the duplicate was a retry, a subscription overlap, or a genuine second purchase
+  1. Drafts the reply in the customer's own timeline of events, in your tone
+  1. Queues the refund — which waits for a human to approve before a cent moves
+Tools: Zendesk, Stripe (API Key), HubSpot
+Proof: The raw Stripe charge objects are attached to the receipt, so a disputed refund can be reconstructed months later without opening Stripe.
+
+### Tell a new bug from a known one, automatically
+Prompt: "Is this the same crash we already have a ticket for?"
+Steps:
+  1. Extracts the error signature from the customer's screenshot or log paste
+  1. Searches Sentry for a matching fingerprint and Linear for an existing issue
+  1. Links the ticket to the issue and subscribes the customer to its resolution
+  1. Opens a new issue with reproduction steps only when nothing matches
+Tools: Zendesk, Sentry, Linear
+Proof: The search it ran and the candidates it rejected are both recorded — a duplicate filed anyway is a fact you can audit, not an argument.
+
+### Turn the week's tickets into a product signal
+Prompt: "What did customers complain about most this week that we have no issue for?"
+Steps:
+  1. Clusters closed tickets by underlying cause rather than by the tag an agent picked
+  1. Discards clusters that already map to a tracked issue
+  1. Ranks the rest by affected ARR using the CRM, not by ticket count
+  1. Publishes the digest to Notion and posts the top three to the product channel
+Tools: Zendesk, HubSpot, Linear, Notion, Slack
+Proof: Every ticket that fed a cluster is listed in the receipt, so "customers keep asking for X" becomes a claim with a row count behind it.
+
+### Catch the account that is about to churn quietly
+Prompt: "Flag any customer whose support tone got worse while usage dropped."
+Steps:
+  1. Reads sentiment across the account's last ten conversations, not just the newest
+  1. Cross-checks product usage and seat count in the analytics warehouse
+  1. Writes an account brief — what broke, what was promised, what is still open
+  1. Notifies the CSM with the brief before renewal, not after the cancellation email
+Tools: Zendesk, HubSpot, Google Analytics, Slack
+Proof: The brief cites the exact conversations and usage rows it read, so the save call opens with facts rather than an apology.
+
+## Sales — Reps sell. Receipt does the CRM.
+
+Status: live. Pipeline hygiene is the tax every sales team pays and nobody wants to collect. Receipt sits between the calendar, the call recording, the inbox, and the CRM — updating records from what actually happened, and briefing the rep before they dial.
+
+Stops doing by hand: The Friday afternoon spent guessing which stage a deal is really in.
+Connected stack: HubSpot, Salesforce, Gong (Oauth), Slack, Zoom, Apollo, Google Calendar, Notion
+- No admin hour the CRM is updated by the run itself
+- Complete fields filled from the call, not from memory
+- 1 run from call recording to updated pipeline
+
+### Update the CRM from what was said on the call
+Prompt: "After every customer call, update the deal from the transcript."
+Steps:
+  1. Pulls the recording and transcript once the meeting ends
+  1. Extracts the stated blocker, budget signal, timeline, and next step
+  1. Updates the deal stage, close date, and notes — with the quote that justified each change
+  1. Files a follow-up task and drafts the recap email for the rep to send
+Tools: Gong (Oauth), Zoom, HubSpot, Salesforce
+Proof: Every field change carries the transcript timestamp that caused it. A forecast review can inspect the quote, not just the number.
+
+### Brief the rep before the call, from every system at once
+Prompt: "Brief me on my next three meetings."
+Steps:
+  1. Reads the calendar and resolves each attendee to a CRM contact
+  1. Assembles deal history, open support tickets, product usage, and recent site visits
+  1. Surfaces the last unresolved objection and what was promised in response
+  1. Delivers it as a one-screen brief in Slack fifteen minutes before the call
+Tools: Google Calendar, HubSpot, Zendesk, Slack, Apollo
+Proof: The brief links to each source record, so a rep who wants to check a claim is one click away rather than one guess away.
+
+### Find the pipeline that is quietly dying
+Prompt: "Which deals look healthy in the CRM but are actually stalled?"
+Steps:
+  1. Compares stated deal stage against real activity — email replies, meetings, champion engagement
+  1. Flags deals where the champion has gone quiet or changed job title on LinkedIn
+  1. Ranks by amount at risk, not by how overdue the record is
+  1. Posts the list to the pipeline channel every Monday with a suggested action each
+Tools: HubSpot, Salesforce, Slack, ZoomInfo
+Proof: The signals behind each flag are itemised, so a rep can disagree with the evidence instead of the algorithm.
+
+### Research the account without the research afternoon
+Prompt: "Tell me who else at this company we should be talking to."
+Steps:
+  1. Maps the org chart around your current contact from enrichment sources
+  1. Cross-checks who has already touched your product, your docs, or a support ticket
+  1. Identifies the economic buyer and the likely blocker for this deal shape
+  1. Creates the contacts in the CRM, deduped, with sourcing noted on each
+Tools: Apollo, ZoomInfo, HubSpot, Salesforce
+Proof: Each created contact records where the data came from — so the CRM never fills up with facts of unknown origin.
+
+## Marketing & Growth — Reporting that shows its working.
+
+Status: live. Every channel has its own dashboard and every dashboard disagrees. Receipt pulls the raw numbers from each platform, reconciles them against pipeline, and publishes the report with the source rows attached — so the meeting argues about strategy instead of about whose spreadsheet is right.
+
+Stops doing by hand: The Monday export-and-paste ritual across six ad platforms.
+Connected stack: Google Ads, Meta Marketing API, LinkedIn, Google Analytics, HubSpot, Notion, Slack, Webflow
+- 1 source of truth across every ad platform
+- Weekly report built while you sleep
+- Gated spend changes need a human yes
+
+### Reconcile spend against pipeline, not against clicks
+Prompt: "Build the weekly report: spend by channel versus pipeline created."
+Steps:
+  1. Pulls spend and conversion data from every ad platform in one pass
+  1. Joins it to CRM opportunities by source, deduping the self-reported attribution
+  1. Recomputes CAC and payback per channel against the real closed-won rate
+  1. Publishes the report and attaches the underlying rows for anyone who wants to check
+Tools: Google Ads, Meta Marketing API, LinkedIn, HubSpot, Notion
+Proof: The report and its raw inputs live in the same receipt — a number in the deck can always be traced back to the API response it came from.
+
+### Catch the campaign burning budget overnight
+Prompt: "Watch CAC by campaign and tell me the moment one goes over target."
+Steps:
+  1. Checks live campaign performance on a schedule you set, not on a dashboard refresh
+  1. Compares against your target, adjusted for the channel's typical lag
+  1. Alerts the channel owner with the offending ad sets and their spend curve
+  1. Pauses them on approval — never silently, and never without a receipt
+Tools: Google Ads, Meta Marketing API, Slack
+Proof: Every pause records who approved it, when, and the exact metric that triggered the alert — including the ones you chose not to pause.
+
+### Audit the site for the things that quietly break
+Prompt: "Check every landing page for broken links, dead forms, and missing tracking."
+Steps:
+  1. Crawls the live site and every page referenced by an active campaign
+  1. Submits a test payload against each form and verifies it reaches the CRM
+  1. Confirms analytics and conversion tags fire, per page, per campaign
+  1. Files one ticket per real defect, grouped by owner, with a screenshot
+Tools: Webflow, Google Analytics, HubSpot, Linear
+Proof: The pass and fail result for every page checked is retained — the audit can be repeated next month and diffed against this one.
+
+### Keep the competitive picture current without the tab habit
+Prompt: "Tell me when a competitor changes pricing, positioning, or launches something."
+Steps:
+  1. Watches competitor pricing pages, changelogs, and job postings on a cadence
+  1. Diffs each against the last captured version rather than describing it fresh
+  1. Summarises what changed and what it implies for your positioning
+  1. Drops the digest into the marketing channel with before-and-after captures
+Tools: Slack, Notion, Private API (Bearer Auth)
+Proof: Each capture is timestamped and stored, so the claim "they raised prices in April" comes with the April page.
+
+## Finance & RevOps — A month-end close that carries its own audit trail.
+
+Status: live. Finance already knows how to reconcile. What costs the week is gathering — pulling statements, chasing approvals, matching invoices to purchase orders, and then proving it all again when the auditor arrives. Receipt does the gathering and keeps the evidence as it goes.
+
+Stops doing by hand: Rebuilding the audit trail in March for work you did in January.
+Connected stack: Stripe (API Key), Quickbooks, Xero, Ramp, NetSuite (OAuth), Slack, Google Sheet, HubSpot
+- Nightly reconciliation instead of a month-end scramble
+- 0 journal entries posted without approval
+- Replayable evidence for every reconciliation
+
+### Reconcile the month and surface only the exceptions
+Prompt: "Match every card transaction to a receipt and a GL code. Show me what fails."
+Steps:
+  1. Pulls the full transaction set from the card platform and the payment processor
+  1. Matches each against submitted receipts, purchase orders, and vendor invoices
+  1. Chases the owner of every unmatched item directly in Slack, with the amount and merchant
+  1. Presents the exceptions only — and posts nothing to the ledger without approval
+Tools: Ramp, Stripe (API Key), Quickbooks, Slack
+Proof: Every match, and the rule that produced it, is chained — so the auditor tests the logic rather than re-doing the work.
+
+### Find the SaaS spend nobody is using
+Prompt: "Which subscriptions renew next quarter, and is anyone actually using them?"
+Steps:
+  1. Extracts recurring vendor charges from the ledger and the card feed
+  1. Matches each vendor to seat counts and last-login data from the identity provider
+  1. Ranks by annual cost against active usage, flagging auto-renewals within 60 days
+  1. Drafts the cancellation or downgrade email for each, held for your sign-off
+Tools: Ramp, Quickbooks, Okta, Google Workspace Admin, Slack
+Proof: The seat-count evidence sits beside the spend figure, so the renewal conversation with the vendor starts from data they cannot dispute.
+
+### Chase receivables without the awkward reminder
+Prompt: "Chase every invoice more than 15 days overdue, politely, escalating weekly."
+Steps:
+  1. Reads the aged receivables ledger and pairs each invoice with its CRM owner
+  1. Checks whether payment arrived through any processor before sending anything
+  1. Sends the reminder from the right sender, in the right tone for the account tier
+  1. Escalates to the account owner and then to finance on a schedule you define
+Tools: Xero, Quickbooks, Stripe (API Key), HubSpot, Slack
+Proof: Every reminder sent and every payment check performed is logged — so "we chased them three times" is a record, not a recollection.
+
+### Explain the variance before the board asks
+Prompt: "Why did cloud spend jump 22% in March?"
+Steps:
+  1. Breaks the bill down by service, account, and tag against the prior period
+  1. Correlates the increase with infrastructure changes and deploys in the same window
+  1. Names the resources responsible and who provisioned them
+  1. Writes the variance note in the format your board deck already uses
+Tools: AWS, Google Cloud, Terraform Cloud, Google Sheet
+Proof: The billing rows behind the explanation are attached, so the note survives the follow-up question.
+
+## IT & Security — Give the agent access. Keep the proof.
+
+Status: live. The reason security teams distrust AI agents is that most of them cannot prove what they touched. Receipt inverts that: isolated execution, a policy gate before every write, and an immutable, hash-chained record of each call. The audit artifact is a by-product of the work, not a project after it.
+
+Stops doing by hand: Screenshot-based evidence collection two weeks before the audit.
+Connected stack: Okta, Google Workspace Admin, AWS, GitHub, Slack, 1Password (Events API), Vanta, Jira
+- Same day complete offboarding, evidenced
+- Hash-chained record of every privileged call
+- Zero ambient access — sandbox per run
+
+### Find the access that SSO does not cover
+Prompt: "This person is leaving. What do they have that suspending SSO will not kill?"
+Steps:
+  1. Enumerates identity-provider group membership and app assignments
+  1. Goes past SSO into personal access tokens, API keys, and standing cloud credentials
+  1. Sorts by last use and privilege level, so the dangerous ones surface first
+  1. Executes revocation on approval and re-verifies each one afterwards
+Tools: Okta, Google Workspace Admin, GitHub, AWS, 1Password (Events API)
+Proof: The receipt records the revoke call and the confirming read after it — evidence the access is gone, not just that a request was sent.
+
+### Run the quarterly access review as a run, not a project
+Prompt: "Who has production database access, and did anyone approve it?"
+Steps:
+  1. Pulls current entitlements from every governed system in scope
+  1. Reconciles each against the approval ticket that granted it
+  1. Flags standing access with no approval, no recent use, or no current manager
+  1. Exports the reviewed evidence pack in the format your auditor expects
+Tools: Okta, AWS, Jira, Vanta
+Proof: The whole review is one replayable chain. Next quarter you re-run it and diff, instead of starting a fresh spreadsheet.
+
+### Triage the vulnerability queue by real exposure
+Prompt: "Of this week's CVEs, which ones actually reach our production surface?"
+Steps:
+  1. Maps each advisory to the services that actually import the package
+  1. Checks whether the vulnerable path is reachable from an internet-facing route
+  1. Ranks by real exposure rather than by CVSS score alone
+  1. Opens tickets only for the ones that matter, with the upgrade path attached
+Tools: GitHub, AWS, Datadog, Jira
+Proof: The reasoning for every deprioritised CVE is preserved — which is exactly the question an auditor asks six months later.
+
+### Keep the compliance evidence current all year
+Prompt: "Collect this quarter's SOC 2 evidence and tell me what is missing."
+Steps:
+  1. Gathers control evidence from the systems that produce it, on a schedule
+  1. Verifies each artifact against the control it is supposed to satisfy
+  1. Lists the gaps with the owner and the specific artifact still needed
+  1. Files the evidence into your compliance platform with its source recorded
+Tools: Vanta, Okta, AWS, GitHub, Jira
+Proof: Evidence arrives with provenance attached — which system produced it, when it was read, and the hash proving it has not changed since.
+
+## Data & Analytics — The ad-hoc request queue, answered at source.
+
+Status: live. Data teams do not have a modelling problem, they have an interruption problem. Receipt takes the questions that never needed a human — the pipeline that failed at 3am, the metric that moved, the one-off pull — and handles them where the data lives, with the query it ran attached to the answer.
+
+Stops doing by hand: Being paged for a pipeline failure whose fix is always the same three steps.
+Connected stack: Snowflake, Google BigQuery, Databricks (Workspace Level), Looker, Metabase, Slack, Notion, GitHub
+- Self-serve ad-hoc questions answered without a ticket
+- Every answer ships with the query that produced it
+- Auto downstream impact notification
+
+### Diagnose the failed pipeline before the standup
+Prompt: "The nightly load failed. What broke, what is stale, and who needs to know?"
+Steps:
+  1. Reads the failure, isolates the failing step, and identifies the upstream change behind it
+  1. Traces lineage to every dashboard and model now serving stale data
+  1. Notifies each downstream owner with what is stale and until when
+  1. Drafts the backfill and holds it behind approval before touching the warehouse
+Tools: Snowflake, Databricks (Workspace Level), Looker, Slack
+Proof: The diagnosis quotes the exact schema diff and the failing statement — so the fix is reviewed, not trusted.
+
+### Explain the metric that moved, with receipts
+Prompt: "Activation dropped 8% week over week. Is it real?"
+Steps:
+  1. Checks instrumentation first — a tracking change explains more drops than product ever does
+  1. Segments the movement by platform, cohort, geography, and acquisition source
+  1. Isolates whether the drop is concentrated or broad, and names the segment carrying it
+  1. Writes the finding with the query attached, so the next analyst starts from your work
+Tools: Snowflake, Google Analytics, Metabase, Notion
+Proof: Both the queries and their results are in the receipt, which turns an analysis into something reproducible rather than something remembered.
+
+### Answer the ad-hoc pull without joining the queue
+Prompt: "Give me signups by plan and region for Q1, as a sheet."
+Steps:
+  1. Resolves the request against the governed semantic layer, not a guessed table
+  1. Writes and runs the query, then sanity-checks totals against a known-good metric
+  1. Delivers a formatted sheet with definitions noted beside each column
+  1. Escalates to a human analyst when the request is genuinely ambiguous
+Tools: Snowflake, Google BigQuery, Google Sheet, Slack
+Proof: The requester gets the SQL alongside the numbers, which is what stops the same question being asked again next quarter.
+
+### Keep the dashboard graveyard from growing
+Prompt: "Which dashboards has nobody opened in 90 days, and what do they cost us?"
+Steps:
+  1. Pulls view counts and last-accessed timestamps across BI tools
+  1. Maps each dead dashboard to the models and scheduled queries feeding it
+  1. Estimates the warehouse spend those refreshes consume every month
+  1. Proposes an archive list, notifies the owners, and archives on approval
+Tools: Looker, Metabase, Snowflake, Slack
+Proof: The usage data behind each archival decision is retained, so restoring one later is a lookup rather than an argument.
+
+## Product — Roadmap decisions with the evidence already gathered.
+
+Status: live. The feedback is real, it is just scattered — across tickets, calls, reviews, the community, and three different feature-request boards. Receipt gathers it continuously, weights it by revenue rather than by volume, and keeps the trail so a prioritisation call can be revisited without being re-litigated.
+
+Stops doing by hand: Quarterly planning weeks spent assembling evidence that already existed.
+Connected stack: Linear, Jira, Zendesk, HubSpot, Notion, Gong (Oauth), Productboard, Slack
+- Every source tickets, calls, and reviews read per brief
+- ARR-weighted not upvote-weighted
+- Continuous gathering, not quarterly scramble
+
+### Build the demand picture from everywhere at once
+Prompt: "What are customers asking for that we are not building?"
+Steps:
+  1. Reads tickets, sales-call transcripts, feature boards, and community threads together
+  1. Clusters by the underlying need rather than by the words customers happened to use
+  1. Weights each cluster by account revenue and renewal proximity
+  1. Publishes a brief where every theme links back to its supporting sources
+Tools: Zendesk, Gong (Oauth), Productboard, HubSpot, Notion
+Proof: A prioritisation call can open any theme and read the actual customer sentence behind it, months later.
+
+### Watch the launch instead of refreshing the dashboard
+Prompt: "We ship at noon. Tell me if anything looks wrong in the first 48 hours."
+Steps:
+  1. Baselines the affected funnel and error rates before the release goes out
+  1. Watches adoption, latency, support volume, and sentiment against that baseline
+  1. Distinguishes an ordinary launch dip from a genuine regression
+  1. Escalates with the evidence, and drafts the rollback ticket if it is the latter
+Tools: Sentry, Google Analytics, Zendesk, Linear, Slack
+Proof: The pre-launch baseline is captured in the receipt, so post-launch claims are measured against a recorded number.
+
+### Keep the changelog and docs honest
+Prompt: "Turn everything merged this sprint into a changelog customers can read."
+Steps:
+  1. Reads merged pull requests and closed issues, discarding internal churn
+  1. Groups changes into customer-visible themes and writes them in plain language
+  1. Flags shipped changes whose documentation was never updated
+  1. Opens the changelog as a draft for a human to edit and publish
+Tools: GitHub, Linear, Notion, Confluence
+Proof: The PR list behind each changelog entry is preserved — so "when did that ship?" has an answer with a commit attached.
+
+### Answer the competitive question with current facts
+Prompt: "A prospect says a competitor has X. Do they, and how does ours compare?"
+Steps:
+  1. Checks the competitor's current docs, pricing, and changelog rather than a stale battlecard
+  1. Compares against your own shipped capability, verified in your tracker
+  1. Notes the honest gaps as clearly as the honest advantages
+  1. Returns a response the rep can send, plus a note for the roadmap if the gap is real
+Tools: Notion, Linear, Slack, Private API (Bearer Auth)
+Proof: The captured competitor pages are timestamped, so the claim can be checked rather than repeated.
+
+## People & HR — The first day works because the week before did.
+
+Status: live. People teams run processes that touch every system in the company and own none of them. Receipt reaches across the HRIS, the ATS, identity, payroll, and the tools a new hire needs — doing the provisioning, chasing the signatures, and leaving a record of who approved each piece of access.
+
+Stops doing by hand: A twelve-step onboarding checklist copied between four tools.
+Connected stack: Greenhouse, BambooHR (OAuth), Okta, Google Workspace Admin, Slack, Notion, Deel, DocuSign
+- Day one access ready, nothing over-provisioned
+- Every grant tied to a named approver
+- Chased follow-ups sent without anyone remembering
+
+### Onboard from the role template, not from memory
+Prompt: "Set up everything a new designer needs to start on the 5th."
+Steps:
+  1. Reads the offer record and resolves the correct role-based access template
+  1. Stages accounts and group membership across identity, code, and collaboration tools
+  1. Files the equipment request and sends the contract for signature
+  1. Drafts the week-one plan and assigns a buddy — provisioning still needs a human yes
+Tools: Greenhouse, BambooHR (OAuth), Okta, Google Workspace Admin, Slack
+Proof: Every account created and every group joined is tied to the approving manager — so an access review can answer "why does this person have that?"
+
+### Run the review cycle without the reminder spreadsheet
+Prompt: "Chase outstanding performance reviews and tell me where the cycle is stuck."
+Steps:
+  1. Tracks completion across the HRIS by manager, team, and reviewer
+  1. Sends targeted, private nudges rather than a company-wide reminder
+  1. Escalates the genuinely stuck ones to the next level up after your grace period
+  1. Reports cycle health with the specific blockers, not just a completion percentage
+Tools: BambooHR (OAuth), Lattice, Slack, Notion
+Proof: Reminder history is recorded per person, which keeps a fairness question answerable with dates instead of impressions.
+
+### Keep the pipeline moving between the hiring meetings
+Prompt: "Which candidates have been waiting more than three days for a decision?"
+Steps:
+  1. Reads the ATS for candidates stalled at every stage, with the owner of each
+  1. Distinguishes a slow scheduler from a genuinely undecided panel
+  1. Nudges the interviewer whose scorecard is missing, with a link straight to it
+  1. Drafts the rejection or the next-step email so nobody waits on a blank page
+Tools: Greenhouse, Lever (OAuth), Google Calendar, Slack
+Proof: Time-in-stage per candidate is recorded, turning a hiring retro into a data exercise rather than a discussion.
+
+### Close the loop on offboarding, everywhere
+Prompt: "Run the full offboarding for someone leaving on Friday."
+Steps:
+  1. Builds the complete list of systems, licences, and physical assets held
+  1. Coordinates the revocation sequence so nothing is cut before the handover completes
+  1. Transfers document ownership and reassigns open tickets to the right people
+  1. Confirms each step afterwards and reports anything that failed to revoke
+Tools: BambooHR (OAuth), Okta, Google Workspace Admin, Deel, Slack
+Proof: The post-revocation verification read is chained to the revoke call — the record shows access ended, not that removal was requested.
+
+## Founders & Leadership — Stop asking four people for one number.
+
+Status: live. The metrics exist. They are just in the billing system, the CRM, the warehouse, and someone's spreadsheet, and getting them costs three people an afternoon. Receipt assembles the picture directly from source, on whatever cadence you want, and shows the work.
+
+Stops doing by hand: The board-deck week that starts with five Slack messages asking for numbers.
+Connected stack: Stripe (API Key), HubSpot, Quickbooks, Snowflake, Slack, Notion, Google Sheet, Linear
+- Same thread question in, sourced answer back
+- Daily if you want it daily
+- Sourced every figure links to its system
+
+### Get the operating brief before the day starts
+Prompt: "Every Monday at 6am: revenue, burn, pipeline, hiring, and the risks."
+Steps:
+  1. Pulls each metric from the system that owns it, rather than from a stale dashboard
+  1. Compares against your plan and the prior period, not just the last data point
+  1. Surfaces only what moved beyond the thresholds you set
+  1. Delivers it as one message with every figure linked to its source
+Tools: Stripe (API Key), Quickbooks, HubSpot, Slack
+Proof: Because every figure carries its source call, a number you question can be checked in a click instead of a thread.
+
+### Assemble the board pack from the systems, not the team
+Prompt: "Build the Q2 board deck from actuals and flag the variances."
+Steps:
+  1. Assembles the standard metrics from finance, CRM, and product analytics
+  1. Computes variance against plan and drafts the explanation for each material gap
+  1. Populates your existing deck template rather than inventing a new format
+  1. Lists the questions a board member is most likely to ask, with the answers prepared
+Tools: Quickbooks, HubSpot, Snowflake, Google Sheet, Notion
+Proof: The deck ships with a receipt chain behind every figure, which is a materially different conversation with an investor than a spreadsheet.
+
+### Watch the leading indicators, not the lagging ones
+Prompt: "Alert me when something in the business breaks trend, before it hits revenue."
+Steps:
+  1. Tracks the early signals — activation, expansion motion, support load, sales-cycle length
+  1. Detects a genuine trend break rather than ordinary week-to-week noise
+  1. Explains the likely driver by cross-checking the systems involved
+  1. Tells you once, with context, instead of alerting you daily into indifference
+Tools: Snowflake, HubSpot, Zendesk, Slack
+Proof: Every alert keeps the data window that triggered it, so a false alarm makes the next threshold better.
+
+### Run diligence on your own house first
+Prompt: "A term sheet is coming. What will diligence find that we should fix now?"
+Steps:
+  1. Checks contract, invoice, and revenue records line up across systems
+  1. Verifies security and compliance evidence is current and complete
+  1. Confirms cap-table, vendor, and customer paperwork is where it should be
+  1. Returns a gap list ordered by how badly each would slow a data room
+Tools: Quickbooks, HubSpot, Vanta, Google Drive, DocuSign
+Proof: The check itself is an auditable artifact — you can hand the reviewer the chain instead of re-running the review by hand.
+
+## Legal & Compliance — The obligations you signed, actually tracked.
+
+Status: beta. Contracts are signed and then forgotten, along with every renewal date, SLA credit, and data-processing commitment inside them. Receipt reads the executed documents, extracts what was promised, and watches for the dates — with the clause it relied on quoted beside every claim.
+
+Stops doing by hand: Discovering an auto-renewal three weeks after the notice window closed.
+Connected stack: DocuSign, Google Drive, Ironclad, Notion, Slack, Jira, Box, Vanta
+- Clause-level citation on every flag
+- Tracked renewal and notice windows
+- Draft only nothing is ever sent for you
+
+### Review the incoming contract against your own playbook
+Prompt: "Check this MSA against our standard positions and mark the deviations."
+Steps:
+  1. Reads the executed or proposed document, section by section
+  1. Compares each clause against your playbook and your last-signed precedent
+  1. Ranks deviations by real commercial risk rather than by word count
+  1. Produces a redline with the reasoning and the precedent for each change
+Tools: DocuSign, Google Drive, Ironclad, Notion
+Proof: Every flag quotes the clause and the playbook rule it violates — the review can be checked without being repeated.
+
+### Never miss a renewal or notice window again
+Prompt: "Extract every key date from our vendor contracts and warn me in advance."
+Steps:
+  1. Reads the full contract repository, including the ones nobody filed properly
+  1. Extracts renewal dates, notice periods, price-escalation and termination terms
+  1. Builds the calendar and alerts the owner before the notice window opens
+  1. Re-checks after every amendment so the dates stay true
+Tools: Google Drive, Box, DocuSign, Google Calendar, Slack
+Proof: Each extracted date cites its clause and document version, so an incorrect reminder is traceable to a source rather than to the model.
+
+### Answer the security questionnaire from evidence you already have
+Prompt: "Fill this vendor questionnaire from our existing controls and flag what I must answer."
+Steps:
+  1. Matches each question to your documented controls and prior answers
+  1. Drafts the response, citing the policy or evidence artifact behind it
+  1. Marks every question where the honest answer has changed since last time
+  1. Leaves the sign-off to a human — always
+Tools: Vanta, Notion, Google Drive, Slack
+Proof: Each drafted answer links to the control evidence supporting it, so an inaccurate answer is a finding rather than a mystery.
+
+### Turn signed obligations into tracked work
+Prompt: "What did we commit to in signed contracts that nobody is doing?"
+Steps:
+  1. Extracts affirmative obligations — SLAs, reporting, audit rights, deletion commitments
+  1. Checks each against what the business actually does today
+  1. Files owned tickets for the ones with no process behind them
+  1. Re-verifies quarterly and reports the drift
+Tools: Ironclad, DocuSign, Jira, Notion
+Proof: The obligation, its clause, and the ticket tracking it stay linked — so compliance is demonstrable rather than asserted.
+
+# Integrations
+
+889 connectors across 14 categories. Popular: GitHub, Slack, Linear, Jira, Notion, Confluence, HubSpot, Salesforce, Zendesk, AWS, Google Cloud, Vercel, Datadog, Sentry, Airtable, Google Ads, Google Analytics, Stripe (API Key), OpenAI, Anthropic.
+
+## AI & Machine Learning (37)
+Anthropic, Anthropic Administrator, Autosana, BlandAI, Codegen, Cursor, Cursor Admin, Devin, Eleven Labs, Exa, Exact Online, fal.ai, Fiber AI, Freepik, Glyphic, Google Gemini, Granola, Granola (MCP), HeyGen, Lightfield, MiniMax, Modjo AI, Nyne AI, Open Hands, OpenAI, OpenAI (Admin), Perplexity, Ragie AI, Read.ai, Recall.ai, Replicate, Retell AI, Smartlead.ai, Stay AI, VEED (via fal.ai), WeJam AI, xAI
+
+## Analytics (35)
+Amplitude, Amplitude (MCP EU), Amplitude (MCP US), Chattermill, Domo, EvaluAgent, Fairing, Google Analytics, Heap, Hex, Klipfolio, Kno Commerce, Looker, Looker (OAuth), Medallia, Metabase, Microsoft Power BI, Mixpanel, Northbeam, Pendo, Pendo (OAuth), Podscribe, PostHog, PostHog (EU), PostHog (OAuth), Qualtrics, Refiner, Segment, Statista, SurveyMonkey, Tableau (PAT), TapClicks, Trading Economics, Triple Whale, Zigpoll
+
+## Cloud & Data (30)
+Algolia, AWS, AWS (SCIM), AWS IAM, AWS Inspector2, AWS Multi-Service, AWS SigV4 Proxy, Axiom, Azure Blob Storage, ClickHouse, Cloudflare, Cloudflare (MCP), Databricks (Account Level), Databricks (Workspace Level), DigitalOcean, Google BigQuery, Google Cloud, Google Cloud Storage, Google Service Account, Next Cloud OCS, Oracle Cloud Identity, Render (MCP), Snowflake, Snowflake (JWT), Supabase, Supabase (MCP OAuth), Supabase (MCP), Terraform Cloud, Vercel, Vercel (MCP)
+
+## Communication (42)
+3CX, 8x8, Aircall (Basic Auth), Aircall (OAuth), Bird, Circle.so, ClickSend, CloudTalk, DemoDesk, Dialpad, Dialpad (Sandbox), Dialpad WFM, Discord, Discourse, Front, Front (API Key), Gmail, Google Chat, Google Meet, Heymarket, Mailgun, Mandrill, Mattermost, Microsoft Teams, Microsoft Teams Bot, Missive, Outlook, Resend, RingCentral, RingCentral (Sandbox), Ringover, Salesmsg (OAuth2), Salesmsg (PAT), SendGrid, Slack, Slack (MCP), Telegram, Twilio, Webex, WhatsApp Business, Wildix PBX, Zoom
+
+## Content & Media (43)
+Adobe, Adobe Workfront, Battle.net, Builder.io (Private), Builder.io (Public), Canva, Canva (MCP), Canva (SCIM API), Contentful, Contentstack, DocuWare, Drupal, Epic Games, Fanvue, FigJam, Figma, Figma (SCIM), Gamma, Getty Images, Ghost (Admin API), Ghost (Content API), Lokalise, Loom (SCIM), Lucid (SCIM), Miro, Miro (SCIM API), Mural, Orange Logic, Osu, Phrase, Sanity (MCP), Smugmug, Spotify (Client Credentials), Spotify (OAuth), Squarespace, Statamic, Twitch, Vimeo (Basic Auth), Vimeo (OAuth), Webflow, WordPress, WordPress.com (MCP), YouTube
+
+## Customer Support (28)
+Atlas.so, Canny, Crisp, Crisp (Plugin Install), Dixa, Document360, Elevio, FreshDesk, Freshservice, Freshworks, Gainsight CC, Gorgias, Gorgias (Basic Auth), Guru, Guru (SCIM), Help Scout Docs, Help Scout Mailbox, Intercom, Jotform, Kustomer, Paligo, Plain, Pylon, ServiceM8, ServiceNow, ServiceNow (Client Credentials), Slab, Zendesk
+
+## Developer Tools (117)
+1Password (Events API), 1Password (SCIM), 1Password (Users API), Apple App Store, Apple Business Manager, Atlassian, Auth0, Auth0 (Client Credentials), AutoTask, Auvik, Avanan, Azure DevOps, Bitbucket, Bitdefender, Cisco Duo Admin API, Clerk, Cloudentity, Code Climate, ConductorOne, ConnectSecure, ConnectWise PSA, ConnectWise PSA (Staging), ConnectWise RMM, CrowdStrike, Datadog, Datto RMM, Datto RMM (Password Grant), dope.security, Drata, Dynatrace, Dynatrace (OAuth), Envoy, Fern (Public API), Gerrit, GitHub, GitHub (App OAuth), GitHub (App), Github (Personal Access Token), GitLab, GitLab (Personal Access Token), Grafana, Halo PSA, Huntress, ImmyBot, Incident.io, IT Glue, Jamf Pro (Basic Auth), Jamf Pro (Client Credentials), Jira, Jira (Basic Auth), JumpCloud, Juniper Mist, Kandji, Keeper (SCIM), KnowBe4, LastPass, Linear, Linear (MCP), Lumos, Make, Malwarebytes, MCP Server OAuth2 (Generic), Microsoft Entra ID, Microsoft Intune, Mimecast, N-able N-central, n8n, Nerdio, Nexthink, NinjaOne RMM, NinjaOne RMM (OAuth2), NinjaOne SaaS Backup, Okta, Okta (Client Credentials), Okta (Preview), OneLogin, Oomnitza, Ory, PagerDuty, Passportal, Pax8, Perimeter81, PingOne, PingOne (Client Credentials), Pipedream (API Key), Pipedream (Client Credentials), Pivotal Tracker, Private API (Basic Auth), Private API (Bearer Auth), Private API (Generic), PRTG Classic, RapidAPI, Revivn, Rootly, SentinelOne, Sentry, Sentry (Public Integrations), Shortcut, Snipe-IT, Sophos Central, Stack Exchange, Tailscale (API Key), Tailscale (OAuth), Tanium, Tempo, Torii, Trigger.dev, UMAPI (Adobe User Management API), Unauthenticated, Vanta, Wakatime, Workato, WorkOS, Zapier, Zapier (SCIM API), Zapier NLA, Zorus
+
+## E-Commerce (50)
+Adobe Commerce, Amazon, Amazon Selling Partner, Amazon Selling Partner (Beta), Apaleo, Appstle Subscriptions, BigCommerce, Booking.com, Cin7 Core, Cloudbeds, Clover, Commercetools, EasyPost, eBay, eBay (Sandbox), Etsy, Gumroad, IDS Fulfillment, Konnektive, Lightspeed Retail (X-Series), Loop Returns, Mindbody, Printful, Prive, Recharge, Rock Gym Pro, Roller, Sellercloud, Sellsy, Sellsy (Client Credentials), ShipBob (Personal Access Token), Shippo, Shipstation (v1), Shipstation (v2), Shopify (API Key), Shopify (Client Credentials), Shopify (OAuth), Shopify (SCIM API), Shopify Partner, ShopVox, Shopware (Admin API), ShopWorks, Skio, Squareup, Squareup (Sandbox), Toast, VTEX, Walmart Marketplace, WooCommerce, Yotpo
+
+## Finance & Payments (97)
+Addepar (Basic Auth), Addepar (OAuth), Adyen, Anrok, Anvil, Aspire, Availity, Avalara, Avalara (Sandbox), Bill (Connect API Sandbox), Bill (Connect API), Braintree, Braintree (Sandbox), Brex, Brex (API Key), Brex (Staging OAuth), Candis, Chargebee, Checkout.com, Checkout.com (Sandbox), Conta Azul, Coupa Compass, DataCandy, Datev, Digits, Digits (MCP), Dualentry (MCP), e-conomic, Embat, Expensify, Firstbase, Fiserv (API Key), Fiserv (OAuth), Fortnox, FreeAgent, FreeAgent (Sandbox), FreshBooks, Holded, Intuit, Maxio, Mercury, MIP Cloud, MIP On Premise, Mollie, NetSuite (Client Credentials), NetSuite (OAuth), NetSuite (TBA), Paddle, Paypal, Paypal (Sandbox), Pennylane, Pennylane (Company API), Pleo, PreciseFP, pVerify, Qualia, Quickbooks, QuickBooks Sandbox, Ramp, Ramp (Sandbox), Razorpay, Redtail CRM (Sandbox), Robinhood (MCP), Rydoo, Sage, Sage 200, Sage HR, Sage Intacct, Sage Intacct (Client Credentials), Sage Intacct (OAuth), Sage People, SAP Ariba, SAP Business One, SAP Concur, SAP Concur (Password Grant), SAP Fieldglass, SAP S/4HANA Cloud, SAP S/4HANA Cloud (Basic Auth), Schwab, Splitwise, Stripe (API Key), Stripe App, Stripe App (Sandbox), Stripe Connect, Stripe Express, ThriveCart (API Key), ThriveCart (OAuth), Tremendous, Tremendous (Sandbox), Twinfield, Wave Accounting, Wealthbox, Wise (API Key), Wiseagent, Xero, Xero (Client Credentials), Zuora
+
+## HR & Recruiting (97)
+Absorb LMS, ADP, ADP Lyric, ADP Workforce Now, ADP Workforce Now Next Generation, Ashby, BambooHR (Basic Auth), BambooHR (OAuth), BoondManager, Breezy HR, Bullhorn, Canvas LMS, Certn, Certn Partner, Check, Checkr Partner, Checkr Partner (Staging), Dayforce, Deel, Deel (Sandbox), Employment Hero, Factorial, Firefish, Freshteam, Gem, Greenhouse, Greenhouse (Assessment API), Greenhouse (Basic Auth), Greenhouse (Harvest API), Greenhouse (Ingestion API), Greenhouse (Job Board API), Greenhouse (Onboarding API), Greenhouse Harvest (Client Credentials V3), Greenhouse Harvest Partner (V3), Gusto, Gusto (Demo), HackerRank Work, Hailey HR, Hibob Service User, Humaans.io, JazzHR, Jobadder, JobDiva, Jobvite, Justworks, Lattice, Leapsome, Lessonly, Lever (Basic Auth Sandbox), Lever (Basic Auth), Lever (OAuth Sandbox), Lever (OAuth), Manatal, Namely, Namely (PAT), Oracle Fusion Cloud (HCM), Paychex, Paycom, Paycor, Paycor (Sandbox), Payfit, Paylocity (NextGen), Paylocity (Weblink), Perdoo, Personio (v1), Personio (v2), Personio Recruiting, Pingboard, Quipteams, Recruitcrm, Recruitee, Recruiterflow, Rippling, Rippling Shop App, RUN Powered by ADP, SAP SuccessFactors, Smartrecruiters, TalentLMS, Teamtailor, Timetastic, Trakstar Hire, TSheets, UKG Pro, UKG Pro (Workforce Management), UKG Pro HCM (Client Credentials), UKG Ready, Workable (API Key), Workable (OAuth), Workday, Workday (Client Credentials), Workday (OAuth), Workday (Refresh Token Auth), Workday Adaptive Planning, Workday Adaptive Planning (Basic Auth), Workpath, WorkRamp, Zenefits
+
+## Marketing (95)
+A-Leads, ActiveCampaign, Adyntel, Ahrefs, Aimfox, Aimfox (OAuth), Altrata, Apify, Beehiiv, BetterContact, Bing Webmasters, Bitly, Braze, Brevo, BrightCrowd, Buffer, BuiltWith, Callrail, Chatarmin, Clay, CleverReach, Constant Contact, ContactOut, Crunchbase, Customer.io, Cyberimpact, Diffbot, DiscoLike, Emarsys (OAuth), Emarsys Core API (WSSE), Eventbrite, Everflow, Facebook, FindyMail, FullEnrich, Google Ads, Google Search Console, HeyReach, Icypeas, Instagram, Instantly, Klaviyo (API Key), Klaviyo (OAuth), KlickTipp, La Growth Machine, Leadfeeder, LeadMagic, lemlist, LinkedIn, LinkHut, Listmonk, Listrak, Loops.so, Luma, Mailchimp, Mailjet, Marketo, Meta Marketing API, Microsoft Ads, MillionVerifier, NationBuilder, Ocean.io, People Data Labs, Pinterest, Podium, Prospeo, ProvenExpert, Quentn, Reddit, Reply.io, RocketReach, Scrape.do, Semrush (v3), Snapchat (Ads API), Store Leads, StoreCensus, SureContact, Swoogo, The Swarm, TheirStack, TikTok Accounts, TikTok Ads, TikTok Personal, Tumblr, Twitter (Client Credentials), Twitter (v1), Twitter (v2), Typefully, Typefully (API v2), Unipile, VideoAsk, Wappalyzer, WebinarJam, Wiza, ZoomInfo
+
+## Other (24)
+Attention, Coros, Coros (Sandbox), ECU360 (Production), ECU360 (Test), Energy Performance Certificates (Gov.UK), Exist, Fitbit, Garmin, Gebrüder Weiss, Lob, Oura, ResearchDesk, Stitch (MCP), Strava (Mobile), Strava (Web), Trigify IO (MCP), Uber, Valley (API Key), Valley (OAuth), Whoop, Yahoo, Yandex, Zero
+
+## Productivity (126)
+Acuity Scheduling, Agiloft, Agiloft (Client Credentials), Airtable, Asana, Asana (MCP), Asana (SCIM API), Avoma, Basecamp, Blackbaud, Blackbaud (Basic Auth), Bliro, BoldSign, Box, Cal.com (OAuth), Cal.com (v1), Cal.com (v2), Calendly, Circleback (MCP), ClickUp, Clio, Coda, Confluence, Confluence (Basic Auth), DocuSign, DocuSign (Sandbox), DrChrono, Dropbox, Dropbox Sign, Egnyte, Fathom, Fathom (OAuth), Fellow, Fillout (API Key), Fillout (Oauth), Fireflies, Float, Google Calendar, Google Calendar (MCP), Google Contacts, Google Docs, Google Drive, Google Forms, Google Health, Google Maps, Google Play, Google Sheet, Google Slides, Google Tasks, Google Workspace Admin, Grain (API Key), Grain (OAuth), Grammarly, Grammarly SCIM, Grist, Harvest, Health Gorilla, Ironclad, Ironclad (Client Credentials), Jamie, Kintone, Kintone User API, Microsoft, Microsoft (Admin), Microsoft (Client Credentials - Certificate), Microsoft (Client Credentials), Microsoft (Tenant), Microsoft Business Central, Microsoft Dynamics 365 Finance and Operations, Microsoft Dynamics 365 Finance and Operations (Client Credentials), Microsoft Excel, Microsoft People, Microsoft Planner, Microsoft PowerPoint, Microsoft Word, ModMed, Momentum.io, Monday, Ninety.io, Notion, Notion (MCP), Notion (SCIM API), One Note, OneDrive for Business, OneDrive Personal, Ordinal, Pandadoc, Pandadoc (API Key), Perk, Planning Center Online (OAuth), Planning Center Online (Personal Access Token), PracticeFusion, Productboard, Pushpay ChMS (v1), Quickbase, Raindrop (MCP), Readwise, Readwise Reader, Roam (SCIM API), Rocketlane, Sedna (Basic Auth), Sedna (OAuth), Setmore, SharePoint Online, SharePoint Online (Client Credentials V2), SharePoint Online (v1), SignNow, SignNow (Sandbox), Smartsheet, Superhuman (MCP), Tally, Teamwork, Thomson Reuters Legal Tracker, Thomson Reuters Legal Tracker (TR Account), TickTick, Timely, Timify, tl;dv, Todoist, Toggl Track, Trafft, Trello, Trello (SCIM API), Typeform, Wrike, YouCanBookMe
+
+## Sales & CRM (68)
+Accelo, Acumatica, Affinity (v1), Affinity (v2), Apollo, Attio, Attio (MCP), Autodesk, BigChange, Buildium, Chorus, Clari Copilot, Close, CompanyCam, Copper (API Key), Copper (OAuth), Entrata, Folk, Follow Up Boss, Freshsales, Gong (Basic Auth), Gong (Oauth), HighLevel, HighLevel (LeadConnector), Hover, HubSpot, HubSpot (MCP), Insightly, Jiminny, Jobber, Keap, Maximizer (Cloud), Maximizer (On-Premise), nocrm.io, Odoo (Client Credentials), Odoo (OAuth), Onlogist, Outreach, Pipedrive, Procore, Reapit Connect, Salesforce, Salesforce (Client Credentials), Salesforce (Data Cloud), Salesforce (JWT), Salesforce (Sandbox), Salesforce Experience Cloud, Salesloft, Simpro, Streak, Teamleader Focus, Twenty CRM, Twenty CRM (Self Hosted), Unanet, Upsales, Veeva Vault, Zendesk Sell, Zoho, Zoho Bigin, Zoho Books, Zoho Calendar, Zoho CRM, Zoho Desk, Zoho Inventory, Zoho Invoice, Zoho Mail, Zoho People, Zoho Recruit
+
+# Frequently asked questions
+
+## What is Receipt and what does it actually do?
+Receipt is an autonomous AI coworker platform that gives your team an AI agent with real execution capability: it runs code in a private isolated sandbox, reaches your connected tools (AWS, Jira, GitHub, Vercel, Slack, and more) through scoped actions, and converts probabilistic AI requests into deterministic, auditable outcomes. Every action is logged as an immutable, cryptographically chained “receipt”—the permanent source of truth—enabling full audit, replay, and crash recovery.
+
+## How is Receipt different from Claude Code, Codex, or other AI coding tools?
+Claude Code and Codex are single-session coding assistants for individual developers; Receipt is a multi-tenant production control plane that can orchestrate and run AI agents like those as auditable background workers. Receipt adds durable execution (survives crashes), deterministic replay (proves what happened), compliance logging (immutable audit trail), multi-tenant isolation (each org’s data is separate), and integration with the systems you connect—all things you need for production governance that a session-based coding tool doesn’t provide.
+
+## Is it actually safe to give AI agents access to my production systems?
+Yes—if you use Receipt correctly. Every action runs in an isolated OpenSandbox with zero ambient access; credentials are never stored in Receipt (Nango owns them, Receipt only stores encrypted references); all state-changing operations are deterministic, replayable, and cryptographically chained so you can verify exactly what happened; and Receipt enforces org-level policy gates before any AI decision is executed. The default is “sandbox first, audit everything”—not “trust and react.”
+
+## What’s the difference between a "receipt" and regular logs or observability?
+Observability logs describe state that exists elsewhere; deleting logs loses visibility but not data. Receipts are the state—the append-only source of truth—and the running system is just a derived copy. Deleting receipts loses everything. This matters because it means Receipt doesn’t copy data around; it owns the provable history. You can replay any past moment, audit any decision, and prove causation—not just observe failures after they happen.
+
+## What SaaS apps and systems can Receipt connect to?
+Receipt carries a catalog of 889 connectors, 43 of them live today (AWS, Google Cloud, Vercel, GitHub, GitLab, Jira, Confluence, Slack, HubSpot, Salesforce, Linear, Zendesk, and many more). You control which integrations each team member can access via org-level policy; credentials stay with the provider (Nango), never in Receipt; and you can add new integrations without waiting for a Receipt release. If Nango supports it and your team has a connection, the AI can use it—sandbox first, audit everything.
+
+## How do I know the AI actually did what it claimed to do?
+Every action is a receipt: immutable, timestamped, cryptographically chained to the previous receipt, and contains the command, the evidence artifact, and the exit code. You can replay that receipt independently to verify the outcome. For external APIs (AWS, Jira, GitHub), the evidence includes the raw API response verbatim plus a tamper-evident hash. For code execution, you get the stdout, exit code, and any files created. Replay + independent verification = proof. No copying data between systems, no hidden side effects.
+
+## What happens if the agent makes a mistake, gets stuck, or a task crashes?
+Receipt logs every step as an immutable receipt, so if a task crashes, you can replay from the last receipt without re-running earlier work—crash recovery is automatic. If the AI makes a wrong decision, that’s logged and auditable; you can review the evidence, fix the underlying issue, and replay from any point. If the agent gets stuck, Receipt detects stalled work (expired leases, watchdog, invariant checks) and self-heals with no human intervention—re-folding receipts and re-dispatching deterministically.
+
+# Resources
+
+## Blog — Notes on building agents you can audit.
+What we are learning about running AI agents against production systems — the architecture, the failure modes, and the things that turned out to matter more than we expected.
+
+### Latest
+- Observability describes state. Receipts are the state.: Why we made the append-only chain the source of truth and the running system the derived copy — and what that buys you the first time a run crashes halfway.
+- The approval gate is the product: Autonomy is easy. The hard part is deciding what an agent may do without asking, and making that decision legible to a security team.
+- What breaks when an agent touches 1,000 SaaS APIs: Rate limits, partial writes, inconsistent pagination, and the four idempotency patterns that survived contact with production.
+- Stop asking whether the model hallucinated: The useful question is whether the action can be verified. A tale of two architectures, and why one of them can answer it.
+
+### From the field
+- The offboarding gap nobody measures: Across the deployments we have seen, SSO covers roughly two-thirds of a departing employee's access. Here is where the rest hides.
+- Root cause in eleven minutes: An anatomy of one incident run: the alert, the deploy correlation, the commit, the revert PR, and the receipt chain underneath all of it.
+- Month-end close as a replayable run: What changes when the reconciliation itself is an auditable artifact rather than a process someone remembers performing.
+
+## Research — The work behind the architecture.
+Receipt exists because probabilistic systems need deterministic accountability. These are the papers, benchmarks, and design notes we keep coming back to — including our own.
+
+### Our work
+- Deterministic replay for non-deterministic agents: A design note on separating the decision (which the model makes) from the execution record (which must be reproducible), and the folding model that connects them.
+- Chained receipts as a tamper-evident audit substrate: The hashing scheme, what it does and does not prove, and how independent verification works without trusting our infrastructure.
+- Failure taxonomy for cross-system agent runs: Every way a multi-tool run went wrong across our early deployments, classified — and which class the policy gate actually prevents.
+
+### What we are reading
+- On the limits of observability for AI systems: Why the tooling built for deterministic services under-serves systems whose behaviour is sampled rather than specified.
+- Human approval as a control, not a courtesy: Evidence from adjacent fields — clinical decision support, aviation, trade settlement — on where gating helps and where it degrades into rubber-stamping.
+- Cost of proof: Measuring the overhead an immutable execution record adds to a run, and where it lands relative to the API latency it sits behind.
+
+## Case studies — What teams actually put it to work on.
+Anonymised, because the interesting part is the shape of the deployment — what they connected, what they gated, and what changed by the second month.
+
+### Deployments
+- A Series B fintech cut incident triage from 50 to 11 minutes: Connected Sentry, Vercel, GitHub and Datadog. Receipt correlates alerts to deploys and opens the revert PR; engineers review a diff instead of assembling a timeline.
+- A 400-person logistics platform closed the offboarding gap: The first access review found 62 credentials outside SSO. Offboarding is now a single run with a verification read after every revoke.
+- A marketplace took three days off month-end close: Card feed, processor, and ledger reconciled nightly rather than monthly. Finance sees six exceptions instead of 318 transactions.
+- A support org stopped escalating billing questions: Agents verify charge history and draft evidenced replies themselves. Refunds still wait for a human — every one of them recorded.
+
+### By the numbers
+- Where the time actually goes: Across deployments, the majority of recovered hours came from cross-system gathering, not from generation. The connective work was always the expensive part.
+- What teams gate, and what they let run: Reads open up almost immediately. Writes stay gated far longer than most teams expect — and the ones that ungate do it per-operation, never wholesale.
+- The second-month pattern: Usage rarely grows by adding teams. It grows when one team moves a scheduled, recurring job onto Receipt and stops checking it.

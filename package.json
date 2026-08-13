@@ -8,7 +8,9 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit -p tsconfig.app.json"
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "prebuild": "node scripts/generate-agent-context.mjs",
+    "agent:context": "node scripts/generate-agent-context.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",

@@ -13,7 +13,7 @@ const flow = [
   {
     icon: Terminal,
     title: 'Receipt does the work.',
-    desc: `It decides which of your ${catalogCounts.total} connected systems it needs, runs the job in an isolated sandbox, and stops at a policy gate before anything changes state.`,
+    desc: `It decides which of your connected systems it needs, runs the job in an isolated sandbox, and stops at a policy gate before anything changes state.`,
   },
   {
     icon: FileCheck2,

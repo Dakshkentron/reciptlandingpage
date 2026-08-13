@@ -18,7 +18,7 @@ export default function FAQ() {
               Frequently asked questions
             </h2>
             <p className="section-lead text-ink-500">
-              Everything you need to know about the AI Analytics Platform.
+              What Receipt is, how it runs work against your systems, and what it proves afterwards.
             </p>
           </div>
 
