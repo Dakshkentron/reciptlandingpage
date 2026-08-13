@@ -39,7 +39,7 @@ JavaScript.
 
 ## Key facts
 
-- Connectors: 889 across 14 categories (1 live today).
+- Connectors: 889 in the catalog across 14 categories; 43 are live and connectable today.
 - Teams with worked use cases: Engineering, Customer Support, Sales, Marketing & Growth, Finance & RevOps, IT & Security, Data & Analytics, Product, People & HR, Founders & Leadership, Legal & Compliance.
 - Every action produces a receipt: command, evidence artifact, exit code, chained hash.
 - Credentials stay with the connector layer (Nango); Receipt stores encrypted references only.

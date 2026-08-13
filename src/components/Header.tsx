@@ -126,7 +126,7 @@ export default function Header() {
 
           <div className="hidden items-center gap-2 lg:flex">
             <a
-              href="https://beetle.run/auth/sign-up"
+              href="https://beetle.run/auth/sign-in"
               className="rounded-full border border-ink-200 px-5 py-2.5 text-[15px] font-semibold text-ink-900 transition-colors hover:border-ink-300 hover:bg-ink-50"
             >
               Sign in
@@ -185,7 +185,7 @@ export default function Header() {
               )
             )}
             <div className="mt-3 flex gap-2 border-t border-ink-100 pt-4">
-              <a href="https://beetle.run/auth/sign-up" className="btn-secondary flex-1">
+              <a href="https://beetle.run/auth/sign-in" className="btn-secondary flex-1">
                 Sign in
               </a>
               <a href="https://beetle.run/auth/sign-up" className="btn-primary flex-1">

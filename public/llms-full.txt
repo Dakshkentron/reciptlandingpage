@@ -7,10 +7,10 @@ Generated from the site's own content data. Docs live at https://reciptwebsite.m
 
 Your AI coworker that proves what it did. Receipt runs tasks across your SaaS apps and servers, then backs every result with a verifiable receipt.
 
-- One workspace for every question: undefined
-- Answers for everyone, grounded in facts: undefined
-- A curated context layer for trusted AI: undefined
-- Beautiful, interactive data apps with just a prompt: undefined
+- Describe the outcome. In Slack, like a colleague.: Mention Receipt in a thread or launch a run from the web workbench — both create the same receipt-backed run. Receipt replies “Accepted. Starting a background run,” then keeps working after you close the tab.
+- Your systems are the substrate, not its memory.: A worker is leased to the run and works through connected systems — browsers, terminals, repositories, and scoped connector actions inside its lane. Query AWS, open a pull request, read Datadog, update Jira, with the evidence attached as it goes.
+- Every material step is written down before the run moves on.: Objective accepted, worker leased, actions executed, checks passed, review recorded, receipt issued. The chain is typed, immutable, and previous-hash linked — tamper with one entry and every entry after it breaks.
+- Reconstruct what the agent saw and why it was allowed.: Replay covers model interaction, action selection, queue movement, and policy decisions. What the run learns — a stronger check, a corrected runbook — is promoted into memory so the next run starts with the fix already in place.
 
 # Use cases by team
 
@@ -20,7 +20,7 @@ Status: live. Engineers rarely lose the day to writing code. They lose it to the
 
 Stops doing by hand: Twenty browser tabs open at 2am to answer one question: what changed?
 Connected stack: GitHub, Sentry, Linear, Vercel, Datadog, Slack, AWS, Terraform Cloud
-- 11 min median alert → root cause
+- One run from the alert to a reviewable revert PR
 - 0 context switches to answer "what changed?"
 - 100% of production calls replayable
 
@@ -70,8 +70,8 @@ Status: live. Support does not usually need a smarter reply — it needs the tru
 
 Stops doing by hand: Escalating to engineering to ask a question the logs already answered.
 Connected stack: Zendesk, Stripe (API Key), Linear, Slack, Intercom, Notion, HubSpot, Sentry
-- 4× more tickets closed without escalation
-- < 90s to a fully evidenced draft reply
+- Evidenced every reply cites the system of record
+- Draft first nothing reaches a customer unreviewed
 - Every refund gated on human approval
 
 ### Verify the billing complaint instead of trusting it
@@ -120,8 +120,8 @@ Status: live. Pipeline hygiene is the tax every sales team pays and nobody wants
 
 Stops doing by hand: The Friday afternoon spent guessing which stage a deal is really in.
 Connected stack: HubSpot, Salesforce, Gong (Oauth), Slack, Zoom, Apollo, Google Calendar, Notion
-- 6 hrs of CRM admin returned per rep, per week
-- 92% of closed deals with complete field data
+- No admin hour the CRM is updated by the run itself
+- Complete fields filled from the call, not from memory
 - 1 run from call recording to updated pipeline
 
 ### Update the CRM from what was said on the call
@@ -220,7 +220,7 @@ Status: live. Finance already knows how to reconcile. What costs the week is gat
 
 Stops doing by hand: Rebuilding the audit trail in March for work you did in January.
 Connected stack: Stripe (API Key), Quickbooks, Xero, Ramp, NetSuite (OAuth), Slack, Google Sheet, HubSpot
-- 3 days off a typical month-end close
+- Nightly reconciliation instead of a month-end scramble
 - 0 journal entries posted without approval
 - Replayable evidence for every reconciliation
 
@@ -320,7 +320,7 @@ Status: live. Data teams do not have a modelling problem, they have an interrupt
 
 Stops doing by hand: Being paged for a pipeline failure whose fix is always the same three steps.
 Connected stack: Snowflake, Google BigQuery, Databricks (Workspace Level), Looker, Metabase, Slack, Notion, GitHub
-- 80% of ad-hoc requests never reach a human
+- Self-serve ad-hoc questions answered without a ticket
 - Every answer ships with the query that produced it
 - Auto downstream impact notification
 
@@ -370,7 +370,7 @@ Status: live. The feedback is real, it is just scattered — across tickets, cal
 
 Stops doing by hand: Quarterly planning weeks spent assembling evidence that already existed.
 Connected stack: Linear, Jira, Zendesk, HubSpot, Notion, Gong (Oauth), Productboard, Slack
-- 148 feedback sources read per brief
+- Every source tickets, calls, and reviews read per brief
 - ARR-weighted not upvote-weighted
 - Continuous gathering, not quarterly scramble
 
@@ -422,7 +422,7 @@ Stops doing by hand: A twelve-step onboarding checklist copied between four tool
 Connected stack: Greenhouse, BambooHR (OAuth), Okta, Google Workspace Admin, Slack, Notion, Deel, DocuSign
 - Day one access ready, nothing over-provisioned
 - Every grant tied to a named approver
-- 90% of chasing done without a human
+- Chased follow-ups sent without anyone remembering
 
 ### Onboard from the role template, not from memory
 Prompt: "Set up everything a new designer needs to start on the 5th."
@@ -470,7 +470,7 @@ Status: live. The metrics exist. They are just in the billing system, the CRM, t
 
 Stops doing by hand: The board-deck week that starts with five Slack messages asking for numbers.
 Connected stack: Stripe (API Key), HubSpot, Quickbooks, Snowflake, Slack, Notion, Google Sheet, Linear
-- 4 min from question to sourced answer
+- Same thread question in, sourced answer back
 - Daily if you want it daily
 - Sourced every figure links to its system
 
@@ -613,10 +613,10 @@ Accelo, Acumatica, Affinity (v1), Affinity (v2), Apollo, Attio, Attio (MCP), Aut
 # Frequently asked questions
 
 ## What is Receipt and what does it actually do?
-Receipt is an autonomous AI coworker platform that gives your team an AI agent with real execution capability: it runs code in a private isolated sandbox, reaches 1000+ SaaS apps (AWS, Jira, GitHub, Vercel, Slack, etc.) via Nango, and converts probabilistic AI requests into deterministic, auditable outcomes. Every action is logged as an immutable, cryptographically chained “receipt”—the permanent source of truth—enabling full audit, replay, and crash recovery.
+Receipt is an autonomous AI coworker platform that gives your team an AI agent with real execution capability: it runs code in a private isolated sandbox, reaches your connected tools (AWS, Jira, GitHub, Vercel, Slack, and more) through scoped actions, and converts probabilistic AI requests into deterministic, auditable outcomes. Every action is logged as an immutable, cryptographically chained “receipt”—the permanent source of truth—enabling full audit, replay, and crash recovery.
 
 ## How is Receipt different from Claude Code, Codex, or other AI coding tools?
-Claude Code and Codex are single-session coding assistants for individual developers; Receipt is a multi-tenant production control plane that can orchestrate and run AI agents like those as auditable background workers. Receipt adds durable execution (survives crashes), deterministic replay (proves what happened), compliance logging (immutable audit trail), multi-tenant isolation (each org’s data is separate), and integration with 1000+ SaaS systems—all things you need for production governance that a session-based coding tool doesn’t provide.
+Claude Code and Codex are single-session coding assistants for individual developers; Receipt is a multi-tenant production control plane that can orchestrate and run AI agents like those as auditable background workers. Receipt adds durable execution (survives crashes), deterministic replay (proves what happened), compliance logging (immutable audit trail), multi-tenant isolation (each org’s data is separate), and integration with the systems you connect—all things you need for production governance that a session-based coding tool doesn’t provide.
 
 ## Is it actually safe to give AI agents access to my production systems?
 Yes—if you use Receipt correctly. Every action runs in an isolated OpenSandbox with zero ambient access; credentials are never stored in Receipt (Nango owns them, Receipt only stores encrypted references); all state-changing operations are deterministic, replayable, and cryptographically chained so you can verify exactly what happened; and Receipt enforces org-level policy gates before any AI decision is executed. The default is “sandbox first, audit everything”—not “trust and react.”
@@ -625,7 +625,7 @@ Yes—if you use Receipt correctly. Every action runs in an isolated OpenSandbox
 Observability logs describe state that exists elsewhere; deleting logs loses visibility but not data. Receipts are the state—the append-only source of truth—and the running system is just a derived copy. Deleting receipts loses everything. This matters because it means Receipt doesn’t copy data around; it owns the provable history. You can replay any past moment, audit any decision, and prove causation—not just observe failures after they happen.
 
 ## What SaaS apps and systems can Receipt connect to?
-Receipt integrates with 1000+ SaaS providers through Nango (AWS, Azure, Vercel, GitHub, GitLab, Jira, Confluence, Slack, HubSpot, Salesforce, Linear, Zendesk, and many more). You control which integrations each team member can access via org-level policy; credentials stay with the provider (Nango), never in Receipt; and you can add new integrations without waiting for a Receipt release. If Nango supports it and your team has a connection, the AI can use it—sandbox first, audit everything.
+Receipt carries a catalog of 889 connectors, 43 of them live today (AWS, Google Cloud, Vercel, GitHub, GitLab, Jira, Confluence, Slack, HubSpot, Salesforce, Linear, Zendesk, and many more). You control which integrations each team member can access via org-level policy; credentials stay with the provider (Nango), never in Receipt; and you can add new integrations without waiting for a Receipt release. If Nango supports it and your team has a connection, the AI can use it—sandbox first, audit everything.
 
 ## How do I know the AI actually did what it claimed to do?
 Every action is a receipt: immutable, timestamped, cryptographically chained to the previous receipt, and contains the command, the evidence artifact, and the exit code. You can replay that receipt independently to verify the outcome. For external APIs (AWS, Jira, GitHub), the evidence includes the raw API response verbatim plus a tamper-evident hash. For code execution, you get the stdout, exit code, and any files created. Replay + independent verification = proof. No copying data between systems, no hidden side effects.

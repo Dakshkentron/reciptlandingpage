@@ -1,4 +1,4 @@
-import { ArrowRight, Plug, Database, GitBranch, Workflow, Code2, Lock, Cloud, Briefcase } from 'lucide-react';
+import { ArrowRight, Plug, GitBranch, Code2, Lock, Cloud, Activity, KeyRound, RefreshCw, ShieldCheck, Boxes } from 'lucide-react';
 import { integrations, integrationHighlights } from '@/data/content';
 import { catalogCounts } from '@/data/integrations';
 import { safeIntegrationHref } from '@/data/integrationDetail';
@@ -14,6 +14,23 @@ function IntegrationIcon({ name, logo }: { name: string; logo: string }) {
     );
   }
   return <IntegrationLogo name={name} />;
+}
+
+/** Icon per highlight, keyed on the title it ships with. */
+const highlightIcons: Record<string, typeof Cloud> = {
+  'Built for the cloud': Cloud,
+  'Built for the codebase': GitBranch,
+  'Alerts to answers': Activity,
+  'Scoped actions, not blank cheques': ShieldCheck,
+  'Lanes decide what a run can touch': Boxes,
+  'Credentials stay server-side': KeyRound,
+  'Work tracking and knowledge': Code2,
+  'Reconnect, revoke, rescope': RefreshCw,
+};
+
+function HighlightIcon({ title }: { title: string }) {
+  const Icon = highlightIcons[title] ?? Lock;
+  return <Icon className="h-5 w-5 flex-none text-brand-400 mt-0.5" />;
 }
 
 /** Split the featured connectors into two rails that scroll in opposite directions. */
@@ -38,8 +55,8 @@ export default function Integrations() {
             Instant integration with the whole stack
           </h2>
           <p className="section-lead text-ink-200">
-            {catalogCounts.total} managed connectors, {catalogCounts.ready + catalogCounts.connected} ready
-            to connect today. Out-of-the-box OAuth and flexible APIs make setup a breeze.
+            {catalogCounts.total} connectors in the catalog, {catalogCounts.live} of them live and ready to
+            connect today. Out-of-the-box OAuth and flexible APIs make setup a breeze.
           </p>
           <a
             href="#/integrations"
@@ -87,21 +104,7 @@ export default function Integrations() {
               className="rounded-2xl border border-ink-700/60 bg-ink-850 p-6 transition-all duration-200 hover:border-ink-600"
             >
               <div className="flex items-start gap-3 mb-3">
-                {item.title.includes('cloud') ? (
-                  <Cloud className="h-5 w-5 text-brand-400 flex-none mt-0.5" />
-                ) : item.title.includes('warehouse') || item.title.includes('oAuth') ? (
-                  <Database className="h-5 w-5 text-brand-400 flex-none mt-0.5" />
-                ) : item.title.includes('Git') ? (
-                  <GitBranch className="h-5 w-5 text-brand-400 flex-none mt-0.5" />
-                ) : item.title.includes('Orchestration') ? (
-                  <Workflow className="h-5 w-5 text-brand-400 flex-none mt-0.5" />
-                ) : item.title.includes('CRM') ? (
-                  <Briefcase className="h-5 w-5 text-brand-400 flex-none mt-0.5" />
-                ) : item.title.includes('API') ? (
-                  <Code2 className="h-5 w-5 text-brand-400 flex-none mt-0.5" />
-                ) : (
-                  <Lock className="h-5 w-5 text-brand-400 flex-none mt-0.5" />
-                )}
+                <HighlightIcon title={item.title} />
                 <h3 className="text-base font-semibold text-white">{item.title}</h3>
               </div>
               <p className="text-sm text-ink-300 leading-relaxed mb-4">{item.desc}</p>

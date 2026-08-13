@@ -3,13 +3,12 @@ import {
   ArrowRight, ChevronDown, Eye, FileCheck2, Fingerprint, KeyRound, Lock, RefreshCw, ServerCog,
   ShieldCheck, Users,
 } from 'lucide-react';
-import { catalogCounts } from '@/data/integrations';
 
 const pillars = [
   {
     icon: Lock,
     title: 'We never hold your credentials.',
-    desc: `Receipt authenticates to all ${catalogCounts.total} connectors through official OAuth flows or scoped API keys held in the connector layer. Receipt stores an encrypted reference — never the secret itself — so revoking access at the provider cuts Receipt off instantly.`,
+    desc: `Receipt authenticates to every connector through official OAuth flows or scoped API keys held in the connector layer. Receipt stores an encrypted reference — never the secret itself — so revoking access at the provider cuts Receipt off instantly.`,
   },
   {
     icon: ServerCog,

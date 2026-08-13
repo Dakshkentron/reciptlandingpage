@@ -15,7 +15,7 @@ import { resourcePages, type ResourceKind } from '@/data/resources';
 const SITE_NAME = 'Receipt';
 
 const HOME = {
-  title: 'Receipt — The AI Analytics Platform where trust meets insight',
+  title: 'Receipt — an AI coworker that proves what it did',
   description:
     'Your AI coworker that proves what it did. Receipt runs tasks across your SaaS apps and servers, then backs every result with a verifiable receipt.',
 };

@@ -24,7 +24,7 @@ const formatCredits = (n: number) =>
 const teamIncludes = [
   'Slack-native coworker — mentions and in-thread replies',
   'Persistent workspace context across every run',
-  `All ${catalogCounts.total} managed connectors`,
+  `All ${catalogCounts.live} live connectors — ${catalogCounts.total} in the catalog`,
   'Scheduled and recurring tasks',
   'Draft-first writes with approval gates',
   'Immutable receipts, replay, and crash recovery',
@@ -78,7 +78,7 @@ const comparison: { section: string; rows: { label: string; free: Cell; team: Ce
   {
     section: 'Connectors',
     rows: [
-      { label: 'Managed connectors', free: `All ${catalogCounts.total}`, team: `All ${catalogCounts.total}`, enterprise: `All ${catalogCounts.total}` },
+      { label: 'Live connectors', free: `All ${catalogCounts.live}`, team: `All ${catalogCounts.live}`, enterprise: `All ${catalogCounts.live}` },
       { label: 'Multiple accounts per connector', free: false, team: true, enterprise: true },
       { label: 'Receipt builds against your own API', free: false, team: true, enterprise: true },
       { label: 'Private / self-hosted endpoints', free: false, team: false, enterprise: true },
@@ -131,7 +131,7 @@ const faqs = [
   },
   {
     q: 'Are any features held back on the cheaper plans?',
-    a: `No feature gating on the work itself: every plan reaches all ${catalogCounts.total} connectors and gets receipts, replay, and approval gates. Enterprise adds the things large orgs need around it — SSO, policy administration, retention, SLA, and dedicated onboarding.`,
+    a: `No feature gating on the work itself: every plan reaches all ${catalogCounts.live} live connectors and gets receipts, replay, and approval gates. Enterprise adds the things large orgs need around it — SSO, policy administration, retention, SLA, and dedicated onboarding.`,
   },
   {
     q: 'How do we keep credit usage down?',
@@ -223,7 +223,7 @@ export default function PricingPage() {
               <ul className="mt-7 space-y-3 border-t border-ink-100 pt-6">
                 {[
                   'Up to 3 seats',
-                  `All ${catalogCounts.total} managed connectors`,
+                  `All ${catalogCounts.live} live connectors`,
                   'Slack-native coworker',
                   'Receipts, replay, and approval gates',
                   '30-day receipt retention',
@@ -428,7 +428,7 @@ export default function PricingPage() {
         <div className="mx-auto max-w-3xl px-5 py-16 text-center lg:px-8 lg:py-24">
           <h2 className="section-title text-ink-950">Start free. Bring your whole stack.</h2>
           <p className="section-lead text-ink-500">
-            $100 in credits, all {catalogCounts.total} connectors, and a receipt for everything Receipt does.
+            $100 in credits, all {catalogCounts.live} live connectors, and a receipt for everything Receipt does.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a href="https://beetle.run/auth/sign-up" className="btn-primary btn-lg">

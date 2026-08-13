@@ -11,10 +11,11 @@ export default function CTA() {
 
           <div className="relative text-center max-w-2xl mx-auto">
             <h2 className="section-title text-white">
-              Getting started is easy
+              Connect one system. Read the receipts.
             </h2>
             <p className="section-lead text-ink-200">
-              Connect Receipt to your data warehouse and do more with it immediately.
+              Start free, point Receipt at a single tool, and judge it on the record it leaves behind before
+              you connect the next one.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">

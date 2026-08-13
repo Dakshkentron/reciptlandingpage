@@ -83,7 +83,7 @@ ${routes.map((r) => `- [${r.title}](${url(r.hash)}): ${r.desc}`).join('\n')}
 
 ## Key facts
 
-- Connectors: ${catalogCounts.total} across ${categories.length} categories (${catalogCounts.connected} live today).
+- Connectors: ${catalogCounts.total} in the catalog across ${categories.length} categories; ${catalogCounts.live} are live and connectable today.
 - Teams with worked use cases: ${teams.map((t) => t.label).join(', ')}.
 - Every action produces a receipt: command, evidence artifact, exit code, chained hash.
 - Credentials stay with the connector layer (Nango); Receipt stores encrypted references only.
@@ -119,7 +119,7 @@ Generated from the site's own content data. Docs live at ${DOCS_URL}.
 
 ${DESCRIPTION}
 
-${features.map((f) => `- ${f.title}: ${f.desc}`).join('\n')}
+${features.map((f) => `- ${f.title}: ${f.description}`).join('\n')}
 
 # Use cases by team
 

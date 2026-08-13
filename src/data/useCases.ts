@@ -85,7 +85,7 @@ export const teams: Team[] = [
     },
     stack: ['GitHub', 'Sentry', 'Linear', 'Vercel', 'Datadog', 'Slack', 'AWS', 'Terraform Cloud'],
     metrics: [
-      { value: '11 min', label: 'median alert → root cause' },
+      { value: 'One run', label: 'from the alert to a reviewable revert PR' },
       { value: '0', label: 'context switches to answer "what changed?"' },
       { value: '100%', label: 'of production calls replayable' },
     ],
@@ -172,8 +172,8 @@ export const teams: Team[] = [
     },
     stack: ['Zendesk', 'Stripe (API Key)', 'Linear', 'Slack', 'Intercom', 'Notion', 'HubSpot', 'Sentry'],
     metrics: [
-      { value: '4×', label: 'more tickets closed without escalation' },
-      { value: '< 90s', label: 'to a fully evidenced draft reply' },
+      { value: 'Evidenced', label: 'every reply cites the system of record' },
+      { value: 'Draft first', label: 'nothing reaches a customer unreviewed' },
       { value: 'Every', label: 'refund gated on human approval' },
     ],
     cases: [
@@ -258,8 +258,8 @@ export const teams: Team[] = [
     },
     stack: ['HubSpot', 'Salesforce', 'Gong (Oauth)', 'Slack', 'Zoom', 'Apollo', 'Google Calendar', 'Notion'],
     metrics: [
-      { value: '6 hrs', label: 'of CRM admin returned per rep, per week' },
-      { value: '92%', label: 'of closed deals with complete field data' },
+      { value: 'No admin hour', label: 'the CRM is updated by the run itself' },
+      { value: 'Complete', label: 'fields filled from the call, not from memory' },
       { value: '1 run', label: 'from call recording to updated pipeline' },
     ],
     cases: [
@@ -430,7 +430,7 @@ export const teams: Team[] = [
     },
     stack: ['Stripe (API Key)', 'Quickbooks', 'Xero', 'Ramp', 'NetSuite (OAuth)', 'Slack', 'Google Sheet', 'HubSpot'],
     metrics: [
-      { value: '3 days', label: 'off a typical month-end close' },
+      { value: 'Nightly', label: 'reconciliation instead of a month-end scramble' },
       { value: '0', label: 'journal entries posted without approval' },
       { value: 'Replayable', label: 'evidence for every reconciliation' },
     ],
@@ -602,7 +602,7 @@ export const teams: Team[] = [
     },
     stack: ['Snowflake', 'Google BigQuery', 'Databricks (Workspace Level)', 'Looker', 'Metabase', 'Slack', 'Notion', 'GitHub'],
     metrics: [
-      { value: '80%', label: 'of ad-hoc requests never reach a human' },
+      { value: 'Self-serve', label: 'ad-hoc questions answered without a ticket' },
       { value: 'Every', label: 'answer ships with the query that produced it' },
       { value: 'Auto', label: 'downstream impact notification' },
     ],
@@ -688,7 +688,7 @@ export const teams: Team[] = [
     },
     stack: ['Linear', 'Jira', 'Zendesk', 'HubSpot', 'Notion', 'Gong (Oauth)', 'Productboard', 'Slack'],
     metrics: [
-      { value: '148', label: 'feedback sources read per brief' },
+      { value: 'Every source', label: 'tickets, calls, and reviews read per brief' },
       { value: 'ARR-weighted', label: 'not upvote-weighted' },
       { value: 'Continuous', label: 'gathering, not quarterly scramble' },
     ],
@@ -776,7 +776,7 @@ export const teams: Team[] = [
     metrics: [
       { value: 'Day one', label: 'access ready, nothing over-provisioned' },
       { value: 'Every grant', label: 'tied to a named approver' },
-      { value: '90%', label: 'of chasing done without a human' },
+      { value: 'Chased', label: 'follow-ups sent without anyone remembering' },
     ],
     cases: [
       {
@@ -860,7 +860,7 @@ export const teams: Team[] = [
     },
     stack: ['Stripe (API Key)', 'HubSpot', 'Quickbooks', 'Snowflake', 'Slack', 'Notion', 'Google Sheet', 'Linear'],
     metrics: [
-      { value: '4 min', label: 'from question to sourced answer' },
+      { value: 'Same thread', label: 'question in, sourced answer back' },
       { value: 'Daily', label: 'if you want it daily' },
       { value: 'Sourced', label: 'every figure links to its system' },
     ],
