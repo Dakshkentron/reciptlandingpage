@@ -59,11 +59,14 @@ blank column.
 
 ```bash
 npm install
-npm run dev        # UI only — the API routes do not run under plain Vite
-vercel dev         # UI + serverless functions, needed to actually sign in
+npm run dev        # http://localhost:5173 — serves the UI and the api/ routes
 npm run typecheck  # app and API
 npm run build
 ```
+
+`npm run dev` is enough to sign in: a dev-only plugin in `vite.config.ts` mounts
+the functions in `api/` at their real paths, so the local console talks to the
+same handlers the deploy does. (`vercel dev` also works if you have the CLI.)
 
 `RECEIPT_ORIGIN` overrides where the functions look for Receipt; it defaults to
 `https://beetle.run`. There is no shared service token anywhere in this flow — a
