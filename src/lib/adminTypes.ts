@@ -43,4 +43,10 @@ export interface AdminOverview {
   totals: AdminTotals;
   companies: AdminCompanyRow[];
   viewer: AdminViewer;
+  /**
+   * Set only by the temporary preview account. The page shows a banner when it
+   * is true, so invented figures can never be read as real customers. Real
+   * responses from Receipt never carry it.
+   */
+  preview?: boolean;
 }

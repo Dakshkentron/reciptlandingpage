@@ -7,6 +7,8 @@
  */
 
 import { clearSessionCookie, fetchReceipt, json, readSessionCookie } from '../_lib/receipt';
+// TEMPORARY — delete with api/_lib/preview.ts.
+import { isPreviewSession, previewOverview } from '../_lib/preview';
 
 export const config = { runtime: 'edge' };
 
@@ -18,6 +20,12 @@ export default async function handler(request: Request): Promise<Response> {
   const cookie = readSessionCookie(request);
   if (!cookie) {
     return json({ error: 'Not signed in.' }, 401);
+  }
+
+  // TEMPORARY — invented data for the preview account, so the page can be
+  // looked at before Receipt is deployed. Delete with api/_lib/preview.ts.
+  if (isPreviewSession(cookie)) {
+    return json(previewOverview());
   }
 
   let response: Response;

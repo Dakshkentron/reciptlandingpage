@@ -7,7 +7,16 @@
  */
 
 import { useMemo, useState } from 'react';
-import { Building2, Link2, LogOut, Radio, RefreshCw, Search, Users } from 'lucide-react';
+import {
+  AlertTriangle,
+  Building2,
+  Link2,
+  LogOut,
+  Radio,
+  RefreshCw,
+  Search,
+  Users,
+} from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import ReceiptMark from '@/components/ReceiptMark';
 import type { AdminCompanyRow, AdminOverview, AdminTotals } from '@/lib/adminTypes';
@@ -192,6 +201,19 @@ export default function AdminDashboard({ data, onSignOut, onReload, busy }: Prop
         </p>
 
         <div className="mt-8 flex flex-col gap-6">
+          {/* TEMPORARY — shown only for the preview account. Without it, invented
+              figures would be indistinguishable from real customers. */}
+          {data.preview && (
+            <p className="flex items-start gap-2 rounded-xl border border-accent-500/40 bg-accent-500/10 px-4 py-3 text-sm text-accent-200">
+              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+              <span>
+                <span className="font-semibold">Preview mode — none of this is real.</span> Every
+                company below is invented so the layout can be reviewed before Receipt is
+                deployed.
+              </span>
+            </p>
+          )}
+
           <SummaryCards totals={data.totals} />
 
           <div className="relative max-w-xs">

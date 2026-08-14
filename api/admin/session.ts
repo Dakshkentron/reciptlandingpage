@@ -18,6 +18,8 @@ import {
   json,
   setSessionCookie,
 } from '../_lib/receipt';
+// TEMPORARY — delete with api/_lib/preview.ts.
+import { PREVIEW_COOKIE_VALUE, isPreviewLogin } from '../_lib/preview';
 
 export const config = { runtime: 'edge' };
 
@@ -50,6 +52,14 @@ export default async function handler(request: Request): Promise<Response> {
     password = body.password;
   } catch {
     return json({ error: 'Malformed request.' }, 400);
+  }
+
+  // TEMPORARY — preview access, ahead of the Receipt endpoint being deployed.
+  // Delete this block with api/_lib/preview.ts.
+  if (isPreviewLogin(email, password)) {
+    return json({ ok: true, preview: true }, 200, {
+      'set-cookie': setSessionCookie(PREVIEW_COOKIE_VALUE),
+    });
   }
 
   // Refuse a wrong domain here rather than after a round trip. It also means a
