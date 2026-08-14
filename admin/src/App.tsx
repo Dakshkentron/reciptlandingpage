@@ -1,21 +1,27 @@
 /**
- * Internal admin console, at `#/admin`.
+ * Root of the internal admin console.
  *
- * Holds the sign-in state and nothing else. A 401 from the server is what tells
- * it to show the login screen — it never decides for itself whether the visitor
- * is allowed in, because a check written here would ship inside a public
- * bundle and protect nothing.
+ * This is a site of its own — separate app, separate deploy, separate domain —
+ * so nothing internal is bundled with, or reachable from, the marketing site.
+ * There is one screen behind sign-in and no router: a console for a handful of
+ * staff has no pages to navigate between.
+ *
+ * It holds the sign-in state and nothing else. A 401 from the server is what
+ * tells it to show the login screen — it never decides for itself whether the
+ * visitor is allowed in, because a check written here would ship inside a
+ * bundle anyone can download and would protect nothing.
  */
 
 import { useCallback, useEffect, useState } from 'react';
 import AdminDashboard from '@/components/AdminDashboard';
 import AdminLogin from '@/components/AdminLogin';
+import ReceiptMark from '@/components/ReceiptMark';
 import { fetchOverview, signIn, signOut } from '@/lib/adminApi';
 import type { AdminOverview } from '@/lib/adminTypes';
 
 type Status = 'loading' | 'signed-out' | 'signed-in' | 'failed';
 
-export default function AdminPage() {
+export default function App() {
   const [status, setStatus] = useState<Status>('loading');
   const [data, setData] = useState<AdminOverview | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -70,7 +76,8 @@ export default function AdminPage() {
 
   if (status === 'loading') {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-ink-950">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-ink-950">
+        <ReceiptMark className="h-8 w-8 animate-pulse text-brand-500" paperClassName="text-ink-950" />
         <p className="text-sm text-ink-400">Checking your session…</p>
       </div>
     );
@@ -79,12 +86,19 @@ export default function AdminPage() {
   if (status === 'failed') {
     return (
       <div className="flex min-h-screen items-center justify-center bg-ink-950 px-5">
-        <div className="max-w-md text-center">
-          <p className="text-sm text-red-300">{error}</p>
+        <div className="w-full max-w-md rounded-2xl border border-ink-800 bg-ink-900 p-8 text-center">
+          <ReceiptMark
+            className="mx-auto h-7 w-7 text-brand-500"
+            paperClassName="text-ink-900"
+          />
+          <h1 className="mt-5 text-base font-semibold text-white">
+            The console could not load
+          </h1>
+          <p className="mt-2 text-sm leading-relaxed text-ink-400">{error}</p>
           <button
             type="button"
             onClick={() => void load()}
-            className="mt-5 rounded-lg border border-ink-700 bg-ink-850 px-4 py-2 text-sm font-medium text-ink-200 transition-colors hover:border-ink-600 hover:text-white"
+            className="mt-6 rounded-xl border border-ink-700 bg-ink-850 px-4 py-2.5 text-sm font-medium text-ink-200 transition-colors hover:border-ink-600 hover:text-white"
           >
             Try again
           </button>

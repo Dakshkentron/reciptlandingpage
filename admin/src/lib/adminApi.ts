@@ -47,5 +47,13 @@ export async function fetchOverview(): Promise<AdminOverview | null> {
   const response = await fetch('/api/admin/stats');
   if (response.status === 401) return null;
   if (!response.ok) await failFrom(response, 'Could not load company metrics.');
-  return (await response.json()) as AdminOverview;
+
+  try {
+    return (await response.json()) as AdminOverview;
+  } catch {
+    // A 200 that is not JSON means something other than our function answered —
+    // a proxy, or a login page in front of the deploy. Surfacing the parser's
+    // own words ("Unexpected token '<'") tells nobody anything useful.
+    throw new ApiError('Received an unexpected response instead of company metrics.', 502);
+  }
 }
