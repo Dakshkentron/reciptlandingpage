@@ -25,6 +25,12 @@ function formatDate(value: string | null): string {
   return Number.isNaN(parsed.getTime()) ? 'Never' : dateFormat.format(parsed);
 }
 
+/** A first name reads as a greeting; a full name or an email reads as a label. */
+function firstName(viewer: { name: string; email: string }): string {
+  const source = viewer.name?.trim() || viewer.email;
+  return source.split(/[\s@.]/)[0] || 'there';
+}
+
 function formatTime(value: string): string {
   const parsed = new Date(value);
   return Number.isNaN(parsed.getTime())
@@ -176,10 +182,13 @@ export default function AdminDashboard({ data, onSignOut, onReload, busy }: Prop
       </header>
 
       <main className="mx-auto max-w-7xl px-5 py-10 lg:px-8">
-        <h1 className="text-2xl font-bold text-white">Companies</h1>
-        <p className="mt-2 text-sm text-ink-400">
+        <p className="text-sm font-medium text-brand-400">Hi {firstName(data.viewer)}, welcome back</p>
+        <h1 className="mt-1.5 text-3xl font-bold tracking-tight text-white">
+          Track your customers and users, live
+        </h1>
+        <p className="mt-2.5 text-sm text-ink-400">
           Every organization on Receipt, the integrations they run, and how recently they signed
-          in. Live as of {formatTime(data.generatedAt)}.
+          in — read straight from production as of {formatTime(data.generatedAt)}.
         </p>
 
         <div className="mt-8 flex flex-col gap-6">

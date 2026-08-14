@@ -29,28 +29,6 @@ async function failFrom(response: Response, fallback: string): Promise<never> {
   throw new ApiError(message, response.status);
 }
 
-export const ADMIN_EMAIL_DOMAIN = 'kentron.ai';
-
-/**
- * Earliest of three domain checks, purely so the form can say so before a
- * request is made. The two that matter run on servers — in our function, and
- * again in Receipt. This one is convenience, not protection.
- */
-export function isKentronEmail(email: string): boolean {
-  return email.trim().toLowerCase().endsWith(`@${ADMIN_EMAIL_DOMAIN}`);
-}
-
-export async function register(name: string, email: string, password: string): Promise<string> {
-  const response = await fetch('/api/admin/register', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ name, email, password }),
-  });
-  if (!response.ok) await failFrom(response, 'Could not create the account.');
-  const body = (await response.json()) as { message?: string };
-  return body.message ?? 'Account created. Check your inbox to verify it.';
-}
-
 export async function signIn(email: string, password: string): Promise<void> {
   const response = await fetch('/api/admin/session', {
     method: 'POST',
