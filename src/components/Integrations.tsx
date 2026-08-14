@@ -52,11 +52,12 @@ export default function Integrations() {
             Integrations
           </div>
           <h2 className="section-title text-white">
-            Instant integration with the whole stack
+            The systems the work actually lives in
           </h2>
           <p className="section-lead text-ink-200">
             {catalogCounts.total} connectors in the catalog, {catalogCounts.live} of them live and ready to
-            connect today. Out-of-the-box OAuth and flexible APIs make setup a breeze.
+            connect today. Authorization is an OAuth handshake or a single credential — and every action a
+            connector exposes is one you switched on.
           </p>
           <a
             href="#/integrations"

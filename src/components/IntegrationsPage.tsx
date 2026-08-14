@@ -64,15 +64,15 @@ function DirectoryCard({ item }: { item: Integration }) {
 
 const steps = [
   {
-    title: 'Connect your stack.',
+    title: 'Authorize the connector.',
     desc: 'One-click OAuth for most tools, an API key for the rest. No webhook plumbing, no middleware to maintain, no CSV exports.',
   },
   {
-    title: 'Tell Receipt what you need.',
+    title: 'Describe the outcome.',
     desc: 'Ask in plain language. Receipt works out which connected systems it needs and runs the job in an isolated sandbox.',
   },
   {
-    title: 'Receipt operates, you review.',
+    title: 'Read the receipt.',
     desc: 'Every call against every tool is written to an immutable receipt — so you can audit, replay, and prove exactly what happened.',
   },
 ];
