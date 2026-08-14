@@ -92,7 +92,7 @@ export default function TestimonialCarousel() {
                   <div className="flex items-center gap-2">
                     <Clock className={`h-4 w-4 ${featured ? 'text-brand-600' : 'text-white/70'}`} />
                     <span className={`text-xs font-medium ${featured ? 'text-ink-500' : 'text-white/70'}`}>
-                      Saved:
+                      Time back:
                     </span>
                     <span
                       className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${

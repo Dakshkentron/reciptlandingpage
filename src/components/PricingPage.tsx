@@ -111,7 +111,7 @@ const comparison: { section: string; rows: { label: string; free: Cell; team: Ce
 const faqs = [
   {
     q: 'Is there a free trial?',
-    a: 'Every new workspace starts with $100 in credits — no credit card and no sales call. That is enough for a few hundred real tasks, which is the only honest way to find out whether Receipt is useful for your team.',
+    a: 'Every new workspace starts with $100 in credits, without a card on file and without talking to anyone here first. That is enough for a few hundred real tasks, which is the only honest way to find out whether Receipt is useful for your team.',
   },
   {
     q: 'How many credits do we actually need?',
@@ -191,7 +191,7 @@ export default function PricingPage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-500">
             Receipt bills in credits, so the cost tracks what your coworker actually did — not how many
-            people you let near it. No credit card, no sales call, no per-seat maths.
+            people you let near it. Start without a card, and without a call.
           </p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
             <a href="https://beetle.run/auth/sign-up" className="btn-primary btn-lg">
