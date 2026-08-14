@@ -213,11 +213,7 @@ export const footerLinks = {
     { label: 'Security', href: '#/security' },
   ],
   'Use cases': teams.slice(0, 6).map((t) => ({ label: t.label, href: `#/use-cases/${t.slug}` })),
-  Resources: [
-    ...resourceNavChildren.map((r) => ({ label: r.label, href: r.href })),
-    // Internal console for Kentron staff, living in the app rather than here.
-    // Listing it costs nothing: it opens only for a signed-in kentron.ai
-    // account, and redirects everyone else.
-    { label: 'Admin', href: '#/admin' },
-  ],
+  // The internal console lives in its own repository and is not linked from
+  // here — staff know where it lives, and nobody else needs to.
+  Resources: resourceNavChildren.map((r) => ({ label: r.label, href: r.href })),
 };
