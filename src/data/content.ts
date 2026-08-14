@@ -218,6 +218,6 @@ export const footerLinks = {
     // Internal console for Kentron staff, living in the app rather than here.
     // Listing it costs nothing: it opens only for a signed-in kentron.ai
     // account, and redirects everyone else.
-    { label: 'Admin', href: 'https://beetle.run/admin' },
+    { label: 'Admin', href: '#/admin' },
   ],
 };

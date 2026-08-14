@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Showcase from '@/components/Showcase';
@@ -19,6 +19,10 @@ import UseCasesPage from '@/components/UseCasesPage';
 import UseCaseDetailPage from '@/components/UseCaseDetailPage';
 import ResourcePage from '@/components/ResourcePage';
 import UseCasesTeaser from '@/components/UseCasesTeaser';
+
+// Split out of the main bundle: the admin console is for a handful of staff,
+// and no visitor to the marketing site should pay to download it.
+const AdminPage = lazy(() => import('@/components/AdminPage'));
 import { DOCS_URL, resourcePages, type ResourceKind } from '@/data/resources';
 import { applyRouteMeta } from '@/lib/pageMeta';
 
@@ -48,6 +52,7 @@ function getRoute() {
 
   if (hash === '/pricing') return { name: 'pricing', slug: '' };
   if (hash === '/security') return { name: 'security', slug: '' };
+  if (hash === '/admin') return { name: 'admin', slug: '' };
   return { name: 'home', slug: '' };
 }
 
@@ -77,6 +82,22 @@ function App() {
   const goHome = () => {
     window.location.hash = '';
   };
+
+  // The admin console is an internal tool, not part of the marketing site, so
+  // it renders on its own without the site chrome around it.
+  if (route.name === 'admin') {
+    return (
+      <Suspense
+        fallback={(
+          <div className="flex min-h-screen items-center justify-center bg-ink-950">
+            <p className="text-sm text-ink-400">Loading…</p>
+          </div>
+        )}
+      >
+        <AdminPage />
+      </Suspense>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">

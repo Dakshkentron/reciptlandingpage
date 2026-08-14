@@ -161,6 +161,9 @@ ${p.sections
 const robots = `# Crawling and AI agents are both welcome here.
 User-agent: *
 Allow: /
+# Internal endpoints. They require a signed-in Kentron session regardless; this
+# just keeps them out of crawl budgets and search results.
+Disallow: /api/
 
 # Named explicitly so there is no ambiguity for AI crawlers.
 User-agent: GPTBot
