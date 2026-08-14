@@ -11,9 +11,11 @@
  */
 
 import {
+  ADMIN_EMAIL_DOMAIN,
   clearSessionCookie,
   extractSessionCookies,
   fetchReceipt,
+  isKentronEmail,
   json,
   setSessionCookie,
 } from '../_lib/receipt';
@@ -40,6 +42,13 @@ export default async function handler(request: Request): Promise<Response> {
     password = body.password;
   } catch {
     return json({ error: 'Malformed request.' }, 400);
+  }
+
+  // Refuse a wrong domain here rather than after a round trip. It also means a
+  // stranger's password is never forwarded anywhere. Receipt checks again
+  // regardless and stays the authority.
+  if (!isKentronEmail(email)) {
+    return json({ error: `The admin console is limited to @${ADMIN_EMAIL_DOMAIN} accounts.` }, 403);
   }
 
   let signIn: Response;

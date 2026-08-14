@@ -19,6 +19,23 @@ export const RECEIPT_ORIGIN = (process.env.RECEIPT_ORIGIN?.trim() || 'https://be
   '',
 )
 
+/** Only work accounts on this domain may use the admin console. */
+export const ADMIN_EMAIL_DOMAIN = 'kentron.ai'
+
+/**
+ * First of two domain checks.
+ *
+ * Receipt checks again on every request and remains the authority — this one
+ * exists so a wrong address is refused here in milliseconds instead of after a
+ * round trip, and so a stranger's password is never forwarded anywhere. Both
+ * checks run on a server; neither is the browser being trusted.
+ *
+ * Deleting this would not open a hole. Deleting the one in Receipt would.
+ */
+export function isKentronEmail(email: string): boolean {
+  return email.trim().toLowerCase().endsWith(`@${ADMIN_EMAIL_DOMAIN}`)
+}
+
 /** Holds the Receipt session cookie; opaque to the browser. */
 const COOKIE_NAME = 'receipt_admin_session'
 const SESSION_MAX_AGE = 8 * 60 * 60
