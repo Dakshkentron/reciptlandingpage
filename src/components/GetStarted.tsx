@@ -125,18 +125,18 @@ function ReviewVisual() {
 
 const steps = [
   {
-    title: 'Connect your stack',
-    body: `${catalogCounts.live} connectors are live today and ${catalogCounts.total.toLocaleString()} are in the catalog. Most authorize with one-click OAuth, the rest with an API credential — no webhook plumbing and no glue scripts to maintain.`,
+    title: 'Authorize what it may touch',
+    body: `${catalogCounts.live} connectors are live today, with ${catalogCounts.total.toLocaleString()} in the catalog behind them. Each one arrives with an explicit list of actions, and you decide which of them Receipt is allowed to use. Nothing to host, nothing to keep patched.`,
     visual: <ConnectVisual />,
   },
   {
-    title: 'Tell Receipt what you need',
-    body: 'Message Receipt in Slack the way you would message a teammate. Plain sentences, no workflow to draw first, no prompt engineering to learn.',
+    title: 'Say what you want done',
+    body: 'Post the objective in a Slack thread, in ordinary sentences. There is no builder to open, no trigger to wire up, and no prompt format to learn — the sentence you would send a colleague is the input.',
     visual: <AskVisual />,
   },
   {
-    title: 'Receipt works, you review',
-    body: 'Receipt runs the task in an isolated sandbox, confirms what changed, and chains every call into a receipt you can replay. You stop doing the work and start reviewing completed work.',
+    title: 'Read the result and its record',
+    body: 'The job runs in an isolated sandbox and comes back with what changed and the sealed chain behind it. What lands on you is a finished piece of work and the evidence for it, rather than the work itself.',
     visual: <ReviewVisual />,
   },
 ];

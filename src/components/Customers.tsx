@@ -46,7 +46,7 @@ export default function Customers() {
 
           <div className="relative">
             <div className="mb-10 text-center">
-              <h3 className="section-title text-white">What our customers say.</h3>
+              <h3 className="section-title text-white">What it changed for them.</h3>
             </div>
 
             <TestimonialCarousel />
