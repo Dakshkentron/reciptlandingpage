@@ -4,6 +4,10 @@ import { navLinks } from '@/data/content';
 import { iconMap } from '@/components/icons';
 import ReceiptMark from '@/components/ReceiptMark';
 
+// The header sends visitors to a booked conversation rather than a self-serve
+// account, so it carries no sign-in or sign-up link.
+const DEMO_URL = 'https://meetings-na2.hubspot.com/snagpal';
+
 /**
  * Floating header. The nav is a rounded card sitting over the page rather than a
  * full-bleed bar attached to the viewport — so the hero's gradient runs behind it
@@ -126,16 +130,12 @@ export default function Header() {
 
           <div className="hidden items-center gap-2 lg:flex">
             <a
-              href="https://beetle.run/auth/sign-in"
-              className="rounded-full border border-ink-200 px-5 py-2.5 text-[15px] font-semibold text-ink-900 transition-colors hover:border-ink-300 hover:bg-ink-50"
-            >
-              Sign in
-            </a>
-            <a
-              href="https://beetle.run/auth/sign-up"
+              href={DEMO_URL}
+              target="_blank"
+              rel="noreferrer"
               className="rounded-full bg-ink-950 px-5 py-2.5 text-[15px] font-semibold text-white transition-all duration-200 hover:bg-ink-800 hover:shadow-lg active:scale-[0.98]"
             >
-              Get started for free
+              Schedule Demo
             </a>
           </div>
 
@@ -185,11 +185,14 @@ export default function Header() {
               )
             )}
             <div className="mt-3 flex gap-2 border-t border-ink-100 pt-4">
-              <a href="https://beetle.run/auth/sign-in" className="btn-secondary flex-1">
-                Sign in
-              </a>
-              <a href="https://beetle.run/auth/sign-up" className="btn-primary flex-1">
-                Get started
+              <a
+                href={DEMO_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-primary flex-1"
+                onClick={() => setMobileOpen(false)}
+              >
+                Schedule Demo
               </a>
             </div>
           </div>
