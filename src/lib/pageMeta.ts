@@ -61,6 +61,11 @@ function metaFor(name: string, slug: string): Meta {
         description:
           'Sandbox isolation, org-level policy gates, and an immutable receipt chain you can verify without trusting our infrastructure.',
       };
+    case 'admin':
+      return {
+        title: `Admin — ${SITE_NAME}`,
+        description: 'Internal console for Kentron staff.',
+      };
     case 'resource': {
       const page = resourcePages[slug as ResourceKind];
       if (!page) break;
@@ -68,6 +73,24 @@ function metaFor(name: string, slug: string): Meta {
     }
   }
   return HOME;
+}
+
+/**
+ * Keeps the internal admin route out of search results.
+ *
+ * Hash fragments never reach a crawler as a distinct URL, so robots.txt cannot
+ * express this — the router has to write the tag, and remove it again on the
+ * way out so it never leaks onto a marketing page.
+ */
+function setRobots(indexable: boolean) {
+  const existing = document.head.querySelector('meta[name="robots"]');
+  if (indexable) {
+    existing?.remove();
+    return;
+  }
+  const el = existing ?? document.head.appendChild(document.createElement('meta'));
+  el.setAttribute('name', 'robots');
+  el.setAttribute('content', 'noindex, nofollow');
 }
 
 function setTag(selector: string, attr: string, value: string) {
@@ -78,6 +101,8 @@ function setTag(selector: string, attr: string, value: string) {
 export function applyRouteMeta(name: string, slug: string) {
   const { title, description } = metaFor(name, slug);
   const canonical = `${window.location.origin}${window.location.pathname}${window.location.hash}`;
+
+  setRobots(name !== 'admin');
 
   document.title = title;
   setTag('meta[name="description"]', 'content', description);
