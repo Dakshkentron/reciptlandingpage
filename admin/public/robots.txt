@@ -1,3 +1,0 @@
-# Internal console. Nothing here is for the public web.
-User-agent: *
-Disallow: /

@@ -213,7 +213,7 @@ export const footerLinks = {
     { label: 'Security', href: '#/security' },
   ],
   'Use cases': teams.slice(0, 6).map((t) => ({ label: t.label, href: `#/use-cases/${t.slug}` })),
-  // The internal console is a separate site now (see `admin/`), and is not
-  // linked from here — staff know where it lives, and nobody else needs to.
+  // The internal console lives in its own repository and is not linked from
+  // here — staff know where it lives, and nobody else needs to.
   Resources: resourceNavChildren.map((r) => ({ label: r.label, href: r.href })),
 };
