@@ -10,7 +10,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import AdminDashboard from '@/components/AdminDashboard';
 import AdminLogin from '@/components/AdminLogin';
-import { fetchOverview, register, signIn, signOut } from '@/lib/adminApi';
+import { fetchOverview, signIn, signOut } from '@/lib/adminApi';
 import type { AdminOverview } from '@/lib/adminTypes';
 
 type Status = 'loading' | 'signed-out' | 'signed-in' | 'failed';
@@ -19,7 +19,6 @@ export default function AdminPage() {
   const [status, setStatus] = useState<Status>('loading');
   const [data, setData] = useState<AdminOverview | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   const load = useCallback(async () => {
@@ -62,29 +61,10 @@ export default function AdminPage() {
     [load],
   );
 
-  const handleRegister = useCallback(
-    async (name: string, email: string, password: string) => {
-      setBusy(true);
-      setError(null);
-      setNotice(null);
-      try {
-        // No session comes back: the address is unverified until the emailed
-        // code is used, so the next step is the inbox, not the dashboard.
-        setNotice(await register(name, email, password));
-      } catch (cause) {
-        setError(cause instanceof Error ? cause.message : 'Could not create the account.');
-      } finally {
-        setBusy(false);
-      }
-    },
-    [],
-  );
-
   const handleSignOut = useCallback(async () => {
     await signOut();
     setData(null);
     setError(null);
-    setNotice(null);
     setStatus('signed-out');
   }, []);
 
@@ -127,9 +107,7 @@ export default function AdminPage() {
   return (
     <AdminLogin
       onSignIn={(email, password) => void handleSignIn(email, password)}
-      onRegister={(name, email, password) => void handleRegister(name, email, password)}
       error={error}
-      notice={notice}
       busy={busy}
     />
   );

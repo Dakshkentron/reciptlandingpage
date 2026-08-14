@@ -11,7 +11,6 @@
  */
 
 import {
-  ADMIN_EMAIL_DOMAIN,
   clearSessionCookie,
   extractSessionCookies,
   fetchReceipt,
@@ -21,6 +20,15 @@ import {
 } from '../_lib/receipt';
 
 export const config = { runtime: 'edge' };
+
+/**
+ * One wording for every refusal at sign-in.
+ *
+ * Wrong password, wrong domain, and no such account all answer identically, so
+ * the form cannot be used to discover which addresses exist or which domain is
+ * accepted.
+ */
+const SIGN_IN_REFUSED = 'That email and password did not match.';
 
 export default async function handler(request: Request): Promise<Response> {
   if (request.method === 'DELETE') {
@@ -47,8 +55,12 @@ export default async function handler(request: Request): Promise<Response> {
   // Refuse a wrong domain here rather than after a round trip. It also means a
   // stranger's password is never forwarded anywhere. Receipt checks again
   // regardless and stays the authority.
+  //
+  // The reply is deliberately the same one a wrong password gets. Answering
+  // "only @kentron.ai may sign in" would tell someone probing this form exactly
+  // what to try next, and the page says nothing about the rule either.
   if (!isKentronEmail(email)) {
-    return json({ error: `The admin console is limited to @${ADMIN_EMAIL_DOMAIN} accounts.` }, 403);
+    return json({ error: SIGN_IN_REFUSED }, 401);
   }
 
   let signIn: Response;
@@ -65,7 +77,7 @@ export default async function handler(request: Request): Promise<Response> {
   if (!signIn.ok) {
     // Receipt's own wording is more accurate than anything invented here, but
     // fall back so a failure never surfaces as a blank message.
-    let message = 'That email and password did not match.';
+    let message = SIGN_IN_REFUSED;
     try {
       const body = (await signIn.json()) as { message?: string };
       if (body.message) message = body.message;
