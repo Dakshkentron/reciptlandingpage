@@ -88,6 +88,69 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* ------------------------------------------------------------------ *
+   *  The internal console (#/admin)
+   *
+   *  The console used to be a separate site with its own index.css, and its
+   *  components are copied across verbatim so changes can keep flowing from
+   *  that repo. But it uses three utility names this site already defines with
+   *  different values, and neither side can simply adopt the other's:
+   *
+   *    fade-up   the console staggers it with inline delays and needs `both`,
+   *              or an element sits visible until its turn and then blinks
+   *              back to the start. It is also shorter and shallower than the
+   *              site's, which is tuned for full-width marketing sections.
+   *    bg-grid   fainter, over a darker ground.
+   *    mask-fade-b  fades from 40%, not 60%.
+   *
+   *  So they are overridden for the console's subtree only. `AdminConsole` puts
+   *  the `console` class on <html> while it is mounted and takes it off again.
+   * ------------------------------------------------------------------ */
+  .console .animate-fade-up {
+    animation: consoleFadeUp 0.4s ease-out both;
+  }
+
+  .console .animate-fade-in {
+    animation: consoleFadeIn 0.4s ease-out both;
+  }
+
+  .console .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .console .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent);
+    mask-image: linear-gradient(to bottom, black 40%, transparent);
+  }
+
+  .console ::selection {
+    background-color: rgba(22, 168, 106, 0.25);
+    color: #eefcf5;
+  }
+}
+
+@keyframes consoleFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes consoleFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @layer components {
