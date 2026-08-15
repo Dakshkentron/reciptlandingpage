@@ -2,7 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "headers": [
     {
-      "comment": "The admin console's endpoints. Carried over from the console's own vercel.json — production numbers must not be cached by the CDN, a corporate proxy, or the browser, and nothing under /api is worth indexing. The console itself is a hash route, so no path-based rule can reach it; its noindex is set on the page instead.",
       "source": "/api/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "no-store, max-age=0" },
