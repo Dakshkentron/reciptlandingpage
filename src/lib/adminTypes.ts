@@ -5,9 +5,13 @@
  * field, so drift between the two surfaces here as a type error rather than a
  * blank column.
  *
- * The upstream query is aggregate-only by design: no email addresses, no
- * message or chat content, no connection secrets, no tokens. Do not widen these
- * types to carry any of that.
+ * The upstream query stays aggregate for everything except the prompt feed: no
+ * email addresses, no assistant replies, no connection secrets, no tokens. Do
+ * not widen these types to carry any of that.
+ *
+ * `AdminPromptRow` is the deliberate exception — it carries the text people type
+ * into Receipt, truncated upstream. It exists because the console is meant to
+ * answer "what are customers actually asking for", which counts alone cannot.
  */
 
 export interface AdminCompanyRow {
@@ -22,6 +26,23 @@ export interface AdminCompanyRow {
   lastLoginAt: string | null;
   /** Sessions that have not expired — not a count of who is online right now. */
   activeSessions: number;
+  /** User-typed prompts, all time. Assistant replies are not counted. */
+  prompts: number;
+  /** The same count over the last seven days, which is what "still active" means. */
+  promptsLast7Days: number;
+  lastPromptAt: string | null;
+}
+
+/** One prompt somebody typed. Carries no user id and no email, by design. */
+export interface AdminPromptRow {
+  messageId: string;
+  organizationId: string;
+  organizationName: string;
+  /** Already truncated by Receipt; `truncated` says whether that happened. */
+  text: string;
+  truncated: boolean;
+  createdAt: string | null;
+  model: string | null;
 }
 
 export interface AdminTotals {
@@ -29,6 +50,8 @@ export interface AdminTotals {
   members: number;
   integrations: number;
   activeSessions: number;
+  prompts: number;
+  promptsLast7Days: number;
 }
 
 export interface AdminViewer {
@@ -42,11 +65,6 @@ export interface AdminOverview {
   generatedAt: string;
   totals: AdminTotals;
   companies: AdminCompanyRow[];
+  recentPrompts: AdminPromptRow[];
   viewer: AdminViewer;
-  /**
-   * Set only by the temporary preview account. The header shows a "Demo data"
-   * badge when it is true, so invented figures can never be read as real
-   * customers. Real responses from Receipt never carry it.
-   */
-  preview?: boolean;
 }

@@ -16,7 +16,7 @@
  * The adaptation is all here: the two imports, and `useConsoleDocument`.
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import AdminDashboard from '@/components/admin/AdminDashboard';
 import ReceiptMark from '@/components/ReceiptMark';
 import SignInDialog from '@/components/admin/SignInDialog';
@@ -60,17 +60,45 @@ function useConsoleDocument() {
   }, []);
 }
 
+/**
+ * How often the page re-asks Receipt for the numbers.
+ *
+ * Half a minute is frequent enough that the page can honestly say it is live,
+ * and slow enough that a console left open on a wall display is not hammering a
+ * production query all day. Polling only runs while the tab is actually visible.
+ */
+const REFRESH_INTERVAL_MS = 30_000;
+
 export default function AdminConsole() {
   const [status, setStatus] = useState<Status>('loading');
   const [data, setData] = useState<AdminOverview | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+  /** Set while a background refresh is in flight, to drive the "live" dot. */
+  const [refreshing, setRefreshing] = useState(false);
 
   useConsoleDocument();
 
-  const load = useCallback(async () => {
-    setBusy(true);
+  // Read inside the interval callback so it never closes over a stale value and
+  // starts polling while signed out.
+  const statusRef = useRef(status);
+  statusRef.current = status;
+
+  /**
+   * `silent` is what separates a background poll from a click.
+   *
+   * A poll must not blank the table, spin the button, or throw the page into
+   * its error state: the numbers on screen are still the last good ones, and a
+   * single failed request in the background is not worth replacing them with an
+   * error card. It records the failure quietly and tries again on the next tick.
+   * An expired session is the one exception — that has to surface, or the page
+   * would keep showing figures the viewer is no longer entitled to.
+   */
+  const load = useCallback(async (silent = false) => {
+    if (silent) setRefreshing(true);
+    else setBusy(true);
+
     try {
       const overview = await fetchOverview();
       if (overview) {
@@ -83,16 +111,69 @@ export default function AdminConsole() {
       }
       setError(null);
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Something went wrong.');
-      setStatus('failed');
+      const message = cause instanceof Error ? cause.message : 'Something went wrong.';
+      if (silent) {
+        // Keep the last good numbers on screen; the header shows how old they are.
+        setError(message);
+      } else {
+        setError(message);
+        setStatus('failed');
+      }
     } finally {
-      setBusy(false);
+      if (silent) setRefreshing(false);
+      else setBusy(false);
     }
   }, []);
 
   useEffect(() => {
     void load();
   }, [load]);
+
+  /**
+   * Background refresh, paused while the tab is hidden.
+   *
+   * A backgrounded tab that keeps polling costs a production query every thirty
+   * seconds for nobody's benefit, and browsers throttle the timer unevenly
+   * anyway. Coming back to the tab refreshes immediately rather than waiting out
+   * the remainder of an interval, so the first thing a returning viewer sees is
+   * current.
+   */
+  useEffect(() => {
+    if (status !== 'signed-in') return;
+
+    let timer: number | undefined;
+
+    const stop = () => {
+      if (timer !== undefined) {
+        window.clearInterval(timer);
+        timer = undefined;
+      }
+    };
+
+    const start = () => {
+      stop();
+      timer = window.setInterval(() => {
+        if (statusRef.current === 'signed-in') void load(true);
+      }, REFRESH_INTERVAL_MS);
+    };
+
+    const onVisibility = () => {
+      if (document.hidden) {
+        stop();
+      } else {
+        void load(true);
+        start();
+      }
+    };
+
+    if (!document.hidden) start();
+    document.addEventListener('visibilitychange', onVisibility);
+
+    return () => {
+      stop();
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [status, load]);
 
   const openDialog = useCallback(() => {
     setError(null);
@@ -157,6 +238,10 @@ export default function AdminConsole() {
         onSignOut={() => void handleSignOut()}
         onReload={() => void load()}
         busy={busy}
+        refreshing={refreshing}
+        // A background failure, if there is one. The table keeps showing the
+        // last good numbers underneath it.
+        staleError={error}
       />
     );
   }
