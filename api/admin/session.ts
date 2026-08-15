@@ -19,10 +19,10 @@ import {
   isKentronEmail,
   json,
   setSessionCookie,
-} from '../_lib/receipt';
+} from '../_lib/receipt.js';
 // TEMPORARY — delete with api/_lib/demo.ts. Inert unless ADMIN_DEMO_EMAIL and
 // ADMIN_DEMO_PASSWORD are both set in the environment.
-import { demoCookieValue, isDemoLogin } from '../_lib/demo';
+import { demoCookieValue, isDemoLogin } from '../_lib/demo.js';
 
 export const config = { runtime: 'edge' };
 
