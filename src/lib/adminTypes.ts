@@ -67,4 +67,10 @@ export interface AdminOverview {
   companies: AdminCompanyRow[];
   recentPrompts: AdminPromptRow[];
   viewer: AdminViewer;
+  /**
+   * Set only by the temporary demo account. The header shows a "Demo data"
+   * badge when it is true, so invented figures can never be read as real
+   * customers. Real responses from Receipt never carry it.
+   */
+  demo?: boolean;
 }

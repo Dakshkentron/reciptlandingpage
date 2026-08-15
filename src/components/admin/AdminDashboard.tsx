@@ -20,8 +20,10 @@ import { useMemo, useState } from 'react';
 import {
   AlertTriangle,
   ArrowDown,
+  ArrowLeft,
   ArrowUp,
   Building2,
+  ChevronRight,
   Link2,
   LogOut,
   MessageSquareText,
@@ -277,13 +279,22 @@ function SortableHeader({
 /** Beyond this the chips wrap into a block that dwarfs every other cell. */
 const VISIBLE_PROVIDERS = 4;
 
-function CompanyRow({ company }: { company: AdminCompanyRow }) {
+function CompanyRow({
+  company,
+  onOpen,
+}: {
+  company: AdminCompanyRow;
+  onOpen: (company: AdminCompanyRow) => void;
+}) {
   const expired = Math.max(0, company.integrationsTotal - company.integrationsValid);
   const shown = company.providers.slice(0, VISIBLE_PROVIDERS);
   const hidden = company.providers.length - shown.length;
 
   return (
-    <tr className="border-t border-ink-800 transition-colors hover:bg-ink-900/60">
+    <tr
+      onClick={() => onOpen(company)}
+      className="cursor-pointer border-t border-ink-800 transition-colors hover:bg-ink-900/60"
+    >
       <td className="px-5 py-4">
         <div className="flex items-center gap-3">
           <span
@@ -293,7 +304,19 @@ function CompanyRow({ company }: { company: AdminCompanyRow }) {
             {initials(company.name)}
           </span>
           <div className="min-w-0">
-            <div className="truncate font-medium text-ink-100">{company.name}</div>
+            {/* A real button, so the report is reachable by keyboard and
+                announced as actionable. The row click is a convenience on top
+                of it, not the only way in. */}
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                onOpen(company);
+              }}
+              className="block max-w-full truncate text-left font-medium text-ink-100 transition-colors hover:text-white focus:outline-none focus-visible:underline"
+            >
+              {company.name}
+            </button>
             {company.slug && (
               <div className="truncate font-mono text-[11px] text-ink-500">{company.slug}</div>
             )}
@@ -373,14 +396,17 @@ function CompanyRow({ company }: { company: AdminCompanyRow }) {
       </td>
 
       <td className="px-5 py-4 text-right">
-        {company.activeSessions > 0 ? (
-          <span className="inline-flex items-center gap-1.5 font-mono tabular-nums text-ink-200">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand-500" aria-hidden="true" />
-            {numberFormat.format(company.activeSessions)}
-          </span>
-        ) : (
-          <span className="font-mono tabular-nums text-ink-600">0</span>
-        )}
+        <div className="flex items-center justify-end gap-3">
+          {company.activeSessions > 0 ? (
+            <span className="inline-flex items-center gap-1.5 font-mono tabular-nums text-ink-200">
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-500" aria-hidden="true" />
+              {numberFormat.format(company.activeSessions)}
+            </span>
+          ) : (
+            <span className="font-mono tabular-nums text-ink-600">0</span>
+          )}
+          <ChevronRight className="h-4 w-4 shrink-0 text-ink-600" aria-hidden="true" />
+        </div>
       </td>
     </tr>
   );
@@ -460,6 +486,216 @@ function PromptFeed({ prompts, filtered }: { prompts: AdminPromptRow[]; filtered
   );
 }
 
+/** One labelled figure in the company report. */
+function DetailStat({ label, value, hint }: { label: string; value: string; hint?: string }) {
+  return (
+    <div className="rounded-xl border border-ink-800 bg-ink-900 p-4">
+      <div className="text-[11px] font-medium uppercase tracking-wider text-ink-400">{label}</div>
+      <div className="mt-2 font-mono text-2xl font-bold tabular-nums leading-none text-white">
+        {value}
+      </div>
+      {hint && <div className="mt-1.5 text-[11px] text-ink-500">{hint}</div>}
+    </div>
+  );
+}
+
+/**
+ * Everything known about one company, on its own screen.
+ *
+ * The table answers "who are our customers and which need attention"; this
+ * answers "tell me about this one". Splitting them is what keeps the table
+ * readable as the customer list grows — the alternative is a row that has to
+ * carry every fact, which stops fitting on a screen at about eight columns.
+ *
+ * The integrations list matters most here. The table shows the first four and
+ * counts the rest, which is fine for scanning but means a company's actual
+ * stack is never fully visible anywhere. Here every provider is listed, and
+ * lapsed connections are called out rather than folded into a total.
+ */
+function CompanyDetail({
+  company,
+  prompts,
+  onBack,
+}: {
+  company: AdminCompanyRow;
+  prompts: AdminPromptRow[];
+  onBack: () => void;
+}) {
+  const expired = Math.max(0, company.integrationsTotal - company.integrationsValid);
+
+  return (
+    <div className="flex animate-fade-up flex-col gap-6">
+      <button
+        type="button"
+        onClick={onBack}
+        className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-ink-700 bg-ink-850 px-3 py-1.5 text-xs font-medium text-ink-200 transition-colors hover:border-ink-600 hover:text-white"
+      >
+        <ArrowLeft className="h-3.5 w-3.5" />
+        All companies
+      </button>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <span
+          className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-ink-800 bg-ink-900 font-mono text-sm font-semibold text-brand-400"
+          aria-hidden="true"
+        >
+          {initials(company.name)}
+        </span>
+        <div className="min-w-0">
+          <h2 className="text-2xl font-bold tracking-tight text-white">{company.name}</h2>
+          <div className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-ink-500">
+            {company.slug && <span className="font-mono">{company.slug}</span>}
+            <span aria-hidden="true">·</span>
+            <span>Joined {formatDate(company.createdAt)}</span>
+            <span aria-hidden="true">·</span>
+            <span className="font-mono text-ink-600">{company.organizationId}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <DetailStat
+          label="Members"
+          value={numberFormat.format(company.members)}
+          hint="People in this company"
+        />
+        <DetailStat
+          label="Integrations"
+          value={numberFormat.format(company.integrationsTotal)}
+          hint={
+            company.integrationsTotal === 0
+              ? 'None connected'
+              : `${numberFormat.format(company.integrationsValid)} working${
+                  expired > 0 ? `, ${numberFormat.format(expired)} lapsed` : ''
+                }`
+          }
+        />
+        <DetailStat
+          label="Prompts · 7 days"
+          value={numberFormat.format(company.promptsLast7Days)}
+          hint={`${numberFormat.format(company.prompts)} all time`}
+        />
+        <DetailStat
+          label="Active sessions"
+          value={numberFormat.format(company.activeSessions)}
+          hint="Sessions not yet expired"
+        />
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="rounded-xl border border-ink-800 bg-ink-900 p-4">
+          <div className="text-[11px] font-medium uppercase tracking-wider text-ink-400">
+            Last login
+          </div>
+          <div className="mt-2 text-sm text-ink-200">{relativeDays(company.lastLoginAt)}</div>
+          {company.lastLoginAt && (
+            <div className="mt-1 text-[11px] text-ink-500">{formatDate(company.lastLoginAt)}</div>
+          )}
+        </div>
+        <div className="rounded-xl border border-ink-800 bg-ink-900 p-4">
+          <div className="text-[11px] font-medium uppercase tracking-wider text-ink-400">
+            Last prompt
+          </div>
+          <div className="mt-2 text-sm text-ink-200">{relativeDays(company.lastPromptAt)}</div>
+          {company.lastPromptAt && (
+            <div className="mt-1 text-[11px] text-ink-500">{formatDate(company.lastPromptAt)}</div>
+          )}
+        </div>
+      </div>
+
+      <section className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <h3 className="text-base font-semibold text-white">Integrations</h3>
+          <p className="text-xs text-ink-500">
+            {company.integrationsTotal === 0
+              ? 'None connected'
+              : `${numberFormat.format(company.providers.length)} ${
+                  company.providers.length === 1 ? 'provider' : 'providers'
+                } across ${numberFormat.format(company.integrationsTotal)} ${
+                  company.integrationsTotal === 1 ? 'connection' : 'connections'
+                }`}
+          </p>
+        </div>
+
+        {expired > 0 && (
+          <span className="flex w-fit items-center gap-1.5 rounded-full border border-accent-500/30 bg-accent-500/10 px-3 py-1 text-xs text-accent-200">
+            <AlertTriangle className="h-3.5 w-3.5" />
+            {numberFormat.format(expired)}{' '}
+            {expired === 1 ? 'connection needs' : 'connections need'} reconnecting
+          </span>
+        )}
+
+        {company.providers.length === 0 ? (
+          <div className="rounded-xl border border-ink-800 bg-ink-950/40 px-5 py-10 text-center">
+            <Link2 className="mx-auto h-5 w-5 text-ink-700" aria-hidden="true" />
+            <p className="mt-2.5 text-sm text-ink-400">
+              This company has not connected anything yet.
+            </p>
+          </div>
+        ) : (
+          // Every provider, not the first four — this is the one place the full
+          // stack is visible.
+          <div className="flex flex-wrap gap-2">
+            {company.providers.map((provider) => (
+              <span
+                key={provider}
+                className="inline-flex items-center gap-2 rounded-lg border border-ink-700 bg-ink-850 px-3 py-1.5 text-sm text-ink-200"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-500" aria-hidden="true" />
+                {provider}
+              </span>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <h3 className="text-base font-semibold text-white">Prompts from this company</h3>
+          <p className="text-xs text-ink-500">
+            {prompts.length === 0
+              ? 'None in the recent sample'
+              : `${numberFormat.format(prompts.length)} in the recent sample`}
+          </p>
+        </div>
+
+        {prompts.length === 0 ? (
+          <div className="rounded-xl border border-ink-800 bg-ink-950/40 px-5 py-10 text-center">
+            <MessageSquareText className="mx-auto h-5 w-5 text-ink-700" aria-hidden="true" />
+            <p className="mt-2.5 text-sm text-ink-400">
+              {company.prompts > 0
+                ? `This company has sent ${numberFormat.format(company.prompts)} prompts, but none are in the most recent sample.`
+                : 'This company has not sent any prompts yet.'}
+            </p>
+          </div>
+        ) : (
+          <ul className="flex flex-col gap-2.5">
+            {prompts.map((prompt) => (
+              <li
+                key={prompt.messageId}
+                className="rounded-xl border border-ink-800 bg-ink-900/60 p-4"
+              >
+                <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                  <span className="text-xs text-ink-500">{relativeTime(prompt.createdAt)}</span>
+                  {prompt.model && (
+                    <span className="ml-auto rounded-full border border-ink-800 bg-ink-950 px-2 py-0.5 font-mono text-[10px] text-ink-400">
+                      {prompt.model}
+                    </span>
+                  )}
+                </div>
+                <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-relaxed text-ink-300">
+                  {prompt.text}
+                  {prompt.truncated && <span className="text-ink-600">… </span>}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    </div>
+  );
+}
+
 interface Props {
   data: AdminOverview;
   onSignOut: () => void;
@@ -483,6 +719,15 @@ export default function AdminDashboard({
   // Newest company first: the default question this page gets asked is "who
   // signed up recently".
   const [sort, setSort] = useState<SortState>({ key: 'createdAt', ascending: false });
+  /**
+   * Which company's report is open, held as an id rather than the row itself.
+   *
+   * The row object is replaced wholesale every thirty seconds by the background
+   * refresh. Holding the old one would freeze the report on figures from
+   * whenever it was opened; looking it up by id each render means an open
+   * report keeps updating like everything else.
+   */
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const onSort = (key: SortKey) => {
     setSort((prev) =>
@@ -539,6 +784,24 @@ export default function AdminDashboard({
     );
   }, [data.recentPrompts, query]);
 
+  /**
+   * Resolved fresh from the latest data each render. Falls back to null if the
+   * company disappeared between refreshes, which sends the page back to the
+   * list rather than rendering a report about nothing.
+   */
+  const selected = useMemo(
+    () => data.companies.find((company) => company.organizationId === selectedId) ?? null,
+    [data.companies, selectedId],
+  );
+
+  const selectedPrompts = useMemo(
+    () =>
+      selected
+        ? data.recentPrompts.filter((prompt) => prompt.organizationId === selected.organizationId)
+        : [],
+    [data.recentPrompts, selected],
+  );
+
   /** Companies with a lapsed connection — the one number worth acting on today. */
   const needAttention = useMemo(
     () =>
@@ -569,6 +832,15 @@ export default function AdminDashboard({
               <ShieldCheck className="h-3 w-3 text-brand-400" />
               Internal
             </span>
+            {/* TEMPORARY — the one place the demo announces itself, so the rest
+                of the page can show what real data will look like. Present for
+                exactly as long as api/_lib/demo.ts is. */}
+            {data.demo && (
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-accent-500/40 bg-accent-500/10 px-2.5 py-0.5 text-[11px] font-medium text-accent-200">
+                <AlertTriangle className="h-3 w-3" />
+                Demo data
+              </span>
+            )}
           </div>
 
           <div className="ml-auto flex items-center gap-2.5">
@@ -607,7 +879,11 @@ export default function AdminDashboard({
               />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand-500" />
             </span>
-            Live from production · as of {formatTime(data.generatedAt)}
+            {/* Saying "live from production" over invented figures is exactly
+                the confusion the demo badge exists to prevent, so the pill
+                changes too rather than relying on the badge alone. */}
+            {data.demo ? 'Sample data · not production' : 'Live from production'} · as of{' '}
+            {formatTime(data.generatedAt)}
           </span>
 
           <p className="mt-6 text-sm font-medium text-brand-400">
@@ -617,9 +893,9 @@ export default function AdminDashboard({
             Track your customers and users, live
           </h1>
           <p className="mt-2.5 max-w-2xl text-sm leading-relaxed text-ink-400">
-            Every organization on Receipt, the integrations they run, how recently they signed in,
-            and what they are asking Receipt to do — read straight from production and refreshed
-            every half minute.
+            {data.demo
+              ? 'Invented companies, shown so the console can be reviewed before real numbers flow through it. Nothing on this screen is a real customer.'
+              : 'Every organization on Receipt, the integrations they run, how recently they signed in, and what they are asking Receipt to do — read straight from production and refreshed every half minute.'}
           </p>
         </div>
 
@@ -636,6 +912,15 @@ export default function AdminDashboard({
           </div>
         )}
 
+        {selected ? (
+          <div className="mt-9">
+            <CompanyDetail
+              company={selected}
+              prompts={selectedPrompts}
+              onBack={() => setSelectedId(null)}
+            />
+          </div>
+        ) : (
         <div className="mt-9 flex flex-col gap-6">
           <SummaryCards totals={data.totals} />
 
@@ -709,7 +994,11 @@ export default function AdminDashboard({
                   </tr>
                 ) : (
                   visible.map((company) => (
-                    <CompanyRow key={company.organizationId} company={company} />
+                    <CompanyRow
+                      key={company.organizationId}
+                      company={company}
+                      onOpen={(row) => setSelectedId(row.organizationId)}
+                    />
                   ))
                 )}
               </tbody>
@@ -725,6 +1014,7 @@ export default function AdminDashboard({
             feed shows the most recent prompts only, truncated, without the replies.
           </p>
         </div>
+        )}
       </main>
 
       <footer className="relative border-t border-ink-800/70">

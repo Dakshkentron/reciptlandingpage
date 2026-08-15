@@ -13,6 +13,8 @@ import {
   json,
   readSessionCookie,
 } from '../_lib/receipt';
+// TEMPORARY — delete with api/_lib/demo.ts.
+import { demoOverview, isDemoSession } from '../_lib/demo';
 
 export const config = { runtime: 'edge' };
 
@@ -24,6 +26,13 @@ export default async function handler(request: Request): Promise<Response> {
   const cookie = readSessionCookie(request);
   if (!cookie) {
     return json({ error: 'Not signed in.' }, 401);
+  }
+
+  // TEMPORARY — invented data for the demo account. `isDemoSession` re-checks
+  // that the demo is still switched on, so unsetting the environment variables
+  // ends a demo session already in progress. Delete with api/_lib/demo.ts.
+  if (await isDemoSession(cookie)) {
+    return json(demoOverview());
   }
 
   let response: Response;
