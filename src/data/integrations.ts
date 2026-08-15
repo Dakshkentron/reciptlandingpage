@@ -1054,20 +1054,12 @@ export function isPopular(name: string) {
   return popularSet.has(name);
 }
 
-export const catalogCounts = {
-  total: integrationCatalog.length,
-  connected: integrationCatalog.filter((i) => i.status === 'connected').length,
-  ready: integrationCatalog.filter((i) => i.status === 'ready').length,
-  comingSoon: integrationCatalog.filter((i) => i.status === 'coming-soon').length,
-  /**
-   * Connectors that can be authorized today. `total` counts the whole catalog,
-   * most of which is still being brought up — quote the two separately, never
-   * `total` on its own as though every entry were connectable.
-   */
-  get live() {
-    return this.connected + this.ready;
-  },
-};
+/**
+ * The one integration number the site quotes, everywhere it quotes one. Never
+ * split the catalog into a live count and a total count in user-facing copy,
+ * and never print a raw catalog length — say "1,000+" and nothing else.
+ */
+export const CATALOG_LABEL = '1,000+';
 
 /** Distinct auth methods, for the auth-method filter. */
 export const authMethods = Array.from(

@@ -1,6 +1,6 @@
 import { ArrowRight, Plug, GitBranch, Code2, Lock, Cloud, Activity, KeyRound, RefreshCw, ShieldCheck, Boxes } from 'lucide-react';
 import { integrations, integrationHighlights } from '@/data/content';
-import { catalogCounts } from '@/data/integrations';
+import { CATALOG_LABEL } from '@/data/integrations';
 import { safeIntegrationHref } from '@/data/integrationDetail';
 import IntegrationLogo from '@/components/IntegrationLogo';
 
@@ -55,15 +55,14 @@ export default function Integrations() {
             The systems the work actually lives in
           </h2>
           <p className="section-lead text-ink-200">
-            {catalogCounts.total} connectors in the catalog, {catalogCounts.live} of them live and ready to
-            connect today. Authorization is an OAuth handshake or a single credential — and every action a
-            connector exposes is one you switched on.
+            {CATALOG_LABEL} connectors in the catalog, ready to connect today. Authorization is an OAuth
+            handshake or a single credential — and every action a connector exposes is one you switched on.
           </p>
           <a
             href="#/integrations"
             className="mt-6 inline-flex items-center gap-2 rounded-full border border-ink-700/60 bg-ink-850 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-ink-600 hover:bg-ink-800"
           >
-            Browse all {catalogCounts.total} integrations
+            Browse all {CATALOG_LABEL} integrations
             <ArrowRight className="h-4 w-4" />
           </a>
         </div>

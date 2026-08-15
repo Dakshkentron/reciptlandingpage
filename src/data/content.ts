@@ -1,4 +1,4 @@
-import { catalogCounts } from '@/data/integrations';
+import { CATALOG_LABEL } from '@/data/integrations';
 
 import { teamNavChildren, teams, useCaseCount } from '@/data/useCases';
 import { resourceNavChildren } from '@/data/resources';
@@ -22,7 +22,7 @@ export const navLinks: NavLink[] = [
   {
     label: 'Solution',
     children: [
-      { label: 'Integrations', href: '#/integrations', desc: `${catalogCounts.total} connectors, browsable A–Z`, icon: 'Plug' },
+      { label: 'Integrations', href: '#/integrations', desc: `${CATALOG_LABEL} connectors, browsable A–Z`, icon: 'Plug' },
       { label: 'Use cases', href: '#/use-cases', desc: `${useCaseCount} worked examples across ${teams.length} teams`, icon: 'Sparkles' },
     ],
   },
@@ -38,7 +38,7 @@ export const trustedBy = [
 ];
 
 export const heroStats = [
-  { value: `${catalogCounts.live}`, label: 'connectors live today, ready to operate' },
+  { value: CATALOG_LABEL, label: 'integrations, ready to operate' },
   { value: 'Every step', label: 'typed, immutable, and hash-linked' },
   { value: 'Replayable', label: 'any past run, decision by decision' },
 ];
@@ -199,7 +199,7 @@ export const faqs = [
   { q: 'How is Receipt different from Claude Code, Codex, or other AI coding tools?', a: `Claude Code and Codex are single-session coding assistants for individual developers; Receipt is a multi-tenant production control plane that can orchestrate and run AI agents like those as auditable background workers. Receipt adds durable execution (survives crashes), deterministic replay (proves what happened), compliance logging (immutable audit trail), multi-tenant isolation (each org\u2019s data is separate), and integration with the systems you connect\u2014all things you need for production governance that a session-based coding tool doesn\u2019t provide.` },
   { q: 'Is it actually safe to give AI agents access to my production systems?', a: 'Yes\u2014if you use Receipt correctly. Every action runs in an isolated OpenSandbox with zero ambient access; credentials are never stored in Receipt (Nango owns them, Receipt only stores encrypted references); all state-changing operations are deterministic, replayable, and cryptographically chained so you can verify exactly what happened; and Receipt enforces org-level policy gates before any AI decision is executed. The default is \u201csandbox first, audit everything\u201d\u2014not \u201ctrust and react.\u201d' },
   { q: 'What\u2019s the difference between a "receipt" and regular logs or observability?', a: 'Observability logs describe state that exists elsewhere; deleting logs loses visibility but not data. Receipts are the state\u2014the append-only source of truth\u2014and the running system is just a derived copy. Deleting receipts loses everything. This matters because it means Receipt doesn\u2019t copy data around; it owns the provable history. You can replay any past moment, audit any decision, and prove causation\u2014not just observe failures after they happen.' },
-  { q: 'What SaaS apps and systems can Receipt connect to?', a: `Receipt carries a catalog of ${catalogCounts.total} connectors, ${catalogCounts.live} of them live today (AWS, Google Cloud, Vercel, GitHub, GitLab, Jira, Confluence, Slack, HubSpot, Salesforce, Linear, Zendesk, and many more). You control which integrations each team member can access via org-level policy; credentials stay with the provider (Nango), never in Receipt; and you can add new integrations without waiting for a Receipt release. If Nango supports it and your team has a connection, the AI can use it\u2014sandbox first, audit everything.` },
+  { q: 'What SaaS apps and systems can Receipt connect to?', a: `Receipt carries a catalog of ${CATALOG_LABEL} connectors (AWS, Google Cloud, Vercel, GitHub, GitLab, Jira, Confluence, Slack, HubSpot, Salesforce, Linear, Zendesk, and many more). You control which integrations each team member can access via org-level policy; credentials stay with the provider (Nango), never in Receipt; and you can add new integrations without waiting for a Receipt release. If Nango supports it and your team has a connection, the AI can use it\u2014sandbox first, audit everything.` },
   { q: 'How do I know the AI actually did what it claimed to do?', a: 'Every action is a receipt: immutable, timestamped, cryptographically chained to the previous receipt, and contains the command, the evidence artifact, and the exit code. You can replay that receipt independently to verify the outcome. For external APIs (AWS, Jira, GitHub), the evidence includes the raw API response verbatim plus a tamper-evident hash. For code execution, you get the stdout, exit code, and any files created. Replay + independent verification = proof. No copying data between systems, no hidden side effects.' },
   { q: 'What happens if the agent makes a mistake, gets stuck, or a task crashes?', a: 'Receipt logs every step as an immutable receipt, so if a task crashes, you can replay from the last receipt without re-running earlier work\u2014crash recovery is automatic. If the AI makes a wrong decision, that\u2019s logged and auditable; you can review the evidence, fix the underlying issue, and replay from any point. If the agent gets stuck, Receipt detects stalled work (expired leases, watchdog, invariant checks) and self-heals with no human intervention\u2014re-folding receipts and re-dispatching deterministically.' },
 ];

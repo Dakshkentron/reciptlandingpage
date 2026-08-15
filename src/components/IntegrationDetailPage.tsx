@@ -4,7 +4,7 @@ import {
 } from 'lucide-react';
 import IntegrationLogo from '@/components/IntegrationLogo';
 import { buildDetail, findIntegration, integrationHref } from '@/data/integrationDetail';
-import { alphaKey, catalogCounts, type Integration } from '@/data/integrations';
+import { alphaKey, CATALOG_LABEL, type Integration } from '@/data/integrations';
 import AlphaBrowser from '@/components/AlphaBrowser';
 
 function StatusPill({ status }: { status: Integration['status'] }) {
@@ -68,7 +68,7 @@ export default function IntegrationDetailPage({ slug }: { slug: string }) {
         </div>
         <h1 className="mt-6 text-2xl font-bold tracking-tight text-ink-950">We don’t have that connector</h1>
         <p className="mt-3 text-sm leading-relaxed text-ink-500">
-          Nothing in the directory matches “{slug}”. Browse all {catalogCounts.total} connectors, or tell us
+          Nothing in the directory matches “{slug}”. Browse all {CATALOG_LABEL} connectors, or tell us
           what you need and we’ll enable it.
         </p>
         <a href="#/integrations" className="btn-primary mt-8">
