@@ -213,7 +213,11 @@ export const footerLinks = {
     { label: 'Security', href: '#/security' },
   ],
   'Use cases': teams.slice(0, 6).map((t) => ({ label: t.label, href: `#/use-cases/${t.slug}` })),
-  // The internal console lives in its own repository and is not linked from
-  // here — staff know where it lives, and nobody else needs to.
-  Resources: resourceNavChildren.map((r) => ({ label: r.label, href: r.href })),
+  // The internal console is linked from here, at the end of Resources. The link
+  // itself gives nothing away: it opens a sign-in that only a Kentron account
+  // gets past, and the page behind it is served by Receipt, not by this site.
+  Resources: [
+    ...resourceNavChildren.map((r) => ({ label: r.label, href: r.href })),
+    { label: 'Admin console', href: '#/admin' },
+  ],
 };

@@ -23,6 +23,8 @@ const HOME = {
 interface Meta {
   title: string;
   description: string;
+  /** Kept off search results and out of link previews. Internal pages only. */
+  noindex?: boolean;
 }
 
 function metaFor(name: string, slug: string): Meta {
@@ -66,6 +68,16 @@ function metaFor(name: string, slug: string): Meta {
       if (!page) break;
       return { title: `${page.eyebrow} — ${SITE_NAME}`, description: page.lead };
     }
+    case 'admin':
+      // The title the console carried as a site of its own. An internal tool has
+      // nothing to gain from being found, so it is also the one route here that
+      // asks not to be indexed, and its description says no more than the name
+      // already implies.
+      return {
+        title: `${SITE_NAME} — Internal Console`,
+        description: 'Internal tool for the Receipt team. Sign-in required.',
+        noindex: true,
+      };
   }
   return HOME;
 }
@@ -75,8 +87,25 @@ function setTag(selector: string, attr: string, value: string) {
   if (el) el.setAttribute(attr, value);
 }
 
+/**
+ * index.html carries no robots tag, because every public page wants the
+ * default. One is created on demand for the pages that do not, and set back to
+ * `index` on the way out rather than removed — a crawler that arrives mid-route
+ * should never read a stale `noindex`.
+ */
+function setRobots(noindex: boolean) {
+  let el = document.head.querySelector('meta[name="robots"]');
+  if (!el) {
+    if (!noindex) return;
+    el = document.createElement('meta');
+    el.setAttribute('name', 'robots');
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', noindex ? 'noindex, nofollow, noarchive' : 'index, follow');
+}
+
 export function applyRouteMeta(name: string, slug: string) {
-  const { title, description } = metaFor(name, slug);
+  const { title, description, noindex } = metaFor(name, slug);
   const canonical = `${window.location.origin}${window.location.pathname}${window.location.hash}`;
 
   document.title = title;
@@ -87,4 +116,5 @@ export function applyRouteMeta(name: string, slug: string) {
   setTag('meta[name="twitter:title"]', 'content', title);
   setTag('meta[name="twitter:description"]', 'content', description);
   setTag('link[rel="canonical"]', 'href', canonical);
+  setRobots(Boolean(noindex));
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Showcase from '@/components/Showcase';
@@ -21,6 +21,10 @@ import ResourcePage from '@/components/ResourcePage';
 import UseCasesTeaser from '@/components/UseCasesTeaser';
 import { DOCS_URL, resourcePages, type ResourceKind } from '@/data/resources';
 import { applyRouteMeta } from '@/lib/pageMeta';
+
+// Split out of the main bundle: the console is for a handful of staff, and
+// every visitor to the marketing site would otherwise download it.
+const AdminConsole = lazy(() => import('@/components/admin/AdminConsole'));
 
 function getRoute() {
   const hash = window.location.hash.replace(/^#/, '');
@@ -48,6 +52,7 @@ function getRoute() {
 
   if (hash === '/pricing') return { name: 'pricing', slug: '' };
   if (hash === '/security') return { name: 'security', slug: '' };
+  if (hash === '/admin') return { name: 'admin', slug: '' };
   return { name: 'home', slug: '' };
 }
 
@@ -77,6 +82,18 @@ function App() {
   const goHome = () => {
     window.location.hash = '';
   };
+
+  // The console is a tool, not a page of the site: it brings its own header and
+  // footer, and the marketing chrome would only get in its way.
+  if (route.name === 'admin') {
+    return (
+      <Suspense
+        fallback={<div className="min-h-screen bg-ink-950" aria-busy="true" aria-label="Loading the console" />}
+      >
+        <AdminConsole />
+      </Suspense>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
