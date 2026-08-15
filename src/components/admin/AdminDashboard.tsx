@@ -24,6 +24,7 @@ import {
   Building2,
   Link2,
   LogOut,
+  MessageSquareText,
   Radio,
   RefreshCw,
   Search,
@@ -32,7 +33,12 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import ReceiptMark from '@/components/ReceiptMark';
-import type { AdminCompanyRow, AdminOverview, AdminTotals } from '@/lib/adminTypes';
+import type {
+  AdminCompanyRow,
+  AdminOverview,
+  AdminPromptRow,
+  AdminTotals,
+} from '@/lib/adminTypes';
 
 const numberFormat = new Intl.NumberFormat('en-US');
 const dateFormat = new Intl.DateTimeFormat('en-US', {
@@ -68,6 +74,30 @@ function relativeDays(value: string | null): string {
   }
   const years = Math.floor(days / 365);
   return years === 1 ? '1 year ago' : `${years} years ago`;
+}
+
+/**
+ * Like `relativeDays`, but resolving to minutes and hours near the present.
+ *
+ * The prompt feed is the one place on this page where "4 minutes ago" and "9
+ * hours ago" are different answers — for everything else, day precision is
+ * enough and reads more calmly.
+ */
+function relativeTime(value: string | null): string {
+  if (!value) return 'unknown';
+  const parsed = new Date(value).getTime();
+  if (Number.isNaN(parsed)) return 'unknown';
+
+  const seconds = Math.floor((Date.now() - parsed) / 1000);
+  if (seconds < 60) return 'just now';
+
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+
+  return relativeDays(value).toLowerCase();
 }
 
 /** A first name reads as a greeting; a full name or an email reads as a label. */
@@ -134,7 +164,7 @@ function StatCard({
 
 function SummaryCards({ totals }: { totals: AdminTotals }) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
       <StatCard
         icon={Building2}
         label="Companies"
@@ -156,18 +186,34 @@ function SummaryCards({ totals }: { totals: AdminTotals }) {
         hint="Connections created"
         delay={120}
       />
+      {/* The seven-day figure leads because it answers "is Receipt being used",
+          which the all-time total cannot — a large lifetime count and a dead
+          week look the same in one number. */}
+      <StatCard
+        icon={MessageSquareText}
+        label="Prompts · 7 days"
+        value={totals.promptsLast7Days}
+        hint={`${numberFormat.format(totals.prompts)} all time`}
+        delay={180}
+      />
       <StatCard
         icon={Radio}
         label="Active sessions"
         value={totals.activeSessions}
         hint="Sessions not yet expired"
-        delay={180}
+        delay={240}
       />
     </div>
   );
 }
 
-type SortKey = 'name' | 'createdAt' | 'members' | 'lastLoginAt' | 'activeSessions';
+type SortKey =
+  | 'name'
+  | 'createdAt'
+  | 'members'
+  | 'promptsLast7Days'
+  | 'lastLoginAt'
+  | 'activeSessions';
 
 interface Column {
   key: SortKey;
@@ -181,6 +227,7 @@ const COLUMNS: Record<SortKey, Column> = {
   name: { key: 'name', label: 'Company', ascendingFirst: true },
   createdAt: { key: 'createdAt', label: 'Created' },
   members: { key: 'members', label: 'Members', numeric: true },
+  promptsLast7Days: { key: 'promptsLast7Days', label: 'Prompts · 7d', numeric: true },
   lastLoginAt: { key: 'lastLoginAt', label: 'Last login' },
   activeSessions: { key: 'activeSessions', label: 'Active sessions', numeric: true },
 };
@@ -263,6 +310,24 @@ function CompanyRow({ company }: { company: AdminCompanyRow }) {
         {numberFormat.format(company.members)}
       </td>
 
+      {/* The recent count is the headline and the lifetime total sits under it:
+          a company that sent five thousand prompts last year and none this week
+          is a different situation from one that just started. */}
+      <td className="whitespace-nowrap px-5 py-4 text-right">
+        <div
+          className={`font-mono tabular-nums ${
+            company.promptsLast7Days > 0 ? 'text-ink-100' : 'text-ink-600'
+          }`}
+        >
+          {numberFormat.format(company.promptsLast7Days)}
+        </div>
+        <div className="text-[11px] text-ink-500">
+          {company.prompts > 0
+            ? `${numberFormat.format(company.prompts)} all time`
+            : 'Never used'}
+        </div>
+      </td>
+
       <td className="px-5 py-4">
         {company.providers.length === 0 ? (
           <span className="text-ink-500">None connected</span>
@@ -321,14 +386,99 @@ function CompanyRow({ company }: { company: AdminCompanyRow }) {
   );
 }
 
+/**
+ * The newest prompts across every company.
+ *
+ * This is the one part of the console showing something a person wrote rather
+ * than a number counted, which is why it is set apart rather than folded into
+ * the table. Receipt sends at most a hundred, already truncated, and never the
+ * assistant's reply — so this is a sample of what customers are asking for, not
+ * a transcript, and the footnote says so rather than leaving it to be assumed.
+ */
+function PromptFeed({ prompts, filtered }: { prompts: AdminPromptRow[]; filtered: boolean }) {
+  return (
+    <section className="flex flex-col gap-4">
+      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <h2 className="text-base font-semibold text-white">Recent prompts</h2>
+        <p className="text-xs text-ink-500">
+          {prompts.length === 0
+            ? 'Nothing to show'
+            : `Showing the ${numberFormat.format(prompts.length)} most recent`}
+        </p>
+      </div>
+
+      {prompts.length === 0 ? (
+        <div className="rounded-2xl border border-ink-800 bg-ink-950/40 px-5 py-16 text-center">
+          <MessageSquareText className="mx-auto h-6 w-6 text-ink-700" aria-hidden="true" />
+          <p className="mt-3 text-sm text-ink-400">
+            {filtered
+              ? 'No prompts match that filter.'
+              : 'No prompts yet. They will appear here as customers use Receipt.'}
+          </p>
+        </div>
+      ) : (
+        <ul className="flex flex-col gap-2.5">
+          {prompts.map((prompt) => (
+            <li
+              key={prompt.messageId}
+              className="rounded-2xl border border-ink-800 bg-ink-900/60 p-4 transition-colors hover:border-ink-700"
+            >
+              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+                <span
+                  className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-ink-800 bg-ink-950 font-mono text-[10px] font-semibold text-brand-400"
+                  aria-hidden="true"
+                >
+                  {initials(prompt.organizationName)}
+                </span>
+                <span className="min-w-0 truncate text-sm font-medium text-ink-200">
+                  {prompt.organizationName}
+                </span>
+                <span className="text-ink-700" aria-hidden="true">
+                  ·
+                </span>
+                <span className="whitespace-nowrap text-xs text-ink-500">
+                  {relativeTime(prompt.createdAt)}
+                </span>
+                {prompt.model && (
+                  <span className="ml-auto whitespace-nowrap rounded-full border border-ink-800 bg-ink-950 px-2 py-0.5 font-mono text-[10px] text-ink-400">
+                    {prompt.model}
+                  </span>
+                )}
+              </div>
+
+              {/* `break-words` matters here: a pasted URL or stack trace has no
+                  spaces to wrap on and would otherwise widen the whole page. */}
+              <p className="mt-2.5 whitespace-pre-wrap break-words text-sm leading-relaxed text-ink-300">
+                {prompt.text}
+                {prompt.truncated && <span className="text-ink-600">… </span>}
+              </p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
+}
+
 interface Props {
   data: AdminOverview;
   onSignOut: () => void;
   onReload: () => void;
   busy: boolean;
+  /** A background poll is in flight — distinct from a click on Refresh. */
+  refreshing: boolean;
+  /** A failed background poll. The figures on screen are the last good ones. */
+  staleError: string | null;
 }
 
-export default function AdminDashboard({ data, onSignOut, onReload, busy }: Props) {
+export default function AdminDashboard({
+  data,
+  onSignOut,
+  onReload,
+  busy,
+  refreshing,
+  staleError,
+}: Props) {
   const [query, setQuery] = useState('');
   // Newest company first: the default question this page gets asked is "who
   // signed up recently".
@@ -366,11 +516,28 @@ export default function AdminDashboard({ data, onSignOut, onReload, busy }: Prop
           return (timeValue(a.lastLoginAt) - timeValue(b.lastLoginAt)) * direction;
         case 'members':
           return (a.members - b.members) * direction;
+        case 'promptsLast7Days':
+          return (a.promptsLast7Days - b.promptsLast7Days) * direction;
         case 'activeSessions':
           return (a.activeSessions - b.activeSessions) * direction;
       }
     });
   }, [data.companies, query, sort]);
+
+  /**
+   * The same search box narrows the feed, matching either the company or the
+   * words in the prompt. Typing a customer's name and getting their table row
+   * without their prompts would read as a bug.
+   */
+  const visiblePrompts = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    if (!needle) return data.recentPrompts;
+    return data.recentPrompts.filter(
+      (prompt) =>
+        prompt.organizationName.toLowerCase().includes(needle) ||
+        prompt.text.toLowerCase().includes(needle),
+    );
+  }, [data.recentPrompts, query]);
 
   /** Companies with a lapsed connection — the one number worth acting on today. */
   const needAttention = useMemo(
@@ -402,14 +569,6 @@ export default function AdminDashboard({ data, onSignOut, onReload, busy }: Prop
               <ShieldCheck className="h-3 w-3 text-brand-400" />
               Internal
             </span>
-            {/* TEMPORARY — the one place the preview announces itself, so the rest
-                of the page can show what real data will look like. */}
-            {data.preview && (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-accent-500/40 bg-accent-500/10 px-2.5 py-0.5 text-[11px] font-medium text-accent-200">
-                <AlertTriangle className="h-3 w-3" />
-                Demo data
-              </span>
-            )}
           </div>
 
           <div className="ml-auto flex items-center gap-2.5">
@@ -441,7 +600,11 @@ export default function AdminDashboard({ data, onSignOut, onReload, busy }: Prop
         <div className="animate-fade-up">
           <span className="inline-flex items-center gap-2 rounded-full border border-ink-800 bg-ink-900 px-3 py-1 text-xs font-medium text-ink-300">
             <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-400 opacity-60" />
+              <span
+                className={`absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-60 ${
+                  refreshing ? 'animate-ping' : ''
+                }`}
+              />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand-500" />
             </span>
             Live from production · as of {formatTime(data.generatedAt)}
@@ -454,10 +617,24 @@ export default function AdminDashboard({ data, onSignOut, onReload, busy }: Prop
             Track your customers and users, live
           </h1>
           <p className="mt-2.5 max-w-2xl text-sm leading-relaxed text-ink-400">
-            Every organization on Receipt, the integrations they run, and how recently they signed
-            in — read straight from production, and never a word of what anyone said.
+            Every organization on Receipt, the integrations they run, how recently they signed in,
+            and what they are asking Receipt to do — read straight from production and refreshed
+            every half minute.
           </p>
         </div>
+
+        {/* A background refresh that failed. The page keeps the last good
+            numbers rather than replacing them with an error, so this line is
+            what stops them being read as current. */}
+        {staleError && (
+          <div className="mt-6 flex items-start gap-2.5 rounded-xl border border-accent-500/30 bg-accent-500/10 px-4 py-3 text-xs leading-relaxed text-accent-200">
+            <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            <span>
+              These figures are from {formatTime(data.generatedAt)} and may be out of date — the
+              last refresh failed: {staleError}
+            </span>
+          </div>
+        )}
 
         <div className="mt-9 flex flex-col gap-6">
           <SummaryCards totals={data.totals} />
@@ -498,6 +675,7 @@ export default function AdminDashboard({ data, onSignOut, onReload, busy }: Prop
                   <SortableHeader column={COLUMNS.name} sort={sort} onSort={onSort} />
                   <SortableHeader column={COLUMNS.createdAt} sort={sort} onSort={onSort} />
                   <SortableHeader column={COLUMNS.members} sort={sort} onSort={onSort} />
+                  <SortableHeader column={COLUMNS.promptsLast7Days} sort={sort} onSort={onSort} />
                   {/* Not sortable: a company's integrations are a set of names,
                       with no single value to order the table by. */}
                   <th scope="col" className="whitespace-nowrap px-5 py-3.5 font-medium">
@@ -510,7 +688,7 @@ export default function AdminDashboard({ data, onSignOut, onReload, busy }: Prop
               <tbody>
                 {visible.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-5 py-16 text-center">
+                    <td colSpan={7} className="px-5 py-16 text-center">
                       <Building2
                         className="mx-auto h-6 w-6 text-ink-700"
                         aria-hidden="true"
@@ -538,9 +716,13 @@ export default function AdminDashboard({ data, onSignOut, onReload, busy }: Prop
             </table>
           </div>
 
+          <PromptFeed prompts={visiblePrompts} filtered={Boolean(query.trim())} />
+
           <p className="text-xs leading-relaxed text-ink-500">
             “Active sessions” counts sessions that have not expired, which can outlast someone
-            actually being at their desk — it is not a measure of who is online now.
+            actually being at their desk — it is not a measure of who is online now. Prompt counts
+            cover what people typed into Receipt chat; background agent runs are excluded, and the
+            feed shows the most recent prompts only, truncated, without the replies.
           </p>
         </div>
       </main>
