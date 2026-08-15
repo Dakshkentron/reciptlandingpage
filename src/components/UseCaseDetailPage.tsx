@@ -1,7 +1,7 @@
 import { ArrowRight, Ban, Check, FileCheck2, MessageSquare, Search } from 'lucide-react';
 import { teamBySlug, teams, teamUseCaseHref, type UseCase } from '@/data/useCases';
 import { safeIntegrationHref } from '@/data/integrationDetail';
-import { catalogCounts } from '@/data/integrations';
+import { CATALOG_LABEL } from '@/data/integrations';
 import IntegrationLogo from '@/components/IntegrationLogo';
 import ReceiptMark from '@/components/ReceiptMark';
 import { getIcon } from '@/components/icons';
@@ -263,7 +263,7 @@ export default function UseCaseDetailPage({ slug }: { slug: string }) {
             The stack {team.label} usually connects
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-ink-500">
-            Any connector in the {catalogCounts.total}-strong catalog works here — these are the ones this team
+            Any connector in the {CATALOG_LABEL} catalog works here — these are the ones this team
             reaches for first.
           </p>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">

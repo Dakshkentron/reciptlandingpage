@@ -8,7 +8,7 @@
  */
 
 import { teamBySlug } from '@/data/useCases';
-import { catalogCounts } from '@/data/integrations';
+import { CATALOG_LABEL } from '@/data/integrations';
 import { findIntegration } from '@/data/integrationDetail';
 import { resourcePages, type ResourceKind } from '@/data/resources';
 
@@ -40,7 +40,7 @@ function metaFor(name: string, slug: string): Meta {
     case 'integrations':
       return {
         title: `Integrations — ${SITE_NAME}`,
-        description: `Browse ${catalogCounts.total} connectors Receipt can drive, from AWS and GitHub to Slack and Salesforce.`,
+        description: `Browse ${CATALOG_LABEL} connectors Receipt can drive, from AWS and GitHub to Slack and Salesforce.`,
       };
     case 'integration': {
       const tool = findIntegration(slug);

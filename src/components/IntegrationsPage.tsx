@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, FileCheck2, Lock, Plug, Search, ShieldCheck, X } from 'lucide-react';
 import {
-  categories, categoryCounts, catalogCounts, integrationCatalog, popularIntegrations,
+  categories, categoryCounts, CATALOG_LABEL, integrationCatalog, popularIntegrations,
   type Category, type Integration,
 } from '@/data/integrations';
 import { integrationHref } from '@/data/integrationDetail';
@@ -12,7 +12,6 @@ import { getIcon } from '@/components/icons';
 import { teams, useCaseCount, teamUseCaseHref } from '@/data/useCases';
 
 const PAGE_SIZE = 24;
-const liveCount = catalogCounts.live;
 
 function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -148,7 +147,7 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
           </h1>
 
           <p className="mx-auto mt-8 max-w-2xl text-xl font-medium text-ink-700 lg:text-2xl">
-            Receipt connects to <span className="gradient-text font-bold">{catalogCounts.total}</span> tools
+            Receipt connects to <span className="gradient-text font-bold">{CATALOG_LABEL}</span> tools
             and uses them the way you do.
           </p>
 
@@ -206,7 +205,7 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder={`Search ${catalogCounts.total}+ integrations...`}
+              placeholder={`Search ${CATALOG_LABEL} integrations...`}
               aria-label="Search integrations"
               className="w-full rounded-full border border-ink-100 bg-white py-5 pl-16 pr-14 text-base text-ink-900 shadow-lg shadow-ink-950/5 outline-none transition-shadow placeholder:text-ink-400 focus:shadow-xl focus:shadow-brand-500/10 focus:ring-2 focus:ring-brand-500/20"
             />
@@ -290,15 +289,18 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
                       Show more
                     </button>
                     <p className="mt-4 text-xs text-ink-400">
-                      Showing {shown.length} of {results.length}
-                      {category === 'All' && !query ? ' integrations' : ' matching integrations'}
+                      Showing {shown.length} of{' '}
+                      {category === 'All' && !query
+                        ? `${CATALOG_LABEL} integrations`
+                        : `${results.length} matching integrations`}
                     </p>
                   </>
                 ) : (
                   <p className="text-xs text-ink-400">
-                    Showing all {results.length}
-                    {category === 'All' && !query ? ' integrations' : ' matching integrations'} ·{' '}
-                    {liveCount} live today
+                    Showing all{' '}
+                    {category === 'All' && !query
+                      ? `${CATALOG_LABEL} integrations`
+                      : `${results.length} matching integrations`}
                   </p>
                 )}
               </div>
@@ -337,7 +339,7 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
           <div className="rounded-2xl border border-ink-100 bg-white p-6 lg:p-8">
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <h2 className="text-xl font-bold tracking-tight text-ink-950">
-                {liveCount} live deep integrations
+                Deep integrations
               </h2>
               <span className="rounded-full border border-brand-200 bg-brand-50 px-2.5 py-0.5 text-[11px] font-semibold text-brand-700">
                 Connect today
@@ -356,14 +358,14 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
               onClick={() => scrollToId('directory')}
               className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 transition-colors hover:text-brand-800"
             >
-              See the other {liveIntegrations.length - 12} in the directory
+              See the rest in the directory
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
 
           <div className="rounded-2xl border border-ink-100 bg-white p-6 lg:p-8">
             <h2 className="text-xl font-bold tracking-tight text-ink-950">
-              {catalogCounts.total} via managed connectors
+              {CATALOG_LABEL} via managed connectors
             </h2>
             <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-500">
               The full managed-connector catalog across {categories.length} categories — CRM, project

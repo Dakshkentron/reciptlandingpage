@@ -566,7 +566,7 @@ Proof: The obligation, its clause, and the ticket tracking it stay linked — so
 
 # Integrations
 
-889 connectors across 14 categories. Popular: GitHub, Slack, Linear, Jira, Notion, Confluence, HubSpot, Salesforce, Zendesk, AWS, Google Cloud, Vercel, Datadog, Sentry, Airtable, Google Ads, Google Analytics, Stripe (API Key), OpenAI, Anthropic.
+1,000+ connectors across 14 categories. Popular: GitHub, Slack, Linear, Jira, Notion, Confluence, HubSpot, Salesforce, Zendesk, AWS, Google Cloud, Vercel, Datadog, Sentry, Airtable, Google Ads, Google Analytics, Stripe (API Key), OpenAI, Anthropic.
 
 ## AI & Machine Learning (37)
 Anthropic, Anthropic Administrator, Autosana, BlandAI, Codegen, Cursor, Cursor Admin, Devin, Eleven Labs, Exa, Exact Online, fal.ai, Fiber AI, Freepik, Glyphic, Google Gemini, Granola, Granola (MCP), HeyGen, Lightfield, MiniMax, Modjo AI, Nyne AI, Open Hands, OpenAI, OpenAI (Admin), Perplexity, Ragie AI, Read.ai, Recall.ai, Replicate, Retell AI, Smartlead.ai, Stay AI, VEED (via fal.ai), WeJam AI, xAI
@@ -625,7 +625,7 @@ Yes—if you use Receipt correctly. Every action runs in an isolated OpenSandbox
 Observability logs describe state that exists elsewhere; deleting logs loses visibility but not data. Receipts are the state—the append-only source of truth—and the running system is just a derived copy. Deleting receipts loses everything. This matters because it means Receipt doesn’t copy data around; it owns the provable history. You can replay any past moment, audit any decision, and prove causation—not just observe failures after they happen.
 
 ## What SaaS apps and systems can Receipt connect to?
-Receipt carries a catalog of 889 connectors, 43 of them live today (AWS, Google Cloud, Vercel, GitHub, GitLab, Jira, Confluence, Slack, HubSpot, Salesforce, Linear, Zendesk, and many more). You control which integrations each team member can access via org-level policy; credentials stay with the provider (Nango), never in Receipt; and you can add new integrations without waiting for a Receipt release. If Nango supports it and your team has a connection, the AI can use it—sandbox first, audit everything.
+Receipt carries a catalog of 1,000+ connectors (AWS, Google Cloud, Vercel, GitHub, GitLab, Jira, Confluence, Slack, HubSpot, Salesforce, Linear, Zendesk, and many more). You control which integrations each team member can access via org-level policy; credentials stay with the provider (Nango), never in Receipt; and you can add new integrations without waiting for a Receipt release. If Nango supports it and your team has a connection, the AI can use it—sandbox first, audit everything.
 
 ## How do I know the AI actually did what it claimed to do?
 Every action is a receipt: immutable, timestamped, cryptographically chained to the previous receipt, and contains the command, the evidence artifact, and the exit code. You can replay that receipt independently to verify the outcome. For external APIs (AWS, Jira, GitHub), the evidence includes the raw API response verbatim plus a tamper-evident hash. For code execution, you get the stdout, exit code, and any files created. Replay + independent verification = proof. No copying data between systems, no hidden side effects.

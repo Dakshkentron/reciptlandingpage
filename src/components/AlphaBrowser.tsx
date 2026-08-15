@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { alphabet, alphaKey, catalogCounts, integrationCatalog } from '@/data/integrations';
+import { alphabet, alphaKey, CATALOG_LABEL, integrationCatalog } from '@/data/integrations';
 import { integrationHref } from '@/data/integrationDetail';
 import IntegrationLogo from '@/components/IntegrationLogo';
 
@@ -32,7 +32,7 @@ export default function AlphaBrowser({
         <div>
           <h2 className="text-2xl font-bold tracking-tight text-ink-950">{title}</h2>
           <p className="mt-1.5 text-sm text-ink-500">
-            All {catalogCounts.total} connectors, by first letter — {items.length} under &ldquo;{letter}
+            All {CATALOG_LABEL} connectors, by first letter — {items.length} under &ldquo;{letter}
             &rdquo;.
           </p>
         </div>

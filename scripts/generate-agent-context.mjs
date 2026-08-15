@@ -31,7 +31,7 @@ const DESCRIPTION = html.match(/property="og:description" content="([^"]+)"/)?.[
 // Load the TypeScript data modules through Vite so the `@/` alias resolves.
 const server = await createServer({ server: { middlewareMode: true }, appType: 'custom', logLevel: 'error' });
 const { teams } = await server.ssrLoadModule('/src/data/useCases.ts');
-const { catalogCounts, integrationCatalog, categories, popularIntegrations } =
+const { CATALOG_LABEL, integrationCatalog, categories, popularIntegrations } =
   await server.ssrLoadModule('/src/data/integrations.ts');
 const { faqs, features } = await server.ssrLoadModule('/src/data/content.ts');
 const { resourcePages, DOCS_URL } = await server.ssrLoadModule('/src/data/resources.ts');
@@ -48,7 +48,7 @@ const routes = [
     title: `${t.label} use cases`,
     desc: t.tagline,
   })),
-  { hash: '#/integrations', title: 'Integrations', desc: `${catalogCounts.total} connectors across ${categories.length} categories.` },
+  { hash: '#/integrations', title: 'Integrations', desc: `${CATALOG_LABEL} connectors across ${categories.length} categories.` },
   { hash: '#/pricing', title: 'Pricing', desc: 'Credit-based pricing from $50; free tier and enterprise plans.' },
   { hash: '#/security', title: 'Security', desc: 'Sandbox isolation, policy gates, and the receipt chain.' },
   ...Object.values(resourcePages).map((p) => ({
@@ -83,7 +83,7 @@ ${routes.map((r) => `- [${r.title}](${url(r.hash)}): ${r.desc}`).join('\n')}
 
 ## Key facts
 
-- Connectors: ${catalogCounts.total} in the catalog across ${categories.length} categories; ${catalogCounts.live} are live and connectable today.
+- Connectors: ${CATALOG_LABEL} in the catalog across ${categories.length} categories, connectable today.
 - Teams with worked use cases: ${teams.map((t) => t.label).join(', ')}.
 - Every action produces a receipt: command, evidence artifact, exit code, chained hash.
 - Credentials stay with the connector layer (Nango); Receipt stores encrypted references only.
@@ -127,7 +127,7 @@ ${teams.map(teamSection).join('\n\n')}
 
 # Integrations
 
-${catalogCounts.total} connectors across ${categories.length} categories. Popular: ${popularIntegrations
+${CATALOG_LABEL} connectors across ${categories.length} categories. Popular: ${popularIntegrations
   .slice(0, 24)
   .join(', ')}.
 
@@ -292,5 +292,5 @@ writeFileSync(join(publicDir, 'robots.txt'), robots);
 writeFileSync(join(publicDir, 'sitemap.xml'), sitemap);
 
 console.log(
-  `agent context: ${routes.length} routes, ${faqs.length} FAQs, ${catalogCounts.total} connectors → index.html, llms.txt, llms-full.txt, robots.txt, sitemap.xml`,
+  `agent context: ${routes.length} routes, ${faqs.length} FAQs, ${integrationCatalog.length} connectors → index.html, llms.txt, llms-full.txt, robots.txt, sitemap.xml`,
 );

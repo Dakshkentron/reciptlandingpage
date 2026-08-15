@@ -1,6 +1,6 @@
 import { ArrowRight, FileCheck2, MessageSquare, Sparkles, Terminal } from 'lucide-react';
 import { teams, useCaseCount, teamUseCaseHref } from '@/data/useCases';
-import { catalogCounts } from '@/data/integrations';
+import { CATALOG_LABEL } from '@/data/integrations';
 import { getIcon } from '@/components/icons';
 import TeamPicker from '@/components/TeamPicker';
 
@@ -128,7 +128,7 @@ export default function UseCasesPage() {
               <ArrowRight className="h-4 w-4" />
             </a>
             <a href="#/integrations" className="btn-secondary btn-lg">
-              Browse {catalogCounts.total} integrations
+              Browse {CATALOG_LABEL} integrations
             </a>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { Check, FileCheck2, Rocket } from 'lucide-react';
-import { catalogCounts, popularIntegrations } from '@/data/integrations';
+import { CATALOG_LABEL, popularIntegrations } from '@/data/integrations';
 import IntegrationLogo from '@/components/IntegrationLogo';
 import ReceiptMark from '@/components/ReceiptMark';
 
@@ -38,7 +38,7 @@ function ConnectVisual() {
 
       <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 justify-center">
         <span className="rounded-full bg-white px-4 py-2 text-[13px] font-semibold text-ink-900 shadow-xl">
-          {catalogCounts.live} live now · {catalogCounts.total.toLocaleString()} in the catalog
+          {CATALOG_LABEL} integrations, ready to connect
         </span>
       </div>
     </div>
@@ -126,7 +126,7 @@ function ReviewVisual() {
 const steps = [
   {
     title: 'Authorize what it may touch',
-    body: `${catalogCounts.live} connectors are live today, with ${catalogCounts.total.toLocaleString()} in the catalog behind them. Each one arrives with an explicit list of actions, and you decide which of them Receipt is allowed to use. Nothing to host, nothing to keep patched.`,
+    body: `${CATALOG_LABEL} connectors are ready to connect today. Each one arrives with an explicit list of actions, and you decide which of them Receipt is allowed to use. Nothing to host, nothing to keep patched.`,
     visual: <ConnectVisual />,
   },
   {

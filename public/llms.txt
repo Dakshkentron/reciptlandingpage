@@ -26,7 +26,7 @@ JavaScript.
 - [People & HR use cases](https://reciptlandingpage.vercel.app/#/use-cases/people): Onboarding, reviews, and the paperwork behind both
 - [Founders & Leadership use cases](https://reciptlandingpage.vercel.app/#/use-cases/founders): The company's real numbers, without asking four people
 - [Legal & Compliance use cases](https://reciptlandingpage.vercel.app/#/use-cases/legal-compliance): Contract review and obligations that get tracked
-- [Integrations](https://reciptlandingpage.vercel.app/#/integrations): 889 connectors across 14 categories.
+- [Integrations](https://reciptlandingpage.vercel.app/#/integrations): 1,000+ connectors across 14 categories.
 - [Pricing](https://reciptlandingpage.vercel.app/#/pricing): Credit-based pricing from $50; free tier and enterprise plans.
 - [Security](https://reciptlandingpage.vercel.app/#/security): Sandbox isolation, policy gates, and the receipt chain.
 - [Blog](https://reciptlandingpage.vercel.app/#/blog): What we are learning about running AI agents against production systems — the architecture, the failure modes, and the things that turned out to matter more than we expected.
@@ -39,7 +39,7 @@ JavaScript.
 
 ## Key facts
 
-- Connectors: 889 in the catalog across 14 categories; 43 are live and connectable today.
+- Connectors: 1,000+ in the catalog across 14 categories, connectable today.
 - Teams with worked use cases: Engineering, Customer Support, Sales, Marketing & Growth, Finance & RevOps, IT & Security, Data & Analytics, Product, People & HR, Founders & Leadership, Legal & Compliance.
 - Every action produces a receipt: command, evidence artifact, exit code, chained hash.
 - Credentials stay with the connector layer (Nango); Receipt stores encrypted references only.
