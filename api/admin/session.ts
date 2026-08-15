@@ -20,6 +20,9 @@ import {
   json,
   setSessionCookie,
 } from '../_lib/receipt';
+// TEMPORARY — delete with api/_lib/demo.ts. Inert unless ADMIN_DEMO_EMAIL and
+// ADMIN_DEMO_PASSWORD are both set in the environment.
+import { demoCookieValue, isDemoLogin } from '../_lib/demo';
 
 export const config = { runtime: 'edge' };
 
@@ -52,6 +55,19 @@ export default async function handler(request: Request): Promise<Response> {
     password = body.password;
   } catch {
     return json({ error: 'Malformed request.' }, 400);
+  }
+
+  // TEMPORARY — demo access, for reviewing the page internally. Does nothing
+  // unless both demo environment variables are set. Delete with api/_lib/demo.ts.
+  //
+  // Deliberately placed after the credentials are read but before anything is
+  // forwarded to Receipt: the demo account has no Receipt account behind it, so
+  // sending it upstream would only produce a confusing refusal.
+  if (isDemoLogin(email, password)) {
+    const cookie = await demoCookieValue();
+    if (cookie) {
+      return json({ ok: true, demo: true }, 200, { 'set-cookie': setSessionCookie(cookie) });
+    }
   }
 
   // Refuse a wrong domain here rather than after a round trip. It also means a
