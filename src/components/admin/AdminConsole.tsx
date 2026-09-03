@@ -26,18 +26,55 @@ import type { AdminOverview } from '@/lib/adminTypes';
 
 type Status = 'loading' | 'signed-out' | 'signed-in' | 'failed';
 
+export type Theme = 'dark' | 'light';
+
+/** Remembered per browser, so the choice survives a reload. */
+const THEME_STORAGE_KEY = 'kentron.console.theme';
+
+/** The page background for each theme, kept in step with `.console.light` in index.css. */
+const THEME_BACKGROUND: Record<Theme, string> = {
+  dark: '#0a0a0b',
+  light: '#f7f7f8',
+};
+
+/**
+ * The theme this viewer last chose, or the one their OS asks for.
+ *
+ * Read lazily inside `useState` so the very first paint is already the right
+ * theme -- setting it in an effect instead makes a light-mode user watch the
+ * console flash dark on every load.
+ *
+ * Every access is wrapped: Safari throws on `localStorage` outright in private
+ * mode rather than returning null, and a console that cannot render because a
+ * storage read threw would be a bad trade for remembering a preference.
+ */
+function initialTheme(): Theme {
+  try {
+    const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
+    if (stored === 'dark' || stored === 'light') return stored;
+  } catch {
+    // Storage unavailable; fall through to the OS preference.
+  }
+  try {
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  } catch {
+    return 'dark';
+  }
+}
+
 /**
  * Stands in for the console's own `index.css`, which it no longer has.
  *
- * Two things it used to get from being a separate site: a dark document, so the
- * overscroll area and the form controls are not the marketing site's white; and
- * its own motion and grid, which are shorter and fainter than this site's. The
- * `console` class is what the scoped block in `src/index.css` hangs off — see
- * the comment there for why they cannot simply be the same values.
+ * Two things it used to get from being a separate site: a document painted to
+ * match, so the overscroll area and the form controls are not the marketing
+ * site's white; and its own motion and grid, which are shorter and fainter than
+ * this site's. The `console` class is what the scoped block in `src/index.css`
+ * hangs off -- see the comment there for why they cannot simply be the same
+ * values, and for how `console light` repaints the whole surface.
  *
  * All of it is undone on the way out, so leaving `#/admin` returns a light site.
  */
-function useConsoleDocument() {
+function useConsoleDocument(theme: Theme) {
   useEffect(() => {
     const root = document.documentElement;
     const previous = {
@@ -47,27 +84,33 @@ function useConsoleDocument() {
     };
 
     root.classList.add('console');
-    root.style.backgroundColor = '#0a0a0b';
-    root.style.colorScheme = 'dark';
-    document.body.style.backgroundColor = '#0a0a0b';
+    root.classList.toggle('light', theme === 'light');
+    // `color-scheme` is what makes the browser's own furniture follow -- the
+    // scrollbars, the search input's clear button, and form control defaults.
+    root.style.colorScheme = theme;
+    root.style.backgroundColor = THEME_BACKGROUND[theme];
+    document.body.style.backgroundColor = THEME_BACKGROUND[theme];
 
     return () => {
-      root.classList.remove('console');
+      root.classList.remove('console', 'light');
       root.style.backgroundColor = previous.background;
       root.style.colorScheme = previous.scheme;
       document.body.style.backgroundColor = previous.bodyBackground;
     };
-  }, []);
+  }, [theme]);
 }
 
 /**
  * How often the page re-asks Receipt for the numbers.
  *
- * Half a minute is frequent enough that the page can honestly say it is live,
- * and slow enough that a console left open on a wall display is not hammering a
- * production query all day. Polling only runs while the tab is actually visible.
+ * Fifteen seconds: close enough to live that a workspace created in another tab
+ * shows up while you are still looking for it, and still slow enough that a
+ * console left open on a wall display is not hammering a production query all
+ * day. Polling only runs while the tab is actually visible, and the header
+ * counts down to the next one so the page is visibly current rather than
+ * asking to be trusted.
  */
-const REFRESH_INTERVAL_MS = 30_000;
+const REFRESH_INTERVAL_MS = 15_000;
 
 export default function AdminConsole() {
   const [status, setStatus] = useState<Status>('loading');
@@ -77,8 +120,30 @@ export default function AdminConsole() {
   const [dialogOpen, setDialogOpen] = useState(false);
   /** Set while a background refresh is in flight, to drive the "live" dot. */
   const [refreshing, setRefreshing] = useState(false);
+  const [theme, setTheme] = useState<Theme>(initialTheme);
+  /**
+   * When the figures on screen were last successfully fetched.
+   *
+   * Distinct from `generatedAt`, which is when Receipt ran the query. This is
+   * the browser's own clock, and is what the countdown to the next poll is
+   * measured from -- the two can differ by the round trip and by any clock skew
+   * between here and production.
+   */
+  const [lastUpdated, setLastUpdated] = useState<number>(() => Date.now());
 
-  useConsoleDocument();
+  useConsoleDocument(theme);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((previous) => {
+      const next = previous === 'dark' ? 'light' : 'dark';
+      try {
+        window.localStorage.setItem(THEME_STORAGE_KEY, next);
+      } catch {
+        // Private mode; the choice simply will not survive a reload.
+      }
+      return next;
+    });
+  }, []);
 
   // Read inside the interval callback so it never closes over a stale value and
   // starts polling while signed out.
@@ -103,6 +168,7 @@ export default function AdminConsole() {
       const overview = await fetchOverview();
       if (overview) {
         setData(overview);
+        setLastUpdated(Date.now());
         setStatus('signed-in');
         setDialogOpen(false);
       } else {
@@ -217,12 +283,12 @@ export default function AdminConsole() {
       <div className="flex min-h-screen items-center justify-center bg-ink-950 px-5">
         <div className="w-full max-w-md rounded-2xl border border-ink-800 bg-ink-900 p-8 text-center">
           <ReceiptMark className="mx-auto h-7 w-7 text-brand-500" paperClassName="text-ink-900" />
-          <h1 className="mt-5 text-base font-semibold text-white">The console could not load</h1>
+          <h1 className="mt-5 text-base font-semibold text-ink-50">The console could not load</h1>
           <p className="mt-2 text-sm leading-relaxed text-ink-400">{error}</p>
           <button
             type="button"
             onClick={() => void load()}
-            className="mt-6 rounded-xl border border-ink-700 bg-ink-850 px-4 py-2.5 text-sm font-medium text-ink-200 transition-colors hover:border-ink-600 hover:text-white"
+            className="mt-6 rounded-xl border border-ink-700 bg-ink-850 px-4 py-2.5 text-sm font-medium text-ink-200 transition-colors hover:border-ink-600 hover:text-ink-50"
           >
             Try again
           </button>
@@ -239,6 +305,10 @@ export default function AdminConsole() {
         onReload={() => void load()}
         busy={busy}
         refreshing={refreshing}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+        lastUpdated={lastUpdated}
+        refreshIntervalMs={REFRESH_INTERVAL_MS}
         // A background failure, if there is one. The table keeps showing the
         // last good numbers underneath it.
         staleError={error}

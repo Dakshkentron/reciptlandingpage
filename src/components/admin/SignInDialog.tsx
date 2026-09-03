@@ -84,7 +84,7 @@ export default function SignInDialog({ onClose, onSignIn, error, busy }: Props) 
 
         <ReceiptMark className="h-7 w-7 text-brand-500" paperClassName="text-ink-900" />
 
-        <h2 id={titleId} className="mt-4 text-lg font-bold text-white">
+        <h2 id={titleId} className="mt-4 text-lg font-bold text-ink-50">
           Welcome back
         </h2>
         <p className="mt-1.5 text-sm leading-relaxed text-ink-300">

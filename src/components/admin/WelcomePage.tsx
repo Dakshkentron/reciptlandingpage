@@ -215,7 +215,7 @@ export default function WelcomePage({ onSignIn }: Props) {
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-5 lg:px-8">
           <a href="#top" className="flex items-center gap-2.5">
             <ReceiptMark className="h-7 w-7 text-brand-500" paperClassName="text-ink-950" />
-            <span className="text-lg font-bold text-white">Receipt</span>
+            <span className="text-lg font-bold text-ink-50">Receipt</span>
           </a>
           <span className="hidden items-center gap-1.5 rounded-full border border-ink-700 bg-ink-850 px-2.5 py-0.5 text-[11px] font-medium text-ink-300 sm:inline-flex">
             <ShieldCheck className="h-3 w-3 text-brand-400" />
@@ -268,7 +268,7 @@ export default function WelcomePage({ onSignIn }: Props) {
               </span>
 
               <h1
-                className="mt-6 animate-fade-up text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-[2.75rem]"
+                className="mt-6 animate-fade-up text-4xl font-bold leading-[1.08] tracking-tight text-ink-50 sm:text-[2.75rem]"
                 style={{ animationDelay: '60ms' }}
               >
                 Every company on Receipt,
@@ -299,7 +299,7 @@ export default function WelcomePage({ onSignIn }: Props) {
                 </button>
                 <a
                   href="#access"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-ink-700 bg-ink-900 px-5 py-3 text-sm font-medium text-ink-200 transition-colors hover:border-ink-600 hover:text-white"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-ink-700 bg-ink-900 px-5 py-3 text-sm font-medium text-ink-200 transition-colors hover:border-ink-600 hover:text-ink-50"
                 >
                   How access works
                 </a>
@@ -320,7 +320,7 @@ export default function WelcomePage({ onSignIn }: Props) {
         </section>
 
         <section id="what-you-see" className="scroll-mt-20 border-t border-ink-800/70 py-16">
-          <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          <h2 className="text-2xl font-bold tracking-tight text-ink-50 sm:text-3xl">
             What you see once you are in
           </h2>
           <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-300">
@@ -337,7 +337,7 @@ export default function WelcomePage({ onSignIn }: Props) {
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-ink-800 bg-ink-950 text-brand-400 transition-colors group-hover:border-brand-500/30">
                   <Icon className="h-5 w-5" />
                 </span>
-                <h3 className="mt-5 text-base font-semibold text-white">{title}</h3>
+                <h3 className="mt-5 text-base font-semibold text-ink-50">{title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink-300/90">{body}</p>
               </div>
             ))}
@@ -345,7 +345,7 @@ export default function WelcomePage({ onSignIn }: Props) {
         </section>
 
         <section id="access" className="scroll-mt-20 border-t border-ink-800/70 py-16">
-          <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          <h2 className="text-2xl font-bold tracking-tight text-ink-50 sm:text-3xl">
             How access works
           </h2>
           <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-300">
@@ -362,7 +362,7 @@ export default function WelcomePage({ onSignIn }: Props) {
                 <span className="font-mono text-xs font-semibold text-brand-400">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <h3 className="mt-3 text-base font-semibold text-white">{title}</h3>
+                <h3 className="mt-3 text-base font-semibold text-ink-50">{title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink-300/90">{body}</p>
               </li>
             ))}
@@ -370,7 +370,7 @@ export default function WelcomePage({ onSignIn }: Props) {
         </section>
 
         <section id="limits" className="scroll-mt-20 border-t border-ink-800/70 py-16">
-          <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          <h2 className="text-2xl font-bold tracking-tight text-ink-50 sm:text-3xl">
             What it will never show you
           </h2>
           <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-300">
@@ -385,7 +385,7 @@ export default function WelcomePage({ onSignIn }: Props) {
                   <Icon className="h-4 w-4" />
                 </span>
                 <div>
-                  <h3 className="text-base font-semibold text-white">{title}</h3>
+                  <h3 className="text-base font-semibold text-ink-50">{title}</h3>
                   <p className="mt-1.5 text-sm leading-relaxed text-ink-300/90">{body}</p>
                 </div>
               </div>
@@ -404,7 +404,7 @@ export default function WelcomePage({ onSignIn }: Props) {
                 className="mx-auto h-8 w-8 text-brand-500"
                 paperClassName="text-ink-900"
               />
-              <h2 className="mt-5 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+              <h2 className="mt-5 text-2xl font-bold tracking-tight text-ink-50 sm:text-3xl">
                 Ready when you are
               </h2>
               <p className="mx-auto mt-3 max-w-md text-base leading-relaxed text-ink-300">

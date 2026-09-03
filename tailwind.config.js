@@ -8,20 +8,37 @@ export default {
         mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       colors: {
+        /**
+         * The console's greys resolve through CSS variables so one class on
+         * <html> can repaint the whole surface. `src/index.css` defines the
+         * dark values as the default and swaps them under `.console.light`.
+         *
+         * The scale stays semantic in both themes: 950 is always the deepest
+         * background and 50 the brightest text, so `bg-ink-950 text-ink-100`
+         * reads correctly either way and no component needs a `dark:` variant.
+         *
+         * The values are space-separated RGB channels wrapped in
+         * `rgb(... / <alpha-value>)` rather than hexes, which is what keeps
+         * `bg-ink-950/70` and friends working: Tailwind cannot compute an alpha
+         * against an opaque `var()` and drops the class outright when it tries.
+         *
+         * The fallbacks are the original dark channels, so the marketing site --
+         * which never sets these variables -- is untouched by this.
+         */
         ink: {
-          950: '#0a0a0b',
-          900: '#101012',
-          850: '#151517',
-          800: '#1a1a1d',
-          750: '#1f1f23',
-          700: '#26262b',
-          600: '#333339',
-          500: '#44444c',
-          400: '#62626c',
-          300: '#8a8a96',
-          200: '#b4b4be',
-          100: '#d8d8de',
-          50: '#ececf0',
+          950: 'rgb(var(--ink-950, 10 10 11) / <alpha-value>)',
+          900: 'rgb(var(--ink-900, 16 16 18) / <alpha-value>)',
+          850: 'rgb(var(--ink-850, 21 21 23) / <alpha-value>)',
+          800: 'rgb(var(--ink-800, 26 26 29) / <alpha-value>)',
+          750: 'rgb(var(--ink-750, 31 31 35) / <alpha-value>)',
+          700: 'rgb(var(--ink-700, 38 38 43) / <alpha-value>)',
+          600: 'rgb(var(--ink-600, 51 51 57) / <alpha-value>)',
+          500: 'rgb(var(--ink-500, 68 68 76) / <alpha-value>)',
+          400: 'rgb(var(--ink-400, 98 98 108) / <alpha-value>)',
+          300: 'rgb(var(--ink-300, 138 138 150) / <alpha-value>)',
+          200: 'rgb(var(--ink-200, 180 180 190) / <alpha-value>)',
+          100: 'rgb(var(--ink-100, 216 216 222) / <alpha-value>)',
+          50: 'rgb(var(--ink-50, 236 236 240) / <alpha-value>)',
         },
         brand: {
           50: '#eefcf5',

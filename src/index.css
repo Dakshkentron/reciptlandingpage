@@ -107,6 +107,59 @@
    *  So they are overridden for the console's subtree only. `AdminConsole` puts
    *  the `console` class on <html> while it is mounted and takes it off again.
    * ------------------------------------------------------------------ */
+  /* ------------------------------------------------------------------ *
+   *  Light mode for the console
+   *
+   *  The console's components are written against the `ink` scale used
+   *  semantically: 950 is the deepest background, 50 the brightest text. The
+   *  Tailwind config resolves that scale through these variables, so flipping
+   *  the theme is a matter of redefining thirteen values here rather than
+   *  adding a `dark:` variant to several hundred class names -- which is also
+   *  what keeps the components a clean copy of the standalone console.
+   *
+   *  The values are space-separated RGB channels rather than hexes because the
+   *  Tailwind config wraps them in `rgb(... / <alpha-value>)`. That is what
+   *  keeps the opacity modifiers working: `bg-ink-950/70` cannot compute an
+   *  alpha from an opaque `var()`, and Tailwind silently drops the class when
+   *  it tries -- which took the modal backdrop and the sticky header's
+   *  translucency with it until this was channels.
+   *
+   *  The light values are an inversion of the roles, not of the hexes: a
+   *  straight numeric inversion gives muddy mid-greys with too little contrast
+   *  between the page, the cards, and the table header. These are picked so
+   *  that 950/900/850 stay clearly separable as page / card / raised surface,
+   *  and the text steps (50 through 400) all clear WCAG AA on them.
+   * ------------------------------------------------------------------ */
+  .console.light {
+    --ink-950: 247 247 248; /* page */
+    --ink-900: 255 255 255; /* cards */
+    --ink-850: 240 240 242; /* raised chips and buttons */
+    --ink-800: 227 227 231; /* borders */
+    --ink-750: 220 220 225;
+    --ink-700: 207 207 214; /* stronger borders */
+    --ink-600: 168 168 178; /* de-emphasised numerals */
+    --ink-500: 119 119 127; /* hints, AA on white */
+    --ink-400: 95 95 104; /* labels */
+    --ink-300: 74 74 82; /* secondary text */
+    --ink-200: 51 51 58; /* body text */
+    --ink-100: 31 31 36; /* strong text */
+    --ink-50: 13 13 16; /* headings, was `text-white` in dark */
+  }
+
+  /* The grid and the selection colour are painted in raw rgba rather than
+     through the scale, so they need their own light values or they vanish
+     against a pale ground. */
+  .console.light .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
+  }
+
+  .console.light ::selection {
+    background-color: rgba(22, 168, 106, 0.2);
+    color: #06432f;
+  }
+
   .console .animate-fade-up {
     animation: consoleFadeUp 0.4s ease-out both;
   }
