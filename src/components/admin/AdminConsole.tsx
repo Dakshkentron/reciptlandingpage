@@ -118,6 +118,7 @@ export default function AdminConsole() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [receiptOrigin, setReceiptOrigin] = useState<string | null>(null);
   /** Set while a background refresh is in flight, to drive the "live" dot. */
   const [refreshing, setRefreshing] = useState(false);
   const [theme, setTheme] = useState<Theme>(initialTheme);
@@ -193,6 +194,18 @@ export default function AdminConsole() {
 
   useEffect(() => {
     void load();
+    // Fetch the configured Receipt origin for diagnostics (optional)
+    void (async () => {
+      try {
+        const res = await fetch('/api/admin/debug');
+        if (res.ok) {
+          const body = await res.json();
+          setReceiptOrigin(body.receiptOrigin ?? null);
+        }
+      } catch {
+        // ignore
+      }
+    })();
   }, [load]);
 
   /**
@@ -301,6 +314,7 @@ export default function AdminConsole() {
     return (
       <AdminDashboard
         data={data}
+        receiptOrigin={receiptOrigin}
         onSignOut={() => void handleSignOut()}
         onReload={() => void load()}
         busy={busy}

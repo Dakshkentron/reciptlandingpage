@@ -108,7 +108,10 @@ export default async function handler(request: Request): Promise<Response> {
       body: JSON.stringify({ email, password }),
     });
   } catch {
-    return json({ error: 'Could not reach Receipt. Try again in a moment.' }, 502);
+    return json(
+      { error: `Could not reach Receipt at ${RECEIPT_ORIGIN}. Check RECEIPT_ORIGIN configuration.` },
+      502,
+    );
   }
 
   if (!signIn.ok) {

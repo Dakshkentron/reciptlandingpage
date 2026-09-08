@@ -13,8 +13,16 @@
  * step.
  */
 
-/** Overridable so a local Receipt can be pointed at during development. */
-export const RECEIPT_ORIGIN = (process.env.RECEIPT_ORIGIN?.trim() || 'https://beetle.run').replace(
+/**
+ * Overridable so a local Receipt can be pointed at during development.
+ *
+ * `beetle.run` was the production domain until it was replaced by
+ * `app.kentron.ai` — both still resolve to the same host, but `beetle.run`'s
+ * TLS vhost is no longer served there (confirmed 2026-09-08: it fails the TLS
+ * handshake outright, while `app.kentron.ai` answers `/api/admin-metrics`
+ * correctly). If this ever needs to move again, update the fallback here.
+ */
+export const RECEIPT_ORIGIN = (process.env.RECEIPT_ORIGIN?.trim() || 'https://app.kentron.ai').replace(
   /\/+$/,
   '',
 )

@@ -47,6 +47,8 @@ import type {
   AdminCompanyRow,
   AdminOverview,
   AdminPromptRow,
+  AdminRunDetail,
+  AdminRunStep,
   AdminTotals,
 } from '@/lib/adminTypes';
 
@@ -631,19 +633,203 @@ function formatExact(value: string | null): string {
   return Number.isNaN(parsed.getTime()) ? 'Unknown' : exactFormat.format(parsed);
 }
 
+/** The exact moment, spelled out — same reasoning as `formatExact` above it. */
+function formatExactOrDash(value: string | null): string {
+  if (!value) return '—';
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? '—' : exactFormat.format(parsed);
+}
+
+const usdFormat = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 4,
+});
+
+/** One row in the objective's step timeline. */
+function StepRow({ step }: { step: AdminRunStep }) {
+  return (
+    <li className="flex items-baseline gap-3 border-t border-ink-800 py-2 first:border-t-0">
+      <span className="w-16 shrink-0 font-mono text-[11px] text-ink-500">#{step.seq}</span>
+      <span className="min-w-0 flex-1 truncate font-mono text-xs text-ink-200">
+        {step.eventType}
+      </span>
+      <span className="shrink-0 text-[11px] text-ink-500">{formatExactOrDash(step.ts)}</span>
+    </li>
+  );
+}
+
+/**
+ * The execution trace, loaded on demand.
+ *
+ * `/api/admin-run` resolves the run behind this prompt from real columns —
+ * `receipt_session_messages`, `receipt_job_projection`,
+ * `receipt_objective_projection`, and `receipt_receipts` — rather than
+ * guessing at an endpoint. Most chat prompts are answered inline and never
+ * touch an objective at all, which is the ordinary case here, not a failure:
+ * `objective` is simply null and the panel says so. It never shows message
+ * text from either side; see `admin-run-sql.ts` in Receipt for why that line
+ * is drawn the same place `AdminPromptRow` draws it.
+ */
+function ExecutionTrace({ messageId }: { messageId: string }) {
+  const [state, setState] = useState<
+    | { status: 'idle' }
+    | { status: 'loading' }
+    | { status: 'error'; message: string }
+    | { status: 'loaded'; detail: AdminRunDetail }
+  >({ status: 'idle' });
+
+  const load = async () => {
+    setState({ status: 'loading' });
+    try {
+      const api = await import('@/lib/adminApi');
+      const detail = await api.fetchRunDetail(messageId);
+      setState({ status: 'loaded', detail });
+    } catch (err) {
+      setState({
+        status: 'error',
+        message: err instanceof Error ? err.message : 'Could not load the run detail.',
+      });
+    }
+  };
+
+  return (
+    <section className="flex flex-col gap-2">
+      <div className="flex items-center justify-between">
+        <h3 className="text-[11px] font-medium uppercase tracking-wider text-ink-500">
+          Execution trace
+        </h3>
+        {state.status !== 'loading' && (
+          <button
+            type="button"
+            onClick={() => void load()}
+            className="rounded-md border border-ink-700 bg-ink-850 px-3 py-1 text-xs font-medium text-ink-200 transition-colors hover:border-ink-600 hover:text-ink-50"
+          >
+            {state.status === 'loaded' ? 'Reload trace' : 'Load trace'}
+          </button>
+        )}
+      </div>
+
+      {state.status === 'idle' && (
+        <div className="flex items-start gap-2.5 rounded-xl border border-ink-800 bg-ink-950/60 px-4 py-3.5">
+          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink-500" aria-hidden="true" />
+          <p className="text-xs leading-relaxed text-ink-400">
+            Timing, status, cost, and — for prompts a background objective carried out — that
+            objective's id and step timeline. Not message text, from either side.
+          </p>
+        </div>
+      )}
+
+      {state.status === 'loading' && (
+        <div className="rounded-xl border border-ink-800 bg-ink-950/40 px-5 py-6 text-center text-xs text-ink-400">
+          Loading trace…
+        </div>
+      )}
+
+      {state.status === 'error' && (
+        <div className="rounded-xl border border-ink-800 bg-ink-950/40 px-5 py-6 text-center text-xs text-accent-200">
+          {state.message}
+        </div>
+      )}
+
+      {state.status === 'loaded' && (
+        <div className="flex flex-col gap-3 rounded-xl border border-ink-800 bg-ink-900 p-4">
+          <dl className="divide-y divide-ink-800">
+            <MetaRow label="Run status">
+              <span className="font-mono text-xs text-ink-200">{state.detail.status ?? '—'}</span>
+            </MetaRow>
+            <MetaRow label="Started">
+              <span>{formatExactOrDash(state.detail.startedAt)}</span>
+            </MetaRow>
+            <MetaRow label="Completed">
+              <span>{formatExactOrDash(state.detail.completedAt)}</span>
+            </MetaRow>
+            <MetaRow label="Tokens">
+              {state.detail.inputTokens != null || state.detail.outputTokens != null ? (
+                <span className="font-mono text-xs text-ink-200">
+                  {numberFormat.format(state.detail.inputTokens ?? 0)} in ·{' '}
+                  {numberFormat.format(state.detail.outputTokens ?? 0)} out
+                </span>
+              ) : (
+                <span className="text-ink-500">Not recorded</span>
+              )}
+            </MetaRow>
+            <MetaRow label="Cost">
+              {state.detail.estimatedCost != null ? (
+                <span className="font-mono text-xs text-ink-200">
+                  {usdFormat.format(state.detail.estimatedCost)}
+                </span>
+              ) : (
+                <span className="text-ink-500">Not recorded</span>
+              )}
+            </MetaRow>
+            {state.detail.serverError && (
+              <MetaRow label="Error">
+                <span className="text-xs text-accent-200">{state.detail.serverError}</span>
+              </MetaRow>
+            )}
+          </dl>
+
+          {state.detail.objective ? (
+            <div className="flex flex-col gap-2 rounded-lg border border-ink-800 bg-ink-950 p-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[11px] font-medium uppercase tracking-wider text-ink-500">
+                  Objective
+                </span>
+                <span className="rounded-full border border-ink-700 bg-ink-850 px-2 py-0.5 text-[11px] text-ink-300">
+                  {state.detail.objective.status}
+                </span>
+              </div>
+              <p className="text-sm text-ink-100">{state.detail.objective.title}</p>
+              {state.detail.objective.latestSummary && (
+                <p className="text-xs leading-relaxed text-ink-400">
+                  {state.detail.objective.latestSummary}
+                </p>
+              )}
+              <CopyableId value={state.detail.objective.objectiveId} label="objective ID" />
+
+              {state.detail.steps.length > 0 && (
+                <div className="mt-1">
+                  <h4 className="text-[11px] font-medium uppercase tracking-wider text-ink-500">
+                    Steps · {numberFormat.format(state.detail.steps.length)}
+                  </h4>
+                  <ul className="mt-1 max-h-64 overflow-y-auto">
+                    {state.detail.steps.map((step) => (
+                      <StepRow key={step.seq} step={step} />
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          ) : (
+            <p className="flex items-start gap-2 text-xs leading-relaxed text-ink-500">
+              <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <span>
+                This prompt was answered inline in chat rather than by a background objective, so
+                there is no objective id or step log for it — that is the ordinary case.
+              </span>
+            </p>
+          )}
+        </div>
+      )}
+    </section>
+  );
+}
+
 /**
  * One prompt, opened.
  *
  * The feed is built for scanning, which means it truncates and it drops the
  * ids. This is the other half: the full text as it was received, the message
  * and organization ids in a form you can copy, the model that answered, and the
- * exact timestamp rather than a relative one.
+ * exact timestamp rather than a relative one — plus, on request, the real
+ * execution trace behind it (see `ExecutionTrace` above).
  *
- * What it deliberately does not claim to show is the run itself. Receipt's
- * `/api/admin-metrics` returns a prompt as text plus ids -- there is no step
- * list, no tool calls, and no reply in the payload, so a "full execution flow"
- * rendered here would be invented. The panel names the gap instead, and gives
- * the ids that let someone go and look it up where the trace actually lives.
+ * What this still does not show is the assistant's reply. Receipt's
+ * `/api/admin-metrics` returns a prompt as text plus ids, and `/api/admin-run`
+ * returns run metadata, but neither carries message content from the model's
+ * side -- that boundary is deliberate, not a gap in what was wired up.
  */
 function PromptInspector({
   prompt,
@@ -672,7 +858,7 @@ function PromptInspector({
         role="dialog"
         aria-modal="true"
         aria-label="Prompt detail"
-        className="relative flex h-full w-full max-w-xl flex-col overflow-y-auto border-l border-ink-800 bg-ink-900 shadow-2xl"
+        className="relative flex h-full w-full max-w-full sm:max-w-xl flex-col overflow-y-auto border-l border-ink-800 bg-ink-900 shadow-2xl"
       >
         <header className="sticky top-0 flex items-center justify-between gap-3 border-b border-ink-800 bg-ink-900/95 px-5 py-4 backdrop-blur">
           <div className="min-w-0">
@@ -732,21 +918,7 @@ function PromptInspector({
             </div>
           </section>
 
-          {/* Saying plainly what this payload does not carry, rather than
-              leaving an empty "Execution" section to read as "nothing ran". */}
-          <section className="flex flex-col gap-2">
-            <h3 className="text-[11px] font-medium uppercase tracking-wider text-ink-500">
-              Execution trace
-            </h3>
-            <div className="flex items-start gap-2.5 rounded-xl border border-ink-800 bg-ink-950/60 px-4 py-3.5">
-              <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink-500" aria-hidden="true" />
-              <p className="text-xs leading-relaxed text-ink-400">
-                The admin metrics feed carries prompts as text and ids only — no tool calls, no
-                steps, and no assistant reply. Copy the message ID above to look the run up in
-                Receipt, where the trace is held.
-              </p>
-            </div>
-          </section>
+          <ExecutionTrace messageId={prompt.messageId} />
         </div>
       </aside>
     </div>
@@ -999,6 +1171,8 @@ interface Props {
   /** Browser-clock time of the last successful fetch, for the countdown. */
   lastUpdated: number;
   refreshIntervalMs: number;
+  /** Optional debug: configured Receipt origin */
+  receiptOrigin?: string | null;
 }
 
 export default function AdminDashboard({
@@ -1012,6 +1186,7 @@ export default function AdminDashboard({
   onToggleTheme,
   lastUpdated,
   refreshIntervalMs,
+  receiptOrigin,
 }: Props) {
   const [query, setQuery] = useState('');
   // Newest company first: the default question this page gets asked is "who
@@ -1200,6 +1375,11 @@ export default function AdminDashboard({
             <span className="hidden max-w-[16rem] truncate text-xs text-ink-400 sm:inline">
               {data.viewer.email}
             </span>
+            {receiptOrigin && (
+              <span className="hidden truncate rounded-full border border-ink-700 bg-ink-850 px-2.5 py-0.5 text-xs text-ink-300 sm:inline">
+                Receipt: {receiptOrigin}
+              </span>
+            )}
             {/* Sits next to Refresh rather than behind a settings menu: it is a
                 one-click preference, and a menu holding a single item is a
                 worse trade than the width this costs. */}

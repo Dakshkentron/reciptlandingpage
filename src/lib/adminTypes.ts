@@ -74,3 +74,45 @@ export interface AdminOverview {
    */
   demo?: boolean;
 }
+
+/**
+ * Mirrors `lib/shared/admin/admin-run.ts` in the Receipt repo, field for
+ * field. Backs `GET /api/admin-run` — the prompt inspector's execution trace.
+ *
+ * Deliberately carries no message text from either side, same boundary as
+ * `AdminPromptRow` draws around the assistant's reply. See the Receipt-side
+ * file for why: this shows a run's timing, status, cost, and — when a
+ * background objective carried it out — that objective's id and step
+ * timeline, not what it said or did.
+ */
+export interface AdminRunStep {
+  seq: number;
+  ts: string | null;
+  eventType: string;
+}
+
+export interface AdminRunObjective {
+  objectiveId: string;
+  title: string;
+  status: string;
+  latestSummary: string | null;
+  blockedReason: string | null;
+}
+
+export interface AdminRunDetail {
+  runId: string;
+  chatId: string;
+  organizationId: string;
+  model: string | null;
+  status: string | null;
+  serverError: string | null;
+  inputTokens: number | null;
+  outputTokens: number | null;
+  cacheReadTokens: number | null;
+  cacheWriteTokens: number | null;
+  estimatedCost: number | null;
+  startedAt: string | null;
+  completedAt: string | null;
+  objective: AdminRunObjective | null;
+  steps: AdminRunStep[];
+}
