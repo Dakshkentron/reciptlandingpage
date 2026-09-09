@@ -50,6 +50,7 @@ const routes = [
   })),
   { hash: '#/integrations', title: 'Integrations', desc: `${CATALOG_LABEL} connectors across ${categories.length} categories.` },
   { hash: '#/pricing', title: 'Pricing', desc: 'Credit-based pricing from $50; free tier and enterprise plans.' },
+  { hash: '#/compare', title: 'Compare', desc: 'Receipt against workflow builders, chat assistants, and in-house scripts; includes the price promise.' },
   { hash: '#/security', title: 'Security', desc: 'Sandbox isolation, policy gates, and the receipt chain.' },
   ...Object.values(resourcePages).map((p) => ({
     hash: `#/${p.kind}`,

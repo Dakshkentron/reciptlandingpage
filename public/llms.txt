@@ -28,6 +28,7 @@ JavaScript.
 - [Legal & Compliance use cases](https://reciptlandingpage.vercel.app/#/use-cases/legal-compliance): Contract review and obligations that get tracked
 - [Integrations](https://reciptlandingpage.vercel.app/#/integrations): 1,000+ connectors across 14 categories.
 - [Pricing](https://reciptlandingpage.vercel.app/#/pricing): Credit-based pricing from $50; free tier and enterprise plans.
+- [Compare](https://reciptlandingpage.vercel.app/#/compare): Receipt against workflow builders, chat assistants, and in-house scripts; includes the price promise.
 - [Security](https://reciptlandingpage.vercel.app/#/security): Sandbox isolation, policy gates, and the receipt chain.
 - [Blog](https://reciptlandingpage.vercel.app/#/blog): What we are learning about running AI agents against production systems — the architecture, the failure modes, and the things that turned out to matter more than we expected.
 - [Research](https://reciptlandingpage.vercel.app/#/research): Receipt exists because probabilistic systems need deterministic accountability. These are the papers, benchmarks, and design notes we keep coming back to — including our own.

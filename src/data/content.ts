@@ -31,6 +31,7 @@ export const navLinks: NavLink[] = [
   { label: 'Customers', href: '#customers' },
   { label: 'Security', href: '#/security' },
   { label: 'Pricing', href: '#/pricing' },
+  { label: 'Compare', href: '#/compare' },
 ];
 
 export const trustedBy = [
@@ -210,6 +211,7 @@ export const footerLinks = {
     { label: 'Integrations', href: '#/integrations' },
     { label: 'Use cases', href: '#/use-cases' },
     { label: 'Pricing', href: '#/pricing' },
+    { label: 'Compare', href: '#/compare' },
     { label: 'Security', href: '#/security' },
   ],
   'Use cases': teams.slice(0, 6).map((t) => ({ label: t.label, href: `#/use-cases/${t.slug}` })),
