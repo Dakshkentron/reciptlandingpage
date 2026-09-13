@@ -194,7 +194,7 @@ export default function PricingPage() {
             people you let near it. Start without a card, and without a call.
           </p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
-            <a href="https://beetle.run/auth/sign-up" className="btn-primary btn-lg">
+            <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary btn-lg">
               Get started for free
             </a>
             <a href="mailto:hello@beetle.run" className="btn-secondary btn-lg">
@@ -217,7 +217,7 @@ export default function PricingPage() {
                 <span className="text-sm text-ink-400">forever</span>
               </div>
               <p className="mt-2 text-sm text-ink-500">$100 in credits, once. No card required.</p>
-              <a href="https://beetle.run/auth/sign-up" className="btn-secondary mt-6 w-full">
+              <a href="https://app.kentron.ai/auth/sign-up" className="btn-secondary mt-6 w-full">
                 Start free
               </a>
               <ul className="mt-7 space-y-3 border-t border-ink-100 pt-6">
@@ -275,7 +275,7 @@ export default function PricingPage() {
                 </p>
               </div>
 
-              <a href="https://beetle.run/auth/sign-up" className="btn-primary mt-6 w-full">
+              <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary mt-6 w-full">
                 Get started
               </a>
 
@@ -431,7 +431,7 @@ export default function PricingPage() {
             $100 in credits, all {CATALOG_LABEL} connectors, and a receipt for everything Receipt does.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href="https://beetle.run/auth/sign-up" className="btn-primary btn-lg">
+            <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary btn-lg">
               Get started for free
               <ArrowRight className="h-4 w-4" />
             </a>

@@ -123,7 +123,7 @@ export default function UseCasesPage() {
             connect one system, read the receipts before you connect the next.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href="https://beetle.run/auth/sign-up" className="btn-primary btn-lg">
+            <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary btn-lg">
               Get started for free
               <ArrowRight className="h-4 w-4" />
             </a>

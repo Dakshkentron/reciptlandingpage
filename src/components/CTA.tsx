@@ -20,7 +20,7 @@ export default function CTA() {
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
               <a
-                href="https://beetle.run/auth/sign-up"
+                href="https://app.kentron.ai/auth/sign-up"
                 className="btn-primary btn-lg group bg-white text-ink-950 shadow-lg shadow-ink-950/20 hover:bg-white hover:shadow-glow"
               >
                 Get started for free
