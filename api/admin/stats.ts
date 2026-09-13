@@ -1,7 +1,7 @@
 /**
  * Company metrics for the admin console.
  *
- * Forwards the visitor's Receipt session to beetle.run and hands back what it
+ * Forwards the visitor's Receipt session to app.kentron.ai and hands back what it
  * returns. This function decides nothing about access — it carries the
  * question, and Receipt answers it.
  */

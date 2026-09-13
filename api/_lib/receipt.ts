@@ -1,9 +1,9 @@
 /**
- * Server-side link between this site and Receipt (beetle.run).
+ * Server-side link between this site and Receipt (app.kentron.ai).
  *
  * The admin page runs on this static site, which has no database and cannot
  * reach Receipt's — Postgres sits inside a private VPC. So every figure the
- * page shows comes from `GET /api/admin-metrics` on beetle.run, and the only
+ * page shows comes from `GET /api/admin-metrics` on app.kentron.ai, and the only
  * thing this site stores is the visitor's Receipt session, in a cookie their
  * browser cannot read.
  *
