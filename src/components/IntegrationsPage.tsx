@@ -489,7 +489,7 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
               Get Started for Free
               <ArrowRight className="h-4 w-4" />
             </a>
-            <a href="mailto:hello@beetle.run" className="btn-secondary btn-lg">
+            <a href="mailto:hello@kentron.ai" className="btn-secondary btn-lg">
               Request an integration
             </a>
           </div>

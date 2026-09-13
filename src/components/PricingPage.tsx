@@ -197,7 +197,7 @@ export default function PricingPage() {
             <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary btn-lg">
               Get started for free
             </a>
-            <a href="mailto:hello@beetle.run" className="btn-secondary btn-lg">
+            <a href="mailto:hello@kentron.ai" className="btn-secondary btn-lg">
               Talk to us
             </a>
           </div>
@@ -300,7 +300,7 @@ export default function PricingPage() {
               </div>
               <p className="mt-2 text-sm text-ink-300">Volume credit rates, billed annually.</p>
               <a
-                href="mailto:hello@beetle.run"
+                href="mailto:hello@kentron.ai"
                 className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-ink-950 transition-all duration-200 hover:bg-ink-100 active:scale-[0.98]"
               >
                 Contact sales

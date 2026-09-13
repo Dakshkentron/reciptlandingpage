@@ -119,7 +119,7 @@ export default function SecurityPage() {
             <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary btn-lg">
               Get started for free
             </a>
-            <a href="mailto:hello@beetle.run" className="btn-secondary btn-lg">
+            <a href="mailto:hello@kentron.ai" className="btn-secondary btn-lg">
               Request our security review pack
             </a>
           </div>
@@ -197,8 +197,8 @@ export default function SecurityPage() {
           </div>
           <p className="mt-6 text-center text-sm text-ink-400">
             Working through a vendor review? Email{' '}
-            <a href="mailto:hello@beetle.run" className="font-semibold text-brand-700 hover:text-brand-800">
-              hello@beetle.run
+            <a href="mailto:hello@kentron.ai" className="font-semibold text-brand-700 hover:text-brand-800">
+              hello@kentron.ai
             </a>{' '}
             and we&rsquo;ll send the current security pack, DPA, and subprocessor list.
           </p>
@@ -229,7 +229,7 @@ export default function SecurityPage() {
               Get started for free
               <ArrowRight className="h-4 w-4" />
             </a>
-            <a href="mailto:hello@beetle.run" className="btn-secondary btn-lg">
+            <a href="mailto:hello@kentron.ai" className="btn-secondary btn-lg">
               Request the security pack
             </a>
           </div>

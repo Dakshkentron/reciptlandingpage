@@ -96,7 +96,7 @@ export default function ResourcePage({ kind }: { kind: ResourceKind }) {
           <h2 className="section-title text-ink-950">{page.cta.title}</h2>
           <p className="section-lead text-ink-500">{page.cta.desc}</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href="mailto:hello@beetle.run" className="btn-primary btn-lg">
+            <a href="mailto:hello@kentron.ai" className="btn-primary btn-lg">
               Get in touch
               <ArrowRight className="h-4 w-4" />
             </a>
