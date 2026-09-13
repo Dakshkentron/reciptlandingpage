@@ -23,7 +23,7 @@
  *  two blocks that reference it in api/admin/session.ts and api/admin/stats.ts.
  * ------------------------------------------------------------------------- */
 
-import type { AdminOverview } from '../../src/lib/adminTypes';
+import type { AdminOverview } from '../../src/lib/adminTypes.js';
 
 /**
  * Prefix on the demo session cookie. The rest is derived from the configured

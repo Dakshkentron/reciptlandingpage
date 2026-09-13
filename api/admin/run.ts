@@ -13,7 +13,7 @@ import {
   json,
   readSessionCookie,
   RECEIPT_ORIGIN,
-} from '../_lib/receipt';
+} from '../_lib/receipt.js';
 
 export const config = { runtime: 'edge' };
 

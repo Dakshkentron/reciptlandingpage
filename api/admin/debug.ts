@@ -1,4 +1,4 @@
-import { RECEIPT_ORIGIN, json } from '../_lib/receipt';
+import { RECEIPT_ORIGIN, json } from '../_lib/receipt.js';
 
 export const config = { runtime: 'edge' };
 

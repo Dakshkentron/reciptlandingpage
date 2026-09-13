@@ -13,9 +13,9 @@ import {
   json,
   readSessionCookie,
   RECEIPT_ORIGIN,
-} from '../_lib/receipt';
+} from '../_lib/receipt.js';
 // TEMPORARY — delete with api/_lib/demo.ts.
-import { demoOverview, isDemoSession } from '../_lib/demo';
+import { demoOverview, isDemoSession } from '../_lib/demo.js';
 
 export const config = { runtime: 'edge' };
 

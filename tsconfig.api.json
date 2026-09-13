@@ -2,11 +2,27 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022", "DOM"],
-    "module": "ESNext",
     "skipLibCheck": true,
 
-    /* Bundler mode — Vercel bundles these functions with esbuild. */
-    "moduleResolution": "bundler",
+    /*
+     * Matches how Vercel type-checks these functions, which is NOT how it
+     * bundles them.
+     *
+     * This was "bundler" before, and the mismatch was silent and expensive:
+     * `npm run typecheck` passed locally while every Vercel build failed with
+     * TS2835 on all seven relative imports under api/, because Vercel runs its
+     * own check under node16/nodenext and that resolution requires the `.js`
+     * extension. The build never produced a deployment, so the console kept
+     * serving an older bundle — still pointed at the dead beetle.run host —
+     * and the fix for that sat in git looking merged and shipped.
+     *
+     * A check that disagrees with CI is worse than no check: it hands you a
+     * clean result and lets the error through anyway. Keeping these aligned
+     * means anyone who drops an extension is told locally instead of finding
+     * out from a deploy that quietly did nothing.
+     */
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
