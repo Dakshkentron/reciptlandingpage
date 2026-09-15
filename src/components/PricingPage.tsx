@@ -194,10 +194,10 @@ export default function PricingPage() {
             people you let near it. Start without a card, and without a call.
           </p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
-            <a href="https://beetle.run/auth/sign-up" className="btn-primary btn-lg">
+            <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary btn-lg">
               Get started for free
             </a>
-            <a href="mailto:hello@beetle.run" className="btn-secondary btn-lg">
+            <a href="mailto:hello@kentron.ai" className="btn-secondary btn-lg">
               Talk to us
             </a>
           </div>
@@ -217,7 +217,7 @@ export default function PricingPage() {
                 <span className="text-sm text-ink-400">forever</span>
               </div>
               <p className="mt-2 text-sm text-ink-500">$100 in credits, once. No card required.</p>
-              <a href="https://beetle.run/auth/sign-up" className="btn-secondary mt-6 w-full">
+              <a href="https://app.kentron.ai/auth/sign-up" className="btn-secondary mt-6 w-full">
                 Start free
               </a>
               <ul className="mt-7 space-y-3 border-t border-ink-100 pt-6">
@@ -275,7 +275,7 @@ export default function PricingPage() {
                 </p>
               </div>
 
-              <a href="https://beetle.run/auth/sign-up" className="btn-primary mt-6 w-full">
+              <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary mt-6 w-full">
                 Get started
               </a>
 
@@ -300,7 +300,7 @@ export default function PricingPage() {
               </div>
               <p className="mt-2 text-sm text-ink-300">Volume credit rates, billed annually.</p>
               <a
-                href="mailto:hello@beetle.run"
+                href="mailto:hello@kentron.ai"
                 className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-ink-950 transition-all duration-200 hover:bg-ink-100 active:scale-[0.98]"
               >
                 Contact sales
@@ -431,7 +431,7 @@ export default function PricingPage() {
             $100 in credits, all {CATALOG_LABEL} connectors, and a receipt for everything Receipt does.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href="https://beetle.run/auth/sign-up" className="btn-primary btn-lg">
+            <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary btn-lg">
               Get started for free
               <ArrowRight className="h-4 w-4" />
             </a>

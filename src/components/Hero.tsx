@@ -32,7 +32,7 @@ export default function Hero() {
 
           <div className="mt-10 flex animate-fade-up justify-center" style={{ animationDelay: '300ms' }}>
             <a
-              href="https://beetle.run/auth/sign-up"
+              href="https://app.kentron.ai/auth/sign-up"
               className="btn-primary btn-lg group bg-white text-ink-950 shadow-lg shadow-ink-950/20 hover:bg-white hover:shadow-glow"
             >
               Get started for free

@@ -6,7 +6,7 @@
  * may see production data — Receipt does.
  */
 
-import type { AdminOverview } from '@/lib/adminTypes';
+import type { AdminOverview, AdminRunDetail } from '@/lib/adminTypes';
 
 export class ApiError extends Error {
   constructor(
@@ -55,5 +55,25 @@ export async function fetchOverview(): Promise<AdminOverview | null> {
     // a proxy, or a login page in front of the deploy. Surfacing the parser's
     // own words ("Unexpected token '<'") tells nobody anything useful.
     throw new ApiError('Received an unexpected response instead of company metrics.', 502);
+  }
+}
+
+/**
+ * One run's detail, for the prompt inspector's "execution trace" panel.
+ *
+ * Throws on 404 rather than returning null: unlike `fetchOverview`, a missing
+ * run is a real failure to show the caller, not an ordinary state like being
+ * signed out.
+ */
+export async function fetchRunDetail(messageId: string): Promise<AdminRunDetail> {
+  const response = await fetch(`/api/admin/run?messageId=${encodeURIComponent(messageId)}`);
+  if (response.status === 401) throw new ApiError('Not signed in.', 401);
+  if (response.status === 404) throw new ApiError('No run found for that message id.', 404);
+  if (!response.ok) await failFrom(response, 'Could not load the run detail.');
+
+  try {
+    return (await response.json()) as AdminRunDetail;
+  } catch {
+    throw new ApiError('Received an unexpected response instead of a run detail.', 502);
   }
 }

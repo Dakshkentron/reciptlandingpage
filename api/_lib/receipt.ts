@@ -1,9 +1,9 @@
 /**
- * Server-side link between this site and Receipt (beetle.run).
+ * Server-side link between this site and Receipt (app.kentron.ai).
  *
  * The admin page runs on this static site, which has no database and cannot
  * reach Receipt's — Postgres sits inside a private VPC. So every figure the
- * page shows comes from `GET /api/admin-metrics` on beetle.run, and the only
+ * page shows comes from `GET /api/admin-metrics` on app.kentron.ai, and the only
  * thing this site stores is the visitor's Receipt session, in a cookie their
  * browser cannot read.
  *
@@ -13,8 +13,16 @@
  * step.
  */
 
-/** Overridable so a local Receipt can be pointed at during development. */
-export const RECEIPT_ORIGIN = (process.env.RECEIPT_ORIGIN?.trim() || 'https://beetle.run').replace(
+/**
+ * Overridable so a local Receipt can be pointed at during development.
+ *
+ * `beetle.run` was the production domain until it was replaced by
+ * `app.kentron.ai` — both still resolve to the same host, but `beetle.run`'s
+ * TLS vhost is no longer served there (confirmed 2026-09-08: it fails the TLS
+ * handshake outright, while `app.kentron.ai` answers `/api/admin-metrics`
+ * correctly). If this ever needs to move again, update the fallback here.
+ */
+export const RECEIPT_ORIGIN = (process.env.RECEIPT_ORIGIN?.trim() || 'https://app.kentron.ai').replace(
   /\/+$/,
   '',
 )

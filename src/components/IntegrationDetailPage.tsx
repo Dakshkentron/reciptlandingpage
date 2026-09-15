@@ -125,7 +125,7 @@ export default function IntegrationDetailPage({ slug }: { slug: string }) {
           </div>
 
           <div className="mt-9 flex flex-wrap justify-center gap-3">
-            <a href="https://beetle.run/auth/sign-up" className="btn-primary btn-lg">
+            <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary btn-lg">
               Get started for free
             </a>
             <a href="#/integrations" className="btn-secondary btn-lg">
@@ -359,7 +359,7 @@ export default function IntegrationDetailPage({ slug }: { slug: string }) {
             Start free, connect {brand} in a minute, and keep the receipt for everything it does.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href="https://beetle.run/auth/sign-up" className="btn-primary btn-lg">
+            <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary btn-lg">
               Get started for free
               <ArrowRight className="h-4 w-4" />
             </a>

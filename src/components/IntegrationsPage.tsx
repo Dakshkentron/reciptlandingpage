@@ -158,7 +158,7 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
           </p>
 
           <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <a href="https://beetle.run/auth/sign-up" className="btn-primary btn-lg">
+            <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary btn-lg">
               Get Started for Free
             </a>
             <button onClick={() => scrollToId('directory')} className="btn-secondary btn-lg">
@@ -485,11 +485,11 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
             it — or let Receipt build it against your API.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href="https://beetle.run/auth/sign-up" className="btn-primary btn-lg">
+            <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary btn-lg">
               Get Started for Free
               <ArrowRight className="h-4 w-4" />
             </a>
-            <a href="mailto:hello@beetle.run" className="btn-secondary btn-lg">
+            <a href="mailto:hello@kentron.ai" className="btn-secondary btn-lg">
               Request an integration
             </a>
           </div>

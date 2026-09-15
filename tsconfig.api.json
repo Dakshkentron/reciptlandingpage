@@ -9,14 +9,17 @@
      * bundles them.
      *
      * This was "bundler" before, and the mismatch was silent and expensive:
-     * `npm run typecheck` passed locally while every Vercel build printed
-     * TS2835 on the same five imports, because Vercel runs its own check under
-     * node16/nodenext and that resolution requires the `.js` extension on a
-     * relative import. A check that disagrees with CI is worse than no check —
-     * it hands you a clean result and lets the error through anyway.
+     * `npm run typecheck` passed locally while every Vercel build failed with
+     * TS2835 on all seven relative imports under api/, because Vercel runs its
+     * own check under node16/nodenext and that resolution requires the `.js`
+     * extension. The build never produced a deployment, so the console kept
+     * serving an older bundle — still pointed at the dead beetle.run host —
+     * and the fix for that sat in git looking merged and shipped.
      *
-     * Keeping these aligned means the extensions stay right, and anyone who
-     * removes one is told locally instead of finding out in a deploy log.
+     * A check that disagrees with CI is worse than no check: it hands you a
+     * clean result and lets the error through anyway. Keeping these aligned
+     * means anyone who drops an extension is told locally instead of finding
+     * out from a deploy that quietly did nothing.
      */
     "module": "NodeNext",
     "moduleResolution": "NodeNext",

@@ -1,7 +1,7 @@
 /**
  * Company metrics for the admin console.
  *
- * Forwards the visitor's Receipt session to beetle.run and hands back what it
+ * Forwards the visitor's Receipt session to app.kentron.ai and hands back what it
  * returns. This function decides nothing about access — it carries the
  * question, and Receipt answers it.
  */
@@ -12,6 +12,7 @@ import {
   isJsonResponse,
   json,
   readSessionCookie,
+  RECEIPT_ORIGIN,
 } from '../_lib/receipt.js';
 // TEMPORARY — delete with api/_lib/demo.ts.
 import { demoOverview, isDemoSession } from '../_lib/demo.js';
@@ -39,9 +40,14 @@ export default async function handler(request: Request): Promise<Response> {
   try {
     response = await fetchReceipt('/api/admin-metrics', { headers: { cookie } });
   } catch {
-    // Distinguish "Receipt is unreachable" from "you have no companies", so an
-    // outage never reads as an empty customer list.
-    return json({ error: 'Could not reach Receipt. Try again in a moment.' }, 502);
+    // Distinguish "Receipt is unreachable" from "you have no companies" so
+    // an outage never reads as an empty customer list. Include the configured
+    // origin to make it easier to spot a misconfiguration when the host
+    // changed.
+    return json(
+      { error: `Could not reach Receipt at ${RECEIPT_ORIGIN}. Check RECEIPT_ORIGIN configuration.` },
+      502,
+    );
   }
 
   if (response.status === 401 || response.status === 403) {

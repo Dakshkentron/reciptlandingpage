@@ -175,7 +175,7 @@ export default function TeamPicker({
           </div>
 
           <a
-            href="https://beetle.run/auth/sign-up"
+            href="https://app.kentron.ai/auth/sign-up"
             className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-ink-950 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
           >
             Get started for free
