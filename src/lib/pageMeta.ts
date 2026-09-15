@@ -57,6 +57,12 @@ function metaFor(name: string, slug: string): Meta {
         title: `Pricing — ${SITE_NAME}`,
         description: 'Credit-based pricing that starts free and scales with what your agents actually run.',
       };
+    case 'compare':
+      return {
+        title: `Compare — ${SITE_NAME}`,
+        description:
+          'How Receipt compares with workflow builders, chat assistants, and in-house scripts — plus our price promise: find a better product at this price and get a year free.',
+      };
     case 'security':
       return {
         title: `Security — ${SITE_NAME}`,

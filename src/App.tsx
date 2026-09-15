@@ -14,6 +14,7 @@ import Footer from '@/components/Footer';
 import IntegrationsPage from '@/components/IntegrationsPage';
 import IntegrationDetailPage from '@/components/IntegrationDetailPage';
 import PricingPage from '@/components/PricingPage';
+import ComparePage from '@/components/ComparePage';
 import SecurityPage from '@/components/SecurityPage';
 import UseCasesPage from '@/components/UseCasesPage';
 import UseCaseDetailPage from '@/components/UseCaseDetailPage';
@@ -51,6 +52,7 @@ function getRoute() {
   if (resource in resourcePages) return { name: 'resource', slug: resource };
 
   if (hash === '/pricing') return { name: 'pricing', slug: '' };
+  if (hash === '/compare') return { name: 'compare', slug: '' };
   if (hash === '/security') return { name: 'security', slug: '' };
   if (hash === '/admin') return { name: 'admin', slug: '' };
   return { name: 'home', slug: '' };
@@ -111,6 +113,8 @@ function App() {
           <IntegrationsPage onBack={goHome} />
         ) : route.name === 'pricing' ? (
           <PricingPage />
+        ) : route.name === 'compare' ? (
+          <ComparePage />
         ) : route.name === 'security' ? (
           <SecurityPage />
         ) : (
