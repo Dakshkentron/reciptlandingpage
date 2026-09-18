@@ -867,6 +867,19 @@ function ExecutionTrace({ messageId }: { messageId: string }) {
                   {state.detail.objective.latestSummary}
                 </p>
               )}
+              {state.detail.objective.blockedReason && (
+                <div className="flex items-start gap-2 rounded-lg border border-ink-800 bg-ink-900 px-3 py-2">
+                  <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent-200" aria-hidden="true" />
+                  <div className="min-w-0">
+                    <div className="text-[11px] font-medium uppercase tracking-wider text-ink-500">
+                      Blocked
+                    </div>
+                    <p className="mt-0.5 text-xs leading-relaxed text-accent-200">
+                      {state.detail.objective.blockedReason}
+                    </p>
+                  </div>
+                </div>
+              )}
               <CopyableId value={state.detail.objective.objectiveId} label="objective ID" />
 
               {state.detail.steps.length > 0 && (
