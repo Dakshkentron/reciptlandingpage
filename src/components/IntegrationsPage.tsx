@@ -68,7 +68,7 @@ const steps = [
   },
   {
     title: 'Describe the outcome.',
-    desc: 'Ask in plain language. Receipt works out which connected systems it needs and runs the job in an isolated sandbox.',
+    desc: 'Ask in plain language. Kentron AI works out which connected systems it needs and runs the job in an isolated sandbox.',
   },
   {
     title: 'Read the receipt.',
@@ -80,7 +80,7 @@ const securityPoints = [
   {
     icon: Lock,
     title: 'OAuth, not passwords.',
-    desc: 'Receipt authenticates through official OAuth flows. Credentials stay with the connector layer — Receipt only stores an encrypted reference, never your secrets.',
+    desc: 'Kentron AI authenticates through official OAuth flows. Credentials stay with the connector layer — Kentron AI only stores an encrypted reference, never your secrets.',
   },
   {
     icon: ShieldCheck,
@@ -95,7 +95,7 @@ const securityPoints = [
   {
     icon: Plug,
     title: 'Per-tool permissions.',
-    desc: 'Connect only what you need and decide which teams reach which systems. Revoke at the provider any time and Receipt loses access instantly.',
+    desc: 'Connect only what you need and decide which teams reach which systems. Revoke at the provider any time and Kentron AI loses access instantly.',
   },
 ];
 
@@ -126,7 +126,7 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
   return (
     <div className="min-h-screen bg-white">
       {/* ---------- Hero ---------- */}
-      <section className="relative overflow-hidden pt-28">
+      <section className="relative overflow-hidden pt-36">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-50 via-sky-50/60 to-white" />
         <div className="absolute -top-20 left-1/2 -z-10 h-[28rem] w-[52rem] -translate-x-1/2 rounded-full bg-brand-200/25 blur-[120px]" />
         <div className="absolute -top-10 right-1/4 -z-10 h-72 w-72 rounded-full bg-sky-200/30 blur-[100px]" />
@@ -147,7 +147,7 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
           </h1>
 
           <p className="mx-auto mt-8 max-w-2xl text-xl font-medium text-ink-700 lg:text-2xl">
-            Receipt connects to <span className="gradient-text font-bold">{CATALOG_LABEL}</span> tools
+            Kentron AI connects to <span className="gradient-text font-bold">{CATALOG_LABEL}</span> tools
             and uses them the way you do.
           </p>
 
@@ -166,7 +166,7 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
             </button>
           </div>
 
-          {/* Hub-and-spoke: the stack streams past, Receipt sits underneath it */}
+          {/* Hub-and-spoke: the stack streams past, Kentron AI sits underneath it */}
           <div className="mt-20">
             <div className="mask-fade-r group overflow-hidden">
               <div className="flex w-max animate-marquee gap-3 group-hover:[animation-play-state:paused]">
@@ -258,7 +258,7 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
               </div>
               <h3 className="mt-4 text-lg font-semibold text-ink-800">Nothing matches that search</h3>
               <p className="mt-2 text-sm text-ink-400">
-                We add connectors every week — tell us what you need, or point Receipt at your API docs
+                We add connectors every week — tell us what you need, or point Kentron AI at your API docs
                 and let it build the integration itself.
               </p>
               <button
@@ -347,7 +347,7 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
             </div>
             <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-500">
               Configured connections with full read and write access for the systems your team lives in.
-              One-click OAuth or an API key, and Receipt is operating inside them the same day.
+              One-click OAuth or an API key, and Kentron AI is operating inside them the same day.
             </p>
             <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
               {liveIntegrations.slice(0, 12).map((name) => (
@@ -370,14 +370,14 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
             <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-500">
               The full managed-connector catalog across {categories.length} categories — CRM, project
               management, finance, communication, analytics, HR, and support. Enable one and it reaches
-              your workspace without waiting on a Receipt release.
+              your workspace without waiting on a Kentron AI release.
             </p>
           </div>
 
           <div className="rounded-2xl border border-ink-100 bg-white p-6 lg:p-8">
-            <h2 className="text-xl font-bold tracking-tight text-ink-950">Receipt builds its own</h2>
+            <h2 className="text-xl font-bold tracking-tight text-ink-950">Kentron AI builds its own</h2>
             <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-500">
-              Tool not in the directory? Point Receipt at the API docs and it writes the integration
+              Tool not in the directory? Point Kentron AI at the API docs and it writes the integration
               itself, or drive an internal endpoint straight from the sandbox — under the same policy
               gates and the same audit trail as everything else.
             </p>
@@ -435,7 +435,7 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
                 Multiple accounts? Connect them all.
               </h2>
               <p className="mt-3 text-base leading-relaxed text-ink-500">
-                Two GitHub orgs, three AWS accounts, a sandbox and a production Stripe. Receipt keeps each
+                Two GitHub orgs, three AWS accounts, a sandbox and a production Stripe. Kentron AI keeps each
                 connection separate with its own scopes and its own receipts — no crossed wires, and no
                 guessing which environment an action ran against.
               </p>
@@ -482,7 +482,7 @@ export default function IntegrationsPage({ onBack }: { onBack: () => void }) {
           <h2 className="section-title text-ink-950">Start free. Connect what you actually use.</h2>
           <p className="section-lead text-ink-500">
             Every feature, every connector in the directory. Don’t see your tool? Tell us and we’ll enable
-            it — or let Receipt build it against your API.
+            it — or let Kentron AI build it against your API.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary btn-lg">

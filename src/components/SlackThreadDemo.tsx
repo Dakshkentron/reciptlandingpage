@@ -3,7 +3,7 @@ import { Check, CheckCircle2, Cpu, Globe, RotateCcw } from 'lucide-react';
 import IntegrationLogo from '@/components/IntegrationLogo';
 import ReceiptMark from '@/components/ReceiptMark';
 
-const PROMPT = '@Receipt - Get me list of running EC2 instances';
+const PROMPT = '@Kentron AI - Get me list of running EC2 instances';
 
 /**
  * Demo values only. The account is AWS's documentation account, and the public IPs
@@ -47,7 +47,7 @@ const instances = [
  * finish in Slack, not crawl.
  */
 const BEATS = [
-  { step: 2, at: 800 }, // Receipt answers, result card opens
+  { step: 2, at: 800 }, // Kentron AI answers, result card opens
   { step: 3, at: 1120 }, // instance 1
   { step: 4, at: 1440 }, // instance 2
   { step: 5, at: 1760 }, // instance 3
@@ -103,7 +103,7 @@ function InstanceCard({ instance }: { instance: (typeof instances)[number] }) {
 
 /**
  * The Slack thread, played rather than screenshotted: the question types itself in,
- * Receipt answers, and the result card fills in row by row with a live timer on it.
+ * Kentron AI answers, and the result card fills in row by row with a live timer on it.
  * It runs once when it scrolls into view — a loop next to body copy is a distraction —
  * and can be replayed from the button in the thread header.
  */
@@ -234,8 +234,8 @@ export default function SlackThreadDemo() {
             <span className="text-[11px] text-ink-400">Monday at 11:57 AM</span>
           </div>
           <p className="mt-1 text-[15px] leading-relaxed text-ink-800">
-            <span className="rounded bg-sky-50 px-1 font-semibold text-sky-700">@Receipt</span>
-            {typed.slice('@Receipt'.length)}
+            <span className="rounded bg-sky-50 px-1 font-semibold text-sky-700">@Kentron AI</span>
+            {typed.slice('@Kentron AI'.length)}
             {step === 0 && <span className="ml-0.5 inline-block h-4 w-0.5 animate-blink bg-ink-800 align-middle" />}
           </p>
           {step >= 1 && (
@@ -264,7 +264,7 @@ export default function SlackThreadDemo() {
 
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-baseline gap-2">
-              <span className="text-[14px] font-bold text-ink-950">Receipt</span>
+              <span className="text-[14px] font-bold text-ink-950">Kentron AI</span>
               <span className="rounded bg-ink-100 px-1 py-px text-[9px] font-bold uppercase tracking-wide text-ink-500">
                 App
               </span>
@@ -336,7 +336,7 @@ export default function SlackThreadDemo() {
                   href="#/security"
                   className="text-[14px] font-semibold text-sky-700 underline decoration-sky-300 underline-offset-4 hover:text-sky-800"
                 >
-                  View Receipt
+                  View Kentron AI
                 </a>
                 <span className="rounded-full border border-ink-100 bg-ink-50 px-2 py-0.5 text-[11px] font-medium text-ink-600">
                   ✅ 1

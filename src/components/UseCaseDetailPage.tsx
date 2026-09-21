@@ -29,14 +29,14 @@ function UseCaseCard({ item, index, accent }: { item: UseCase; index: number; ac
             You type
           </div>
           <p className="mt-2 font-mono text-[13.5px] leading-relaxed text-ink-800">
-            <span className="text-brand-600">@Receipt</span> {item.prompt}
+            <span className="text-brand-600">@Kentron AI</span> {item.prompt}
           </p>
         </div>
 
         {/* what it does */}
         <div className="mt-6">
           <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-400">
-            What Receipt does
+            What Kentron AI does
           </div>
           <ol className="mt-3 space-y-2.5">
             {item.steps.map((step) => (
@@ -103,7 +103,7 @@ export default function UseCaseDetailPage({ slug }: { slug: string }) {
   return (
     <div className="min-h-screen bg-white">
       {/* ---------- Hero ---------- */}
-      <section className="relative overflow-hidden pt-28">
+      <section className="relative overflow-hidden pt-36">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-50 to-white" />
         <div
           className={`absolute -top-32 left-1/2 -z-10 h-[26rem] w-[46rem] -translate-x-1/2 rounded-full bg-gradient-to-br ${team.accent} opacity-[0.18] blur-[120px]`}
@@ -314,7 +314,7 @@ export default function UseCaseDetailPage({ slug }: { slug: string }) {
       {/* ---------- CTA ---------- */}
       <section className="border-t border-ink-100">
         <div className="mx-auto max-w-3xl px-5 py-16 text-center lg:px-8 lg:py-24">
-          <h2 className="section-title text-ink-950">Put Receipt on the {team.label} backlog.</h2>
+          <h2 className="section-title text-ink-950">Put Kentron AI on the {team.label} backlog.</h2>
           <p className="section-lead text-ink-500">
             Start free, connect one system, and read the receipts it writes before you connect the next.
           </p>

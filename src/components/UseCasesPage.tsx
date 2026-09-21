@@ -8,11 +8,11 @@ const flow = [
   {
     icon: MessageSquare,
     title: 'You describe the outcome.',
-    desc: 'In Slack or the Receipt workspace, in the words you would use with a colleague. There is no workflow to draw first and no trigger to configure.',
+    desc: 'In Slack or the Kentron AI workspace, in the words you would use with a colleague. There is no workflow to draw first and no trigger to configure.',
   },
   {
     icon: Terminal,
-    title: 'Receipt does the work.',
+    title: 'Kentron AI does the work.',
     desc: `It decides which of your connected systems it needs, runs the job in an isolated sandbox, and stops at a policy gate before anything changes state.`,
   },
   {
@@ -26,7 +26,7 @@ export default function UseCasesPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* ---------- Hero ---------- */}
-      <section className="relative overflow-hidden pt-28">
+      <section className="relative overflow-hidden pt-36">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-50 via-sky-50/50 to-white" />
         <div className="absolute -top-24 left-1/2 -z-10 h-[26rem] w-[48rem] -translate-x-1/2 rounded-full bg-brand-200/25 blur-[120px]" />
 
@@ -119,7 +119,7 @@ export default function UseCasesPage() {
         <div className="mx-auto max-w-3xl px-5 py-16 text-center lg:px-8 lg:py-24">
           <h2 className="section-title text-ink-950">Your use case is probably one of these.</h2>
           <p className="section-lead text-ink-500">
-            And if it isn&rsquo;t, describe it in plain language and Receipt works out the rest. Start free,
+            And if it isn&rsquo;t, describe it in plain language and Kentron AI works out the rest. Start free,
             connect one system, read the receipts before you connect the next.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">

@@ -17,15 +17,17 @@
  * Overridable so a local Receipt can be pointed at during development.
  *
  * `beetle.run` was the production domain until it was replaced by
- * `app.kentron.ai` — both still resolve to the same host, but `beetle.run`'s
- * TLS vhost is no longer served there (confirmed 2026-09-08: it fails the TLS
- * handshake outright, while `app.kentron.ai` answers `/api/admin-metrics`
- * correctly). If this ever needs to move again, update the fallback here.
+ * `app.kentron.ai`. Both still resolve to the same host (54.159.132.120), but
+ * `beetle.run`'s TLS vhost is no longer served there — it answers the TCP
+ * connect and then fails the handshake with alert 80, presenting no
+ * certificate at all. Every call through here died at that handshake, which is
+ * why the admin console could render its sign-in and then 502 on submit.
+ * `app.kentron.ai` answers `/api/admin-metrics` and `/api/admin-run` correctly.
+ * If this ever needs to move again, update the fallback here.
  */
-export const RECEIPT_ORIGIN = (process.env.RECEIPT_ORIGIN?.trim() || 'https://app.kentron.ai').replace(
-  /\/+$/,
-  '',
-)
+export const RECEIPT_ORIGIN = (
+  process.env.RECEIPT_ORIGIN?.trim() || 'https://app.kentron.ai'
+).replace(/\/+$/, '')
 
 /** Only work accounts on this domain may use the admin console. */
 export const ADMIN_EMAIL_DOMAIN = 'kentron.ai'

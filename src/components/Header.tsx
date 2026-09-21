@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { ChevronDown, Menu, X } from 'lucide-react';
 import { navLinks } from '@/data/content';
 import { iconMap } from '@/components/icons';
-import ReceiptMark from '@/components/ReceiptMark';
 
 // The header sends visitors to a booked conversation rather than a self-serve
 // account, so it carries no sign-in or sign-up link.
@@ -35,8 +34,12 @@ export default function Header() {
   }, []);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 px-3 transition-all duration-300 sm:px-5 ${
+    <>
+      <div className="fixed inset-x-0 top-0 z-[60] flex h-8 items-center justify-center bg-ink-950 px-4 text-center text-xs font-medium text-white">
+        Vendor-neutral agent harness
+      </div>
+      <header
+      className={`fixed inset-x-0 top-8 z-50 px-3 transition-all duration-300 sm:px-5 ${
         scrolled ? 'pt-2' : 'pt-4'
       }`}
     >
@@ -53,20 +56,20 @@ export default function Header() {
           }`}
         >
           <div className="flex items-center gap-7">
-            <a href="#" className="flex items-center gap-2 text-ink-950" aria-label="Receipt home">
-              <ReceiptMark className="h-7 w-7 flex-none text-brand-500" paperClassName="text-white" />
-              <span className="text-[19px] font-bold tracking-tight">Receipt</span>
+            <a href="#" className="flex items-center gap-2 text-ink-950" aria-label="Kentron AI home">
+              <span className="text-[19px] font-bold tracking-tight">Kentron AI</span>
             </a>
 
             <div className="hidden items-center gap-0.5 lg:flex">
               {navLinks.map((link) => {
+                const label = link.label === 'Solution' ? 'Product' : link.label;
                 const hasChildren = !!link.children;
-                const open = openDropdown === link.label;
+                const open = openDropdown === label;
                 return (
                   <div
-                    key={link.label}
+                    key={label}
                     className="relative"
-                    onMouseEnter={() => hasChildren && setOpenDropdown(link.label)}
+                    onMouseEnter={() => hasChildren && setOpenDropdown(label)}
                     onMouseLeave={() => setOpenDropdown(null)}
                   >
                     <a
@@ -75,7 +78,7 @@ export default function Header() {
                         open ? 'text-ink-950' : 'text-ink-600 hover:text-ink-950'
                       }`}
                     >
-                      {link.label}
+                      {label}
                       {hasChildren && (
                         <ChevronDown
                           className={`h-3.5 w-3.5 opacity-60 transition-transform duration-200 ${
@@ -135,7 +138,7 @@ export default function Header() {
               rel="noreferrer"
               className="rounded-full bg-ink-950 px-5 py-2.5 text-[15px] font-semibold text-white transition-all duration-200 hover:bg-ink-800 hover:shadow-lg active:scale-[0.98]"
             >
-              Schedule Demo
+              Book Demo
             </a>
           </div>
 
@@ -151,11 +154,12 @@ export default function Header() {
 
         {mobileOpen && (
           <div className="max-h-[calc(100vh-6rem)] overflow-y-auto rounded-b-2xl border-t border-ink-100 px-4 py-4 lg:hidden">
-            {navLinks.map((link) =>
-              link.children ? (
-                <div key={link.label} className="py-2.5">
+            {navLinks.map((link) => {
+              const label = link.label === 'Solution' ? 'Product' : link.label;
+              return link.children ? (
+                <div key={label} className="py-2.5">
                   <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-400">
-                    {link.label}
+                    {label}
                   </div>
                   <div className="mt-2 space-y-1">
                     {link.children.map((item) => (
@@ -182,8 +186,8 @@ export default function Header() {
                 >
                   {link.label}
                 </a>
-              )
-            )}
+              );
+            })}
             <div className="mt-3 flex gap-2 border-t border-ink-100 pt-4">
               <a
                 href={DEMO_URL}
@@ -192,12 +196,13 @@ export default function Header() {
                 className="btn-primary flex-1"
                 onClick={() => setMobileOpen(false)}
               >
-                Schedule Demo
+                Book Demo
               </a>
             </div>
           </div>
         )}
       </div>
-    </header>
+      </header>
+    </>
   );
 }

@@ -62,8 +62,8 @@ function ThreadCard({ team }: { team: Team }) {
                     msg.text
                   ) : (
                     <>
-                      <span className="rounded bg-sky-100 px-1 font-medium text-sky-700">@Receipt</span>
-                      {msg.text.replace('@Receipt', '')}
+                      <span className="rounded bg-sky-100 px-1 font-medium text-sky-700">@Kentron AI</span>
+                      {msg.text.replace('@Kentron AI', '')}
                     </>
                   )}
                 </p>

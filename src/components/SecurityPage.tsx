@@ -8,7 +8,7 @@ const pillars = [
   {
     icon: Lock,
     title: 'We never hold your credentials.',
-    desc: `Receipt authenticates to every connector through official OAuth flows or scoped API keys held in the connector layer. Receipt stores an encrypted reference — never the secret itself — so revoking access at the provider cuts Receipt off instantly.`,
+    desc: `Kentron AI authenticates to every connector through official OAuth flows or scoped API keys held in the connector layer. Kentron AI stores an encrypted reference — never the secret itself — so revoking access at the provider cuts Kentron AI off instantly.`,
   },
   {
     icon: ServerCog,
@@ -51,7 +51,7 @@ const controls = [
 const faqs = [
   {
     q: 'Is it actually safe to give an AI agent access to production systems?',
-    a: 'It is safe when the agent cannot act without leaving proof, and cannot change anything without a gate. Receipt runs every job in an isolated sandbox with no ambient access, holds every state-changing operation behind an org-level policy gate, and chains each action into an immutable receipt you can replay. The default posture is sandbox first, audit everything — not trust and react.',
+    a: 'It is safe when the agent cannot act without leaving proof, and cannot change anything without a gate. Kentron AI runs every job in an isolated sandbox with no ambient access, holds every state-changing operation behind an org-level policy gate, and chains each action into an immutable receipt you can replay. The default posture is sandbox first, audit everything — not trust and react.',
   },
   {
     q: 'What is the difference between a receipt and normal logging?',
@@ -59,7 +59,7 @@ const faqs = [
   },
   {
     q: 'Where do our credentials actually live?',
-    a: 'With the connector layer, which holds the OAuth grant or API key. Receipt stores an encrypted reference to that connection and asks the connector layer to make the call. Receipt never sees, logs, or persists the underlying secret, and revoking the grant at the provider removes Receipt’s access immediately.',
+    a: 'With the connector layer, which holds the OAuth grant or API key. Kentron AI stores an encrypted reference to that connection and asks the connector layer to make the call. Kentron AI never sees, logs, or persists the underlying secret, and revoking the grant at the provider removes Kentron AI’s access immediately.',
   },
   {
     q: 'Do you train models on our data?',
@@ -98,7 +98,7 @@ export default function SecurityPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* ---------- Hero ---------- */}
-      <section className="relative overflow-hidden pt-28">
+      <section className="relative overflow-hidden pt-36">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-50 via-sky-50/50 to-white" />
         <div className="absolute -top-24 left-1/2 -z-10 h-[26rem] w-[48rem] -translate-x-1/2 rounded-full bg-brand-200/25 blur-[120px]" />
 
@@ -111,7 +111,7 @@ export default function SecurityPage() {
             An agent you can audit.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-500">
-            Most AI tools ask you to trust the output. Receipt is built the other way round: isolated
+            Most AI tools ask you to trust the output. Kentron AI is built the other way round: isolated
             execution, approval before any write, and an immutable receipt for every single call — so you can
             prove what happened instead of believing it.
           </p>
@@ -152,7 +152,7 @@ export default function SecurityPage() {
           <div className="mt-6 space-y-5 text-base leading-relaxed text-ink-200">
             <p>
               When an agent tells you it reconciled the invoices, you have two options: take its word, or
-              check. Receipt is designed so checking is trivial. Every command it issues and every response
+              check. Kentron AI is designed so checking is trivial. Every command it issues and every response
               it receives is written into an append-only chain, each entry hashed against the one before it.
             </p>
             <p>

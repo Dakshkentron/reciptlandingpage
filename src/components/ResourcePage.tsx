@@ -10,7 +10,7 @@ export default function ResourcePage({ kind }: { kind: ResourceKind }) {
   return (
     <div className="min-h-screen bg-white">
       {/* ---------- Hero ---------- */}
-      <section className="relative overflow-hidden pt-28">
+      <section className="relative overflow-hidden pt-36">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-50 to-white" />
         <div className="absolute -top-28 left-1/2 -z-10 h-[24rem] w-[44rem] -translate-x-1/2 rounded-full bg-brand-200/25 blur-[120px]" />
 

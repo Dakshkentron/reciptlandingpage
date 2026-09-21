@@ -85,13 +85,13 @@ export default function IntegrationDetailPage({ slug }: { slug: string }) {
     { label: 'Category', value: integration.category },
     { label: 'Connection', value: integration.status === 'coming-soon' ? 'Managed connector' : integration.auth },
     { label: 'Actions', value: String(actions.length) },
-    { label: 'Works in', value: 'Slack · Receipt workspace' },
+    { label: 'Works in', value: 'Slack · Kentron AI workspace' },
   ];
 
   return (
     <div className="min-h-screen bg-white">
       {/* ---------- Hero ---------- */}
-      <section className="relative overflow-hidden pt-28">
+      <section className="relative overflow-hidden pt-36">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-50 via-sky-50/50 to-white" />
         <div className="absolute -top-24 left-1/2 -z-10 h-[26rem] w-[48rem] -translate-x-1/2 rounded-full bg-brand-200/25 blur-[120px]" />
 
@@ -159,11 +159,11 @@ export default function IntegrationDetailPage({ slug }: { slug: string }) {
           <div className="section-intro">
             <div className="eyebrow bg-brand-500/10 text-brand-700">
               <Sparkles className="h-3.5 w-3.5" />
-              Try asking Receipt
+              Try asking Kentron AI
             </div>
-            <h2 className="section-title text-ink-950">What can you ask Receipt to do in {brand}?</h2>
+            <h2 className="section-title text-ink-950">What can you ask Kentron AI to do in {brand}?</h2>
             <p className="section-lead text-ink-500">
-              Plain language, from Slack or the Receipt workspace. No workflow to build first.
+              Plain language, from Slack or the Kentron AI workspace. No workflow to build first.
             </p>
           </div>
 
@@ -186,7 +186,7 @@ export default function IntegrationDetailPage({ slug }: { slug: string }) {
         <div className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-20">
           <div className="section-intro">
             <h2 className="section-title text-ink-950">
-              What can Receipt do in {brand}? ({actions.length} actions)
+              What can Kentron AI do in {brand}? ({actions.length} actions)
             </h2>
             <p className="section-lead text-ink-500">
               Reads run immediately. Anything that changes state in {brand} waits for your approval.
@@ -210,16 +210,16 @@ export default function IntegrationDetailPage({ slug }: { slug: string }) {
       {/* ---------- How it works ---------- */}
       <section className="border-t border-ink-100 bg-ink-50/50">
         <div className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-20">
-          <h2 className="section-title mb-12 text-center text-ink-950">How does Receipt work with {brand}?</h2>
+          <h2 className="section-title mb-12 text-center text-ink-950">How does Kentron AI work with {brand}?</h2>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
               {
                 title: `Connect ${brand}.`,
-                desc: `Authorize ${brand} once from your Receipt workspace. Credentials stay with the connector layer — Receipt holds an encrypted reference, never your secrets.`,
+                desc: `Authorize ${brand} once from your Kentron AI workspace. Credentials stay with the connector layer — Kentron AI holds an encrypted reference, never your secrets.`,
               },
               {
                 title: 'Ask in plain language.',
-                desc: `Say what you need from Slack or the Receipt workspace. Receipt works out that it needs ${brand} — and whatever else the job touches — and plans the run.`,
+                desc: `Say what you need from Slack or the Kentron AI workspace. Kentron AI works out that it needs ${brand} — and whatever else the job touches — and plans the run.`,
               },
               {
                 title: 'Review the receipt.',
@@ -250,7 +250,7 @@ export default function IntegrationDetailPage({ slug }: { slug: string }) {
               data comes back looking different than expected.
             </p>
             <p>
-              Receipt is that agent, with the part most agents are missing: proof. It runs in an isolated
+              Kentron AI is that agent, with the part most agents are missing: proof. It runs in an isolated
               sandbox with no ambient access, holds every state-changing {brand} call behind an org-level
               policy gate, and writes each step to an append-only receipt chain. If it says it updated
               something in {brand}, you can replay the receipt and verify it independently.
@@ -274,7 +274,7 @@ export default function IntegrationDetailPage({ slug }: { slug: string }) {
               {
                 icon: Lock,
                 title: 'Native connection',
-                desc: `Receipt authenticates to ${brand} through the official flow (${
+                desc: `Kentron AI authenticates to ${brand} through the official flow (${
                   integration.auth === 'Coming soon' ? 'managed connector' : integration.auth
                 }) — no scraping, no shared passwords.`,
               },
@@ -319,7 +319,7 @@ export default function IntegrationDetailPage({ slug }: { slug: string }) {
       {/* ---------- Works with / related ---------- */}
       <section className="border-t border-ink-100 bg-ink-50/50">
         <div className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-20">
-          <h2 className="text-2xl font-bold tracking-tight text-ink-950">Receipt uses {brand} together with</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-ink-950">Kentron AI uses {brand} together with</h2>
           <p className="mt-2 text-sm text-ink-500">
             One run can span several systems — and one receipt chain covers the whole job.
           </p>
@@ -354,7 +354,7 @@ export default function IntegrationDetailPage({ slug }: { slug: string }) {
       {/* ---------- CTA ---------- */}
       <section className="border-t border-ink-100 bg-ink-50/50">
         <div className="mx-auto max-w-3xl px-5 py-16 text-center lg:px-8 lg:py-24">
-          <h2 className="section-title text-ink-950">Put Receipt to work in {brand}</h2>
+          <h2 className="section-title text-ink-950">Put Kentron AI to work in {brand}</h2>
           <p className="section-lead text-ink-500">
             Start free, connect {brand} in a minute, and keep the receipt for everything it does.
           </p>

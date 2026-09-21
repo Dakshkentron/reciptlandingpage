@@ -2,7 +2,7 @@
  * Use cases, grouped by the team that lives with the problem.
  *
  * Every case is written the same way on purpose: the sentence you'd actually type,
- * the steps Receipt takes across connected systems, and the proof it leaves behind.
+ * the steps Kentron AI takes across connected systems, and the proof it leaves behind.
  * That last field is the whole point of the product — nothing here is a workflow
  * you have to draw first.
  */
@@ -14,7 +14,7 @@ export interface UseCase {
   title: string;
   /** What a person types in Slack or the workspace. */
   prompt: string;
-  /** What Receipt does, in order, across connected tools. */
+  /** What Kentron AI does, in order, across connected tools. */
   steps: string[];
   /** Connector names — resolved to real brand logos. */
   tools: string[];
@@ -62,7 +62,7 @@ export const teams: Team[] = [
     accent: 'from-sky-500 to-indigo-600',
     headline: 'Everything between the alert and the pull request.',
     intro:
-      'Engineers rarely lose the day to writing code. They lose it to the connective work around it — reading the trace, finding the commit, checking whether the deploy is the cause, updating the ticket, telling everyone. Receipt does that span in one run and hands you a diff to review.',
+      'Engineers rarely lose the day to writing code. They lose it to the connective work around it — reading the trace, finding the commit, checking whether the deploy is the cause, updating the ticket, telling everyone. Kentron AI does that span in one run and hands you a diff to review.',
     killed: 'Twenty browser tabs open at 2am to answer one question: what changed?',
     thread: {
       title: 'Checkout 500s spiked after the 14:02 deploy',
@@ -71,12 +71,12 @@ export const teams: Team[] = [
           from: 'user',
           name: 'Priya',
           time: '2:11 PM',
-          text: '@Receipt checkout is throwing 500s. Find what shipped in the last hour and tell me if it is the cause.',
+          text: '@Kentron AI checkout is throwing 500s. Find what shipped in the last hour and tell me if it is the cause.',
           reactions: ['👀 3'],
         },
         {
           from: 'receipt',
-          name: 'Receipt',
+          name: 'Kentron AI',
           time: '2:13 PM',
           text: 'Sentry issue RCP-4471 started at 14:04, two minutes after Vercel deploy dpl_9f2. The deploy carried PR #2288, which changed the Stripe idempotency key. Draft revert PR #2291 is open — receipt chain rcp_8c41.',
           reactions: ['✅ 5', '🙏 2'],
@@ -147,9 +147,9 @@ export const teams: Team[] = [
     status: 'live',
     tagline: 'Tickets answered with the system of record, not a guess',
     accent: 'from-emerald-500 to-teal-600',
-    headline: 'The answer is in five systems. Receipt reads all five.',
+    headline: 'The answer is in five systems. Kentron AI reads all five.',
     intro:
-      'Support does not usually need a smarter reply — it needs the truth. Was the charge refunded? Did the webhook fire? Is this the known bug or a new one? Receipt goes and looks, in the billing system, the logs, and the tracker, then writes the reply with the evidence attached.',
+      'Support does not usually need a smarter reply — it needs the truth. Was the charge refunded? Did the webhook fire? Is this the known bug or a new one? Kentron AI goes and looks, in the billing system, the logs, and the tracker, then writes the reply with the evidence attached.',
     killed: 'Escalating to engineering to ask a question the logs already answered.',
     thread: {
       title: 'Ticket #40912 — "I was charged twice"',
@@ -158,12 +158,12 @@ export const teams: Team[] = [
           from: 'user',
           name: 'Marcus',
           time: '9:24 AM',
-          text: '@Receipt customer on #40912 says they were double charged in March. Check before I escalate.',
+          text: '@Kentron AI customer on #40912 says they were double charged in March. Check before I escalate.',
           reactions: ['👀 2'],
         },
         {
           from: 'receipt',
-          name: 'Receipt',
+          name: 'Kentron AI',
           time: '9:25 AM',
           text: 'Two Stripe charges, 4 seconds apart, same idempotency key missing — retry after a gateway timeout. Second charge ch_3Ox refunded, $118.00, drafted reply in Zendesk for your approval. Receipt rcp_2f70.',
           reactions: ['✅ 4', '🎯 1'],
@@ -234,9 +234,9 @@ export const teams: Team[] = [
     status: 'live',
     tagline: 'A clean CRM and a briefed rep, without the admin hour',
     accent: 'from-amber-500 to-orange-600',
-    headline: 'Reps sell. Receipt does the CRM.',
+    headline: 'Reps sell. Kentron AI does the CRM.',
     intro:
-      'Pipeline hygiene is the tax every sales team pays and nobody wants to collect. Receipt sits between the calendar, the call recording, the inbox, and the CRM — updating records from what actually happened, and briefing the rep before they dial.',
+      'Pipeline hygiene is the tax every sales team pays and nobody wants to collect. Kentron AI sits between the calendar, the call recording, the inbox, and the CRM — updating records from what actually happened, and briefing the rep before they dial.',
     killed: 'The Friday afternoon spent guessing which stage a deal is really in.',
     thread: {
       title: 'Pre-call brief — Northwind Logistics',
@@ -245,11 +245,11 @@ export const teams: Team[] = [
           from: 'user',
           name: 'Dana',
           time: '8:40 AM',
-          text: '@Receipt I have Northwind at 9. Brief me.',
+          text: '@Kentron AI I have Northwind at 9. Brief me.',
         },
         {
           from: 'receipt',
-          name: 'Receipt',
+          name: 'Kentron AI',
           time: '8:41 AM',
           text: 'Stage: negotiation, 41 days, slipped twice. Blocker from the 12 Mar call: SOC 2 report. Their CTO opened the security page 6 times last week. Two open tickets, both resolved. Suggested open: lead with the SOC 2 pack. Receipt rcp_5b19.',
           reactions: ['🔥 6', '💰 2'],
@@ -322,7 +322,7 @@ export const teams: Team[] = [
     accent: 'from-fuchsia-500 to-purple-600',
     headline: 'Reporting that shows its working.',
     intro:
-      'Every channel has its own dashboard and every dashboard disagrees. Receipt pulls the raw numbers from each platform, reconciles them against pipeline, and publishes the report with the source rows attached — so the meeting argues about strategy instead of about whose spreadsheet is right.',
+      'Every channel has its own dashboard and every dashboard disagrees. Kentron AI pulls the raw numbers from each platform, reconciles them against pipeline, and publishes the report with the source rows attached — so the meeting argues about strategy instead of about whose spreadsheet is right.',
     killed: 'The Monday export-and-paste ritual across six ad platforms.',
     thread: {
       title: 'Weekly acquisition report',
@@ -331,11 +331,11 @@ export const teams: Team[] = [
           from: 'user',
           name: 'Leah',
           time: '7:02 AM',
-          text: '@Receipt weekly report — spend by channel against pipeline created, flag anything above target CAC.',
+          text: '@Kentron AI weekly report — spend by channel against pipeline created, flag anything above target CAC.',
         },
         {
           from: 'receipt',
-          name: 'Receipt',
+          name: 'Kentron AI',
           time: '7:09 AM',
           text: 'Done. Spend $84,210 across 5 channels. Blended CAC $412 (target $380). Two campaigns above threshold, both LinkedIn retargeting — paused pending your approval. Report in Notion, source rows attached. Receipt rcp_1d08.',
           reactions: ['📊 4', '✅ 3'],
@@ -408,7 +408,7 @@ export const teams: Team[] = [
     accent: 'from-lime-500 to-emerald-600',
     headline: 'A month-end close that carries its own audit trail.',
     intro:
-      'Finance already knows how to reconcile. What costs the week is gathering — pulling statements, chasing approvals, matching invoices to purchase orders, and then proving it all again when the auditor arrives. Receipt does the gathering and keeps the evidence as it goes.',
+      'Finance already knows how to reconcile. What costs the week is gathering — pulling statements, chasing approvals, matching invoices to purchase orders, and then proving it all again when the auditor arrives. Kentron AI does the gathering and keeps the evidence as it goes.',
     killed: 'Rebuilding the audit trail in March for work you did in January.',
     thread: {
       title: 'Month-end close — March',
@@ -417,11 +417,11 @@ export const teams: Team[] = [
           from: 'user',
           name: 'Sanjay',
           time: '10:15 AM',
-          text: '@Receipt start the March close. Flag anything that does not reconcile.',
+          text: '@Kentron AI start the March close. Flag anything that does not reconcile.',
         },
         {
           from: 'receipt',
-          name: 'Receipt',
+          name: 'Kentron AI',
           time: '10:41 AM',
           text: '312 of 318 transactions matched. 6 exceptions: 4 missing receipts (owners notified), 1 duplicate vendor invoice ($2,480), 1 FX variance $91.20. Nothing posted — all six await your review. Receipt chain rcp_7a33.',
           reactions: ['🙏 3', '✅ 2'],
@@ -494,7 +494,7 @@ export const teams: Team[] = [
     accent: 'from-red-500 to-rose-600',
     headline: 'Give the agent access. Keep the proof.',
     intro:
-      'The reason security teams distrust AI agents is that most of them cannot prove what they touched. Receipt inverts that: isolated execution, a policy gate before every write, and an immutable, hash-chained record of each call. The audit artifact is a by-product of the work, not a project after it.',
+      'The reason security teams distrust AI agents is that most of them cannot prove what they touched. Kentron AI inverts that: isolated execution, a policy gate before every write, and an immutable, hash-chained record of each call. The audit artifact is a by-product of the work, not a project after it.',
     killed: 'Screenshot-based evidence collection two weeks before the audit.',
     thread: {
       title: 'Offboarding — contractor access',
@@ -503,11 +503,11 @@ export const teams: Team[] = [
           from: 'user',
           name: 'Rachel',
           time: '4:50 PM',
-          text: '@Receipt J. Okoye finished today. Show me everything they still have access to.',
+          text: '@Kentron AI J. Okoye finished today. Show me everything they still have access to.',
         },
         {
           from: 'receipt',
-          name: 'Receipt',
+          name: 'Kentron AI',
           time: '4:52 PM',
           text: '14 systems: 9 SSO-governed (auto-revoke on suspend), 5 not — a GitHub PAT, an AWS access key last used 2 days ago, Datadog, Figma, and a shared Notion. Revocation queued, awaiting your approval. Receipt rcp_9e27.',
           reactions: ['🔐 5', '👏 2'],
@@ -580,7 +580,7 @@ export const teams: Team[] = [
     accent: 'from-cyan-500 to-blue-600',
     headline: 'The ad-hoc request queue, answered at source.',
     intro:
-      'Data teams do not have a modelling problem, they have an interruption problem. Receipt takes the questions that never needed a human — the pipeline that failed at 3am, the metric that moved, the one-off pull — and handles them where the data lives, with the query it ran attached to the answer.',
+      'Data teams do not have a modelling problem, they have an interruption problem. Kentron AI takes the questions that never needed a human — the pipeline that failed at 3am, the metric that moved, the one-off pull — and handles them where the data lives, with the query it ran attached to the answer.',
     killed: 'Being paged for a pipeline failure whose fix is always the same three steps.',
     thread: {
       title: 'Nightly load failed — orders_fact',
@@ -589,11 +589,11 @@ export const teams: Team[] = [
           from: 'user',
           name: 'Ines',
           time: '6:58 AM',
-          text: '@Receipt orders_fact is stale again. What happened and can we backfill?',
+          text: '@Kentron AI orders_fact is stale again. What happened and can we backfill?',
         },
         {
           from: 'receipt',
-          name: 'Receipt',
+          name: 'Kentron AI',
           time: '7:00 AM',
           text: 'Upstream schema change: orders.discount_cents became nullable at 02:14, load failed on the not-null constraint. 4 downstream dashboards affected, owners notified. Backfill statement drafted — 1 approval away. Receipt rcp_0b64.',
           reactions: ['🙌 4', '✅ 2'],
@@ -666,7 +666,7 @@ export const teams: Team[] = [
     accent: 'from-violet-500 to-indigo-600',
     headline: 'Roadmap decisions with the evidence already gathered.',
     intro:
-      'The feedback is real, it is just scattered — across tickets, calls, reviews, the community, and three different feature-request boards. Receipt gathers it continuously, weights it by revenue rather than by volume, and keeps the trail so a prioritisation call can be revisited without being re-litigated.',
+      'The feedback is real, it is just scattered — across tickets, calls, reviews, the community, and three different feature-request boards. Kentron AI gathers it continuously, weights it by revenue rather than by volume, and keeps the trail so a prioritisation call can be revisited without being re-litigated.',
     killed: 'Quarterly planning weeks spent assembling evidence that already existed.',
     thread: {
       title: 'Q3 planning input',
@@ -675,11 +675,11 @@ export const teams: Team[] = [
           from: 'user',
           name: 'Tobi',
           time: '11:20 AM',
-          text: '@Receipt what are enterprise accounts asking for that is not on the roadmap?',
+          text: '@Kentron AI what are enterprise accounts asking for that is not on the roadmap?',
         },
         {
           from: 'receipt',
-          name: 'Receipt',
+          name: 'Kentron AI',
           time: '11:26 AM',
           text: 'Three themes across 148 sources. SCIM provisioning ($1.2M ARR, 9 accounts, 4 of them in renewal). Audit-log export ($740K). Per-project RBAC ($510K). Full brief in Notion with every source linked. Receipt rcp_3c85.',
           reactions: ['🎯 7', '📌 3'],
@@ -752,7 +752,7 @@ export const teams: Team[] = [
     accent: 'from-pink-500 to-rose-600',
     headline: 'The first day works because the week before did.',
     intro:
-      'People teams run processes that touch every system in the company and own none of them. Receipt reaches across the HRIS, the ATS, identity, payroll, and the tools a new hire needs — doing the provisioning, chasing the signatures, and leaving a record of who approved each piece of access.',
+      'People teams run processes that touch every system in the company and own none of them. Kentron AI reaches across the HRIS, the ATS, identity, payroll, and the tools a new hire needs — doing the provisioning, chasing the signatures, and leaving a record of who approved each piece of access.',
     killed: 'A twelve-step onboarding checklist copied between four tools.',
     thread: {
       title: 'New hire — starts Monday',
@@ -761,11 +761,11 @@ export const teams: Team[] = [
           from: 'user',
           name: 'Amara',
           time: '3:05 PM',
-          text: '@Receipt set up the new backend engineer starting Monday.',
+          text: '@Kentron AI set up the new backend engineer starting Monday.',
         },
         {
           from: 'receipt',
-          name: 'Receipt',
+          name: 'Kentron AI',
           time: '3:07 PM',
           text: 'Accounts staged in Google Workspace, Okta, GitHub, Linear and Slack — all matched to the Engineering role template. Laptop request filed, contract out for signature, buddy assigned, week-one plan drafted. Provisioning waits on your approval. Receipt rcp_6d12.',
           reactions: ['🎉 8', '✅ 3'],
@@ -838,7 +838,7 @@ export const teams: Team[] = [
     accent: 'from-orange-500 to-red-600',
     headline: 'Stop asking four people for one number.',
     intro:
-      'The metrics exist. They are just in the billing system, the CRM, the warehouse, and someone\'s spreadsheet, and getting them costs three people an afternoon. Receipt assembles the picture directly from source, on whatever cadence you want, and shows the work.',
+      'The metrics exist. They are just in the billing system, the CRM, the warehouse, and someone\'s spreadsheet, and getting them costs three people an afternoon. Kentron AI assembles the picture directly from source, on whatever cadence you want, and shows the work.',
     killed: 'The board-deck week that starts with five Slack messages asking for numbers.',
     thread: {
       title: 'Monday morning brief',
@@ -847,11 +847,11 @@ export const teams: Team[] = [
           from: 'user',
           name: 'Nadia',
           time: '6:30 AM',
-          text: '@Receipt where are we? Revenue, burn, pipeline, and anything I should be worried about.',
+          text: '@Kentron AI where are we? Revenue, burn, pipeline, and anything I should be worried about.',
         },
         {
           from: 'receipt',
-          name: 'Receipt',
+          name: 'Kentron AI',
           time: '6:34 AM',
           text: 'ARR $4.28M (+3.1% MoM). Net burn $312K, 19 months runway. Pipeline $2.1M, coverage 2.4× — below the 3× you set. Worth your attention: two enterprise renewals in 40 days with open escalations. Sources linked. Receipt rcp_4f90.',
           reactions: ['🙏 4', '📈 2'],
@@ -924,7 +924,7 @@ export const teams: Team[] = [
     accent: 'from-slate-500 to-slate-700',
     headline: 'The obligations you signed, actually tracked.',
     intro:
-      'Contracts are signed and then forgotten, along with every renewal date, SLA credit, and data-processing commitment inside them. Receipt reads the executed documents, extracts what was promised, and watches for the dates — with the clause it relied on quoted beside every claim.',
+      'Contracts are signed and then forgotten, along with every renewal date, SLA credit, and data-processing commitment inside them. Kentron AI reads the executed documents, extracts what was promised, and watches for the dates — with the clause it relied on quoted beside every claim.',
     killed: 'Discovering an auto-renewal three weeks after the notice window closed.',
     thread: {
       title: 'Vendor MSA — redline review',
@@ -933,11 +933,11 @@ export const teams: Team[] = [
           from: 'user',
           name: 'Ben',
           time: '1:15 PM',
-          text: '@Receipt review this MSA against our playbook and flag anything unusual.',
+          text: '@Kentron AI review this MSA against our playbook and flag anything unusual.',
         },
         {
           from: 'receipt',
-          name: 'Receipt',
+          name: 'Kentron AI',
           time: '1:19 PM',
           text: '4 deviations from playbook. Uncapped indemnity (§8.2), 60-day notice on auto-renewal (§3.4, we require 30), no data-deletion SLA, and governing law changed to Delaware. Redline drafted, clauses quoted, nothing sent. Receipt rcp_1a55.',
           reactions: ['⚖️ 3', '👍 2'],

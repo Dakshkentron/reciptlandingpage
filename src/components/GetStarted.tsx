@@ -6,14 +6,14 @@ import ReceiptMark from '@/components/ReceiptMark';
 /** The nine connectors shown in the stack tile — enough to be recognisable, not a wall. */
 const stackTiles = popularIntegrations.slice(0, 9);
 
-/** Receipt speaking in a thread: the logomark, the name, and the APP tag. */
+/** Kentron AI speaking in a thread: the logomark, the name, and the APP tag. */
 function AgentLine({ time }: { time: string }) {
   return (
     <div className="flex items-center gap-2">
       <div className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-brand-500 text-white">
         <ReceiptMark className="h-4 w-4" paperClassName="text-brand-500" />
       </div>
-      <span className="text-[13px] font-bold text-ink-950">Receipt</span>
+      <span className="text-[13px] font-bold text-ink-950">Kentron AI</span>
       <span className="rounded bg-ink-100 px-1 py-px text-[9px] font-bold uppercase tracking-wide text-ink-500">
         App
       </span>
@@ -57,7 +57,7 @@ function AskVisual() {
           <span className="text-[11px] text-ink-400">11:32 AM</span>
         </div>
         <p className="mt-2 text-[13px] leading-relaxed text-ink-700">
-          <span className="rounded bg-brand-50 px-1 font-semibold text-brand-700">@Receipt</span> check
+          <span className="rounded bg-brand-50 px-1 font-semibold text-brand-700">@Kentron AI</span> check
           this week&rsquo;s Stripe revenue against HubSpot and flag anything off before the board call.
         </p>
         <div className="mt-3 flex gap-1.5">
@@ -126,7 +126,7 @@ function ReviewVisual() {
 const steps = [
   {
     title: 'Authorize what it may touch',
-    body: `${CATALOG_LABEL} connectors are ready to connect today. Each one arrives with an explicit list of actions, and you decide which of them Receipt is allowed to use. Nothing to host, nothing to keep patched.`,
+    body: `${CATALOG_LABEL} connectors are ready to connect today. Each one arrives with an explicit list of actions, and you decide which of them Kentron AI is allowed to use. Nothing to host, nothing to keep patched.`,
     visual: <ConnectVisual />,
   },
   {
@@ -141,7 +141,7 @@ const steps = [
   },
 ];
 
-/** Three cards, three steps — the shortest honest version of what using Receipt looks like. */
+/** Three cards, three steps — the shortest honest version of what using Kentron AI looks like. */
 export default function GetStarted() {
   return (
     <section id="get-started" className="section bg-ink-50/60">
@@ -155,7 +155,7 @@ export default function GetStarted() {
             Connect it once. Then just ask.
           </h2>
           <p className="section-lead text-ink-500">
-            No implementation project, no workflow builder, no automation consultant. Receipt is working
+            No implementation project, no workflow builder, no automation consultant. Kentron AI is working
             the same afternoon you connect it.
           </p>
         </div>
@@ -185,7 +185,7 @@ export default function GetStarted() {
         </div>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-          {['Sandbox first, audit everything', 'Credentials never stored in Receipt', 'Every call replayable'].map(
+          {['Sandbox first, audit everything', 'Credentials never stored in Kentron AI', 'Every call replayable'].map(
             (item) => (
               <div key={item} className="flex items-center gap-2 text-sm font-medium text-ink-600">
                 <Check className="h-4 w-4 text-brand-500" strokeWidth={3} />

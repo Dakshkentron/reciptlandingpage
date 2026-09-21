@@ -17,7 +17,7 @@ export interface Action {
 interface CategoryTemplate {
   /** One line on what this class of tool is for, used under the hero. */
   role: string;
-  /** What Receipt does with it, spliced into the hero paragraph. */
+  /** What Kentron AI does with it, spliced into the hero paragraph. */
   outcome: string;
   actions: Action[];
   prompts: string[];
@@ -295,7 +295,7 @@ const templates: Record<Category, CategoryTemplate> = {
     actions: [
       { name: 'Search workspace', desc: 'Search {tool} across pages, docs, and databases.' },
       { name: 'Read page', desc: 'Pull a {tool} page or document in full, including nested content.' },
-      { name: 'Create page', desc: 'Draft a new {tool} page from what Receipt gathered elsewhere.' },
+      { name: 'Create page', desc: 'Draft a new {tool} page from what Kentron AI gathered elsewhere.' },
       { name: 'Update page', desc: 'Edit an existing {tool} page — changes shown to you first.' },
       { name: 'List tasks', desc: 'Read {tool} tasks by assignee, due date, project, or status.' },
       { name: 'Create task', desc: 'File a {tool} task with the context and links already attached.' },
@@ -391,7 +391,7 @@ export function safeIntegrationHref(name: string) {
   return hasIntegration(name) ? integrationHref(name) : '#/integrations';
 }
 
-/** Live connectors Receipt is most often asked to combine with. */
+/** Live connectors Kentron AI is most often asked to combine with. */
 const companions = ['Slack', 'GitHub', 'Notion', 'HubSpot', 'Jira', 'Google Analytics', 'Linear', 'Zendesk'];
 
 export function buildDetail(integration: Integration): IntegrationDetail {
@@ -427,40 +427,40 @@ export function buildDetail(integration: Integration): IntegrationDetail {
   const live = integration.status !== 'coming-soon';
 
   const summary =
-    `Receipt is an AI coworker that connects to ${brand} and helps you ${t.outcome}, ` +
+    `Kentron AI is an AI coworker that connects to ${brand} and helps you ${t.outcome}, ` +
     `running ${actions.length} ${brand} actions for you like ${actions
       .slice(0, 3)
       .map((a) => a.name)
       .join(', ')
       .replace(/, ([^,]*)$/, ', and $1')}. ` +
-    `Ask in plain language from Slack or the Receipt workspace; Receipt does the work in ${brand} ` +
+    `Ask in plain language from Slack or the Kentron AI workspace; Kentron AI does the work in ${brand} ` +
     `and writes an immutable receipt for every call it makes.`;
 
   const faqs = [
     {
-      q: `Does Receipt integrate with ${brand}?`,
+      q: `Does Kentron AI integrate with ${brand}?`,
       a: live
-        ? `Yes. ${brand} is a live connector — connect it with ${integration.auth === 'Default' ? 'the default one-click flow' : integration.auth} and Receipt can operate inside ${brand} the same day.`
-        : `${brand} is in the managed-connector catalog and can be enabled for your workspace on request. Tell us you need it and we'll turn it on — or point Receipt at the ${brand} API docs and it will build the integration itself.`,
+        ? `Yes. ${brand} is a live connector — connect it with ${integration.auth === 'Default' ? 'the default one-click flow' : integration.auth} and Kentron AI can operate inside ${brand} the same day.`
+        : `${brand} is in the managed-connector catalog and can be enabled for your workspace on request. Tell us you need it and we'll turn it on — or point Kentron AI at the ${brand} API docs and it will build the integration itself.`,
     },
     {
-      q: `How do I connect ${brand} to Receipt?`,
-      a: `Open Connections in your Receipt workspace, pick ${brand}, and authorize through ${integration.auth === 'Coming soon' ? 'the connector’s standard flow' : integration.auth}. Credentials stay with the connector layer — Receipt only ever stores an encrypted reference, never your secrets.`,
+      q: `How do I connect ${brand} to Kentron AI?`,
+      a: `Open Connections in your Kentron AI workspace, pick ${brand}, and authorize through ${integration.auth === 'Coming soon' ? 'the connector’s standard flow' : integration.auth}. Credentials stay with the connector layer — Kentron AI only ever stores an encrypted reference, never your secrets.`,
     },
     {
-      q: `What can Receipt actually do in ${brand}?`,
+      q: `What can Kentron AI actually do in ${brand}?`,
       a: `${actions.length} actions today, covering ${actions.slice(0, 4).map((a) => a.name.toLowerCase()).join(', ')} and more. Reads run straight away; anything that changes state in ${brand} waits behind an org-level policy gate until you approve it.`,
     },
     {
       q: `Do I have to build a workflow first?`,
-      a: `No. Receipt is not a workflow builder — there is nothing to wire up. You describe the outcome in plain language and Receipt works out which connected systems it needs, including ${brand}, and runs the job in an isolated sandbox.`,
+      a: `No. Kentron AI is not a workflow builder — there is nothing to wire up. You describe the outcome in plain language and Kentron AI works out which connected systems it needs, including ${brand}, and runs the job in an isolated sandbox.`,
     },
     {
       q: `Is my ${brand} data safe?`,
-      a: `Every run happens in an isolated sandbox with no ambient access. Each call against ${brand} is logged as an immutable, cryptographically chained receipt with the raw API response attached, so you can audit it, replay it, and prove exactly what happened. Revoke access at ${brand} any time and Receipt loses it instantly.`,
+      a: `Every run happens in an isolated sandbox with no ambient access. Each call against ${brand} is logged as an immutable, cryptographically chained receipt with the raw API response attached, so you can audit it, replay it, and prove exactly what happened. Revoke access at ${brand} any time and Kentron AI loses it instantly.`,
     },
     {
-      q: `Can Receipt use ${brand} together with our other tools?`,
+      q: `Can Kentron AI use ${brand} together with our other tools?`,
       a: `That's the point. A single run can read ${brand}, cross-check it against your CRM, open the ticket, and post the summary to Slack — one receipt chain covering the whole job, not four disconnected automations.`,
     },
   ];

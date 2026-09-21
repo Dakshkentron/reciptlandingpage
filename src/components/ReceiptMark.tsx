@@ -1,5 +1,5 @@
 /**
- * The Receipt logomark — a receipt with a torn bottom edge, agent inside.
+ * The Kentron AI logomark — a receipt with a torn bottom edge, agent inside.
  * Strokes use `currentColor` so the mark inherits whatever text color it sits in;
  * the inner highlight uses `paperClassName` so it can match a dark or light ground.
  */
@@ -11,7 +11,7 @@ export default function ReceiptMark({
   paperClassName?: string;
 }) {
   return (
-    <svg viewBox="0 0 512 512" fill="none" className={className} role="img" aria-label="Receipt">
+    <svg viewBox="0 0 512 512" fill="none" className={className} role="img" aria-label="Kentron AI">
       <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" fill="none">
         <path
           d="M150 82H396V398L372 382L348 398L324 382L300 398L276 382L252 398L228 382L204 398L180 382L156 398V82Z"

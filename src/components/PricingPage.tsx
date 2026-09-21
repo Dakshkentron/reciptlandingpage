@@ -65,7 +65,7 @@ type Cell = boolean | string;
 
 const comparison: { section: string; rows: { label: string; free: Cell; team: Cell; enterprise: Cell }[] }[] = [
   {
-    section: 'Working with Receipt',
+    section: 'Working with Kentron AI',
     rows: [
       { label: 'Monthly credits', free: '$100 in credits, once', team: 'Your chosen tier', enterprise: 'Negotiated' },
       { label: 'Seats', free: 'Up to 3', team: 'Unlimited', enterprise: 'Unlimited' },
@@ -80,7 +80,7 @@ const comparison: { section: string; rows: { label: string; free: Cell; team: Ce
     rows: [
       { label: 'Connectors', free: `All ${CATALOG_LABEL}`, team: `All ${CATALOG_LABEL}`, enterprise: `All ${CATALOG_LABEL}` },
       { label: 'Multiple accounts per connector', free: false, team: true, enterprise: true },
-      { label: 'Receipt builds against your own API', free: false, team: true, enterprise: true },
+      { label: 'Kentron AI builds against your own API', free: false, team: true, enterprise: true },
       { label: 'Private / self-hosted endpoints', free: false, team: false, enterprise: true },
     ],
   },
@@ -111,11 +111,11 @@ const comparison: { section: string; rows: { label: string; free: Cell; team: Ce
 const faqs = [
   {
     q: 'Is there a free trial?',
-    a: 'Every new workspace starts with $100 in credits, without a card on file and without talking to anyone here first. That is enough for a few hundred real tasks, which is the only honest way to find out whether Receipt is useful for your team.',
+    a: 'Every new workspace starts with $100 in credits, without a card on file and without talking to anyone here first. That is enough for a few hundred real tasks, which is the only honest way to find out whether Kentron AI is useful for your team.',
   },
   {
     q: 'How many credits do we actually need?',
-    a: 'Most teams land between 125,000 and 300,000 credits a month once Receipt is part of the routine — roughly 100–300 credits for a quick lookup, 500–1,500 for a multi-tool workflow, and 2,000–5,000 for a full project. Start on a small tier; moving up takes one click.',
+    a: 'Most teams land between 125,000 and 300,000 credits a month once Kentron AI is part of the routine — roughly 100–300 credits for a quick lookup, 500–1,500 for a multi-tool workflow, and 2,000–5,000 for a full project. Start on a small tier; moving up takes one click.',
   },
   {
     q: 'Can we change plans mid-month?',
@@ -127,7 +127,7 @@ const faqs = [
   },
   {
     q: 'Do you charge per seat?',
-    a: 'No. Team plans include unlimited seats. You pay for the work Receipt does, not for how many people are allowed to ask — because a tool everyone can reach is worth more than one gated to a licensed few.',
+    a: 'No. Team plans include unlimited seats. You pay for the work Kentron AI does, not for how many people are allowed to ask — because a tool everyone can reach is worth more than one gated to a licensed few.',
   },
   {
     q: 'Are any features held back on the cheaper plans?',
@@ -135,7 +135,7 @@ const faqs = [
   },
   {
     q: 'How do we keep credit usage down?',
-    a: 'Be specific about scope, let Receipt reuse workspace context instead of re-reading the same systems, and schedule recurring reports rather than asking ad hoc. We do not mark up model tokens, and cached context is not re-billed, so tighter prompts genuinely cost less.',
+    a: 'Be specific about scope, let Kentron AI reuse workspace context instead of re-reading the same systems, and schedule recurring reports rather than asking ad hoc. We do not mark up model tokens, and cached context is not re-billed, so tighter prompts genuinely cost less.',
   },
   {
     q: 'Do you offer nonprofit or startup discounts?',
@@ -175,7 +175,7 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* ---------- Hero ---------- */}
-      <section className="relative overflow-hidden pt-28">
+      <section className="relative overflow-hidden pt-36">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-50 via-sky-50/50 to-white" />
         <div className="absolute -top-24 left-1/2 -z-10 h-[26rem] w-[48rem] -translate-x-1/2 rounded-full bg-brand-200/25 blur-[120px]" />
 
@@ -190,7 +190,7 @@ export default function PricingPage() {
             Not for the seats.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-500">
-            Receipt bills in credits, so the cost tracks what your coworker actually did — not how many
+            Kentron AI bills in credits, so the cost tracks what your coworker actually did — not how many
             people you let near it. Start without a card, and without a call.
           </p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
@@ -343,11 +343,11 @@ export default function PricingPage() {
             {[
               {
                 title: 'No model markup.',
-                desc: 'You pay what the underlying models cost us. We make money when Receipt is worth keeping, not on a token spread.',
+                desc: 'You pay what the underlying models cost us. We make money when Kentron AI is worth keeping, not on a token spread.',
               },
               {
                 title: 'Cached context is not re-billed.',
-                desc: 'Receipt reuses what it already knows about your workspace instead of re-reading the same systems every run.',
+                desc: 'Kentron AI reuses what it already knows about your workspace instead of re-reading the same systems every run.',
               },
               {
                 title: 'Automation gets cheaper with scale.',
@@ -428,7 +428,7 @@ export default function PricingPage() {
         <div className="mx-auto max-w-3xl px-5 py-16 text-center lg:px-8 lg:py-24">
           <h2 className="section-title text-ink-950">Start free. Bring your whole stack.</h2>
           <p className="section-lead text-ink-500">
-            $100 in credits, all {CATALOG_LABEL} connectors, and a receipt for everything Receipt does.
+            $100 in credits, all {CATALOG_LABEL} connectors, and a receipt for everything Kentron AI does.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a href="https://app.kentron.ai/auth/sign-up" className="btn-primary btn-lg">

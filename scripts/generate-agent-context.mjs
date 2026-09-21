@@ -33,7 +33,7 @@ const server = await createServer({ server: { middlewareMode: true }, appType: '
 const { teams } = await server.ssrLoadModule('/src/data/useCases.ts');
 const { CATALOG_LABEL, integrationCatalog, categories, popularIntegrations } =
   await server.ssrLoadModule('/src/data/integrations.ts');
-const { faqs, features } = await server.ssrLoadModule('/src/data/content.ts');
+const { faqs, products } = await server.ssrLoadModule('/src/data/content.ts');
 const { resourcePages, DOCS_URL } = await server.ssrLoadModule('/src/data/resources.ts');
 await server.close();
 
@@ -119,7 +119,13 @@ Generated from the site's own content data. Docs live at ${DOCS_URL}.
 
 ${DESCRIPTION}
 
-${features.map((f) => `- ${f.title}: ${f.description}`).join('\n')}
+${products
+  .map(
+    (p) => `## ${p.eyebrow} — ${p.title}
+${p.description}
+${p.bullets.map((b) => `- ${b}`).join('\n')}`,
+  )
+  .join('\n\n')}
 
 # Use cases by team
 
@@ -226,7 +232,7 @@ const jsonLd = [
     operatingSystem: 'Web',
     url: `${SITE_URL}/`,
     description: DESCRIPTION,
-    featureList: features.map((f) => f.title),
+    featureList: products.map((p) => `${p.eyebrow}: ${p.title}`),
     offers: {
       '@type': 'Offer',
       price: '50',

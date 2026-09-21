@@ -14,7 +14,7 @@ export default function CTA() {
               Connect one system. Read the receipts.
             </h2>
             <p className="section-lead text-ink-200">
-              Start free, point Receipt at a single tool, and judge it on the record it leaves behind before
+              Start free, point Kentron AI at a single tool, and judge it on the record it leaves behind before
               you connect the next one.
             </p>
 
