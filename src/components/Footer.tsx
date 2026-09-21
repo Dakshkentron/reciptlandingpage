@@ -12,7 +12,7 @@ export default function Footer() {
           <div className="col-span-2 lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <ReceiptMark className="h-7 w-7 text-brand-500" paperClassName="text-ink-950" />
-              <span className="text-lg font-bold text-white">Receipt</span>
+              <span className="text-lg font-bold text-white">Kentron AI</span>
             </div>
             <p className="text-sm text-ink-400 leading-relaxed max-w-xs mb-6">
               Your AI coworker that proves every result with a receipt.
@@ -21,7 +21,7 @@ export default function Footer() {
               href={LINKEDIN_URL}
               target="_blank"
               rel="noreferrer"
-              aria-label="Receipt on LinkedIn"
+              aria-label="Kentron AI on LinkedIn"
               className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-ink-800 bg-ink-900 text-ink-300 transition-colors hover:border-brand-500/40 hover:bg-ink-850 hover:text-white"
             >
               <Linkedin className="h-5 w-5" />
@@ -61,13 +61,6 @@ export default function Footer() {
             Follow Kentron on LinkedIn
           </a>
         </div>
-      </div>
-
-      <div
-        aria-hidden="true"
-        className="pointer-events-none select-none text-center text-[18vw] font-black leading-none tracking-tight text-white/[0.03] -mb-[3vw] lg:-mb-[2vw]"
-      >
-        Receipt
       </div>
     </footer>
   );

@@ -8,34 +8,34 @@ step as an immutable, cryptographically chained receipt you can replay and
 verify independently.
 
 This site is a client-rendered single-page app addressed by hash routes; fetch
-https://reciptlandingpage.vercel.app/llms-full.txt for the full text of every page without running
+https://receipt-website.vercel.app/llms-full.txt for the full text of every page without running
 JavaScript.
 
 ## Pages
 
-- [Receipt — an AI coworker that proves what it did](https://reciptlandingpage.vercel.app/): Your AI coworker that proves what it did. Receipt runs tasks across your SaaS apps and servers, then backs every result with a verifiable receipt.
-- [Use cases](https://reciptlandingpage.vercel.app/#/use-cases): Worked examples across 11 teams.
-- [Engineering use cases](https://reciptlandingpage.vercel.app/#/use-cases/engineering): The on-call work between the alert and the fix
-- [Customer Support use cases](https://reciptlandingpage.vercel.app/#/use-cases/customer-support): Tickets answered with the system of record, not a guess
-- [Sales use cases](https://reciptlandingpage.vercel.app/#/use-cases/sales): A clean CRM and a briefed rep, without the admin hour
-- [Marketing & Growth use cases](https://reciptlandingpage.vercel.app/#/use-cases/marketing): Numbers reconciled across every channel, with the rows attached
-- [Finance & RevOps use cases](https://reciptlandingpage.vercel.app/#/use-cases/finance): Close faster, and be able to prove every number in it
-- [IT & Security use cases](https://reciptlandingpage.vercel.app/#/use-cases/it-security): Access reviews, offboarding, and evidence that holds up
-- [Data & Analytics use cases](https://reciptlandingpage.vercel.app/#/use-cases/data-analytics): Pipelines that heal, and metrics you can defend
-- [Product use cases](https://reciptlandingpage.vercel.app/#/use-cases/product): Evidence for the roadmap, gathered continuously
-- [People & HR use cases](https://reciptlandingpage.vercel.app/#/use-cases/people): Onboarding, reviews, and the paperwork behind both
-- [Founders & Leadership use cases](https://reciptlandingpage.vercel.app/#/use-cases/founders): The company's real numbers, without asking four people
-- [Legal & Compliance use cases](https://reciptlandingpage.vercel.app/#/use-cases/legal-compliance): Contract review and obligations that get tracked
-- [Integrations](https://reciptlandingpage.vercel.app/#/integrations): 1,000+ connectors across 14 categories.
-- [Pricing](https://reciptlandingpage.vercel.app/#/pricing): Credit-based pricing from $50; free tier and enterprise plans.
-- [Security](https://reciptlandingpage.vercel.app/#/security): Sandbox isolation, policy gates, and the receipt chain.
-- [Blog](https://reciptlandingpage.vercel.app/#/blog): What we are learning about running AI agents against production systems — the architecture, the failure modes, and the things that turned out to matter more than we expected.
-- [Research](https://reciptlandingpage.vercel.app/#/research): Receipt exists because probabilistic systems need deterministic accountability. These are the papers, benchmarks, and design notes we keep coming back to — including our own.
-- [Case studies](https://reciptlandingpage.vercel.app/#/case-studies): Anonymised, because the interesting part is the shape of the deployment — what they connected, what they gated, and what changed by the second month.
+- [Receipt — an AI coworker that proves what it did](https://receipt-website.vercel.app/): Your AI coworker that proves what it did. Receipt runs tasks across your SaaS apps and servers, then backs every result with a verifiable receipt.
+- [Use cases](https://receipt-website.vercel.app/#/use-cases): Worked examples across 11 teams.
+- [Engineering use cases](https://receipt-website.vercel.app/#/use-cases/engineering): The on-call work between the alert and the fix
+- [Customer Support use cases](https://receipt-website.vercel.app/#/use-cases/customer-support): Tickets answered with the system of record, not a guess
+- [Sales use cases](https://receipt-website.vercel.app/#/use-cases/sales): A clean CRM and a briefed rep, without the admin hour
+- [Marketing & Growth use cases](https://receipt-website.vercel.app/#/use-cases/marketing): Numbers reconciled across every channel, with the rows attached
+- [Finance & RevOps use cases](https://receipt-website.vercel.app/#/use-cases/finance): Close faster, and be able to prove every number in it
+- [IT & Security use cases](https://receipt-website.vercel.app/#/use-cases/it-security): Access reviews, offboarding, and evidence that holds up
+- [Data & Analytics use cases](https://receipt-website.vercel.app/#/use-cases/data-analytics): Pipelines that heal, and metrics you can defend
+- [Product use cases](https://receipt-website.vercel.app/#/use-cases/product): Evidence for the roadmap, gathered continuously
+- [People & HR use cases](https://receipt-website.vercel.app/#/use-cases/people): Onboarding, reviews, and the paperwork behind both
+- [Founders & Leadership use cases](https://receipt-website.vercel.app/#/use-cases/founders): The company's real numbers, without asking four people
+- [Legal & Compliance use cases](https://receipt-website.vercel.app/#/use-cases/legal-compliance): Contract review and obligations that get tracked
+- [Integrations](https://receipt-website.vercel.app/#/integrations): 1,000+ connectors across 14 categories.
+- [Pricing](https://receipt-website.vercel.app/#/pricing): Credit-based pricing from $50; free tier and enterprise plans.
+- [Security](https://receipt-website.vercel.app/#/security): Sandbox isolation, policy gates, and the receipt chain.
+- [Blog](https://receipt-website.vercel.app/#/blog): What we are learning about running AI agents against production systems — the architecture, the failure modes, and the things that turned out to matter more than we expected.
+- [Research](https://receipt-website.vercel.app/#/research): Kentron AI exists because probabilistic systems need deterministic accountability. These are the papers, benchmarks, and design notes we keep coming back to — including our own.
+- [Case studies](https://receipt-website.vercel.app/#/case-studies): Anonymised, because the interesting part is the shape of the deployment — what they connected, what they gated, and what changed by the second month.
 
 ## Documentation
 
-- [Product documentation](https://reciptwebsite.mintlify.app/introduction): quickstart, core concepts, and the API.
+- [Product documentation](https://docs.kentron.ai/introduction): quickstart, core concepts, and the API.
 
 ## Key facts
 

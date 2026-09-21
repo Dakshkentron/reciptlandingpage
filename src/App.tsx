@@ -1,15 +1,15 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import Showcase from '@/components/Showcase';
+import ReceiptCoworker from '@/components/ReceiptCoworker';
+import MCPGateway from '@/components/MCPGateway';
+import LLMGateway from '@/components/LLMGateway';
+import KentronCatalog from '@/components/KentronCatalog';
+import KentronGuard from '@/components/KentronGuard';
+import KentronCore from '@/components/KentronCore';
 import LogoMarquee from '@/components/LogoMarquee';
-import HowItWorks from '@/components/HowItWorks';
 import GetStarted from '@/components/GetStarted';
-import ReceiptChain from '@/components/ReceiptChain';
-import Customers from '@/components/Customers';
-import Integrations from '@/components/Integrations';
 import FAQ from '@/components/FAQ';
-import CTA from '@/components/CTA';
 import Footer from '@/components/Footer';
 import IntegrationsPage from '@/components/IntegrationsPage';
 import IntegrationDetailPage from '@/components/IntegrationDetailPage';
@@ -19,6 +19,7 @@ import UseCasesPage from '@/components/UseCasesPage';
 import UseCaseDetailPage from '@/components/UseCaseDetailPage';
 import ResourcePage from '@/components/ResourcePage';
 import UseCasesTeaser from '@/components/UseCasesTeaser';
+
 import { DOCS_URL, resourcePages, type ResourceKind } from '@/data/resources';
 import { applyRouteMeta } from '@/lib/pageMeta';
 
@@ -116,16 +117,16 @@ function App() {
         ) : (
           <>
             <Hero />
-            <GetStarted />
-            <Showcase />
             <LogoMarquee />
-            <HowItWorks />
+            <ReceiptCoworker />
+            <MCPGateway />
+            <LLMGateway />
+            <KentronCatalog />
+            <KentronGuard />
+            <KentronCore />
+            <GetStarted />
             <UseCasesTeaser />
-            <ReceiptChain />
-            <Customers />
-            <Integrations />
             <FAQ />
-            <CTA />
           </>
         )}
       </main>

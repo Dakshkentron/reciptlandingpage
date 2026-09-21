@@ -12,7 +12,7 @@ export default function Customers() {
             Customers
           </div>
           <h2 className="section-title text-ink-950">
-            The shape of a Receipt deployment
+            The shape of a Kentron AI deployment
           </h2>
           <p className="section-lead text-ink-500">
             What teams connect first, what they gate, and what changes by the second month.

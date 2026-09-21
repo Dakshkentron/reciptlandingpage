@@ -647,6 +647,81 @@ const usdFormat = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 4,
 });
 
+/**
+ * Four decimal places is not enough for a single run.
+ *
+ * Most individual prompts cost a small fraction of a cent, and at four places
+ * every one of them renders as "$0.00" — identical to a run that genuinely cost
+ * nothing, and useless for the question the cost row exists to answer. A run
+ * billed $0.000021 was reported here as free.
+ *
+ * So anything at or above a cent keeps the ordinary currency format, and
+ * anything below it is shown with enough significant digits to be a real
+ * figure. Exact zero stays "$0.00": that is a true statement, not a rounded one.
+ */
+function formatUsd(value: number): string {
+  if (value === 0) return '$0.00';
+  if (Math.abs(value) >= 0.01) return usdFormat.format(value);
+
+  // Below this, ten decimal places round to nothing and the expansion below
+  // would produce a bare "$0." — so say what is true instead of rendering a
+  // figure that is both wrong and malformed.
+  if (Math.abs(value) < 1e-8) return value > 0 ? '< $0.00000001' : '> -$0.00000001';
+
+  // toPrecision gives exponential notation below 1e-6; expand it so the row
+  // never shows the viewer something like "$2.1e-7".
+  const expanded = Number(value.toPrecision(2))
+    .toFixed(10)
+    .replace(/0+$/, '')
+    .replace(/\.$/, '');
+  return `$${expanded}`;
+}
+
+/**
+ * Every token column the run detail carries, not just two of them.
+ *
+ * This row used to read `6,423 in · 24 out` and stop there, while
+ * `/api/admin-run` was also returning `cacheReadTokens` and `cacheWriteTokens`
+ * that went unrendered. On a cached run the cache reads are routinely larger
+ * than the input, so the figure on screen could be a small fraction of what the
+ * run actually moved — and the row gave no sign anything was missing.
+ *
+ * The total is a plain sum of the four columns, labelled as such rather than
+ * presented as a billed quantity: how a provider charges for cache reads
+ * against fresh input is not something this page knows, and it should not
+ * imply otherwise. Columns that came back null are left out instead of being
+ * shown as zero, because "not recorded" and "none" are different facts.
+ */
+function TokenBreakdown({ detail }: { detail: AdminRunDetail }) {
+  const parts: Array<{ label: string; value: number }> = [];
+  if (detail.inputTokens != null) parts.push({ label: 'in', value: detail.inputTokens });
+  if (detail.outputTokens != null) parts.push({ label: 'out', value: detail.outputTokens });
+  if (detail.cacheReadTokens != null)
+    parts.push({ label: 'cache read', value: detail.cacheReadTokens });
+  if (detail.cacheWriteTokens != null)
+    parts.push({ label: 'cache write', value: detail.cacheWriteTokens });
+
+  if (parts.length === 0) return <span className="text-ink-500">Not recorded</span>;
+
+  const total = parts.reduce((sum, part) => sum + part.value, 0);
+
+  return (
+    <div className="flex flex-col gap-1 text-right">
+      <span className="font-mono text-xs text-ink-200">
+        {numberFormat.format(total)} total
+      </span>
+      <span className="font-mono text-[11px] leading-relaxed text-ink-400">
+        {parts.map((part, index) => (
+          <span key={part.label}>
+            {index > 0 && <span className="text-ink-600"> · </span>}
+            {numberFormat.format(part.value)} {part.label}
+          </span>
+        ))}
+      </span>
+    </div>
+  );
+}
+
 /** One row in the objective's step timeline. */
 function StepRow({ step }: { step: AdminRunStep }) {
   return (
@@ -739,6 +814,18 @@ function ExecutionTrace({ messageId }: { messageId: string }) {
             <MetaRow label="Run status">
               <span className="font-mono text-xs text-ink-200">{state.detail.status ?? '—'}</span>
             </MetaRow>
+            {/* The run's own model, which is not the same field as the prompt's.
+                `/api/admin-run` has always returned this and the panel used to
+                drop it on the floor, so a prompt whose feed entry carried no
+                model read as "Not recorded" while the answer sat in the trace
+                response unrendered. */}
+            <MetaRow label="Model">
+              {state.detail.model ? (
+                <span className="font-mono text-xs text-ink-200">{state.detail.model}</span>
+              ) : (
+                <span className="text-ink-500">Not recorded</span>
+              )}
+            </MetaRow>
             <MetaRow label="Started">
               <span>{formatExactOrDash(state.detail.startedAt)}</span>
             </MetaRow>
@@ -746,19 +833,12 @@ function ExecutionTrace({ messageId }: { messageId: string }) {
               <span>{formatExactOrDash(state.detail.completedAt)}</span>
             </MetaRow>
             <MetaRow label="Tokens">
-              {state.detail.inputTokens != null || state.detail.outputTokens != null ? (
-                <span className="font-mono text-xs text-ink-200">
-                  {numberFormat.format(state.detail.inputTokens ?? 0)} in ·{' '}
-                  {numberFormat.format(state.detail.outputTokens ?? 0)} out
-                </span>
-              ) : (
-                <span className="text-ink-500">Not recorded</span>
-              )}
+              <TokenBreakdown detail={state.detail} />
             </MetaRow>
             <MetaRow label="Cost">
               {state.detail.estimatedCost != null ? (
                 <span className="font-mono text-xs text-ink-200">
-                  {usdFormat.format(state.detail.estimatedCost)}
+                  {formatUsd(state.detail.estimatedCost)}
                 </span>
               ) : (
                 <span className="text-ink-500">Not recorded</span>

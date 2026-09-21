@@ -80,7 +80,7 @@ const ready: Array<[name: string, auth: string]> = [
   ['ZoomInfo', 'Default'],
 ];
 
-/** Connectors available in the catalog, not yet enabled for Receipt. */
+/** Connectors available in the catalog, not yet enabled for Kentron AI. */
 const comingSoon: string[] = [
   '1Password (Events API)',
   '1Password (SCIM)',

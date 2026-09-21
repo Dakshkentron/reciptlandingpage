@@ -1,22 +1,53 @@
 # Receipt — full site content
 
-Source: https://reciptlandingpage.vercel.app
-Generated from the site's own content data. Docs live at https://reciptwebsite.mintlify.app/introduction.
+Source: https://receipt-website.vercel.app
+Generated from the site's own content data. Docs live at https://docs.kentron.ai/introduction.
 
 ## What Receipt is
 
 Your AI coworker that proves what it did. Receipt runs tasks across your SaaS apps and servers, then backs every result with a verifiable receipt.
 
-- Describe the outcome. In Slack, like a colleague.: Mention Receipt in a thread or launch a run from the web workbench — both create the same receipt-backed run. Receipt replies “Accepted. Starting a background run,” then keeps working after you close the tab.
-- Your systems are the substrate, not its memory.: A worker is leased to the run and works through connected systems — browsers, terminals, repositories, and scoped connector actions inside its lane. Query AWS, open a pull request, read Datadog, update Jira, with the evidence attached as it goes.
-- Every material step is written down before the run moves on.: Objective accepted, worker leased, actions executed, checks passed, review recorded, receipt issued. The chain is typed, immutable, and previous-hash linked — tamper with one entry and every entry after it breaks.
-- Reconstruct what the agent saw and why it was allowed.: Replay covers model interaction, action selection, queue movement, and policy decisions. What the run learns — a stronger check, a corrected runbook — is promoted into memory so the next run starts with the fix already in place.
+## Receipt: AI Coworker — An AI coworker for every question
+Mention Kentron AI in a thread or launch a run from the workbench. It works through your connected systems and backs every result with a receipt you can replay.
+- Post an objective in Slack or the workbench — no workflow to draw first
+- It operates through your connected systems, with evidence attached as it goes
+- Every material step is a receipt: typed, immutable, and replayable later
+
+## MCP Gateway — One gateway for every MCP connection
+Secure, governed MCP access across Claude, Cursor, ChatGPT, Codex, and agents—with policy controls, OAuth, runtime security, and an audit trail for every request.
+- Securely integrates with 80,000+ tools and 1000+ apps, preview capabilities instantly, no API docs required.
+- Take action anywhere—zero setup, zero keys, zero configuration needed
+- AI agents autonomously discover, reason about, and operate any app.
+
+## LLM Gateway — Route, log, and govern every model call
+Route all LLM traffic through a single, policy-enforcing checkpoint that prevents costly failures and compliance breaches.
+- Real-time policy enforcement blocks non-compliant requests before they generate costs
+- Intelligent rate limiting and token budgets prevent runaway spending across all models
+- Unified audit trail tracks every LLM request for regulatory compliance and investigation
+
+## Kentron Catalog — 1,000+ connectors, browsable A–Z
+One governed registry for approved connectors, skills, and plugins—with clear ownership, dependencies, access controls, and usage visibility.
+- Centralized registry with automated approval ensures only vetted connectors reach production.
+- Real-time visibility into connector dependencies, adoption patterns, and security posture
+- Clear accountability with role-based access rules that enforce governance automatically.
+
+## Kentron Guard — Stop risky agent actions before they execute
+Real-time inspection of tools, outputs, PII, policies, and agent actions with threat scanners that evolve with emerging risks.
+- Intercept risky agent actions in real-time before execution, preventing compliance violations automatically.
+- Threat scanners that continuously learn and adapt against emerging agent risks and attack patterns.
+- Detect and block PII leakage, policy violations, and unauthorized data access in single dashboard.
+
+## Kentron Core — The platform underneath every Kentron product
+Automatically transform production conversations into high-quality training datasets for rapid model iteration.
+- Extract and label production conversations automatically for instant model retraining
+- Turn customer interactions into validated training data without manual annotation
+- Close the feedback loop: production insights powering continuous AI model improvement
 
 # Use cases by team
 
 ## Engineering — Everything between the alert and the pull request.
 
-Status: live. Engineers rarely lose the day to writing code. They lose it to the connective work around it — reading the trace, finding the commit, checking whether the deploy is the cause, updating the ticket, telling everyone. Receipt does that span in one run and hands you a diff to review.
+Status: live. Engineers rarely lose the day to writing code. They lose it to the connective work around it — reading the trace, finding the commit, checking whether the deploy is the cause, updating the ticket, telling everyone. Kentron AI does that span in one run and hands you a diff to review.
 
 Stops doing by hand: Twenty browser tabs open at 2am to answer one question: what changed?
 Connected stack: GitHub, Sentry, Linear, Vercel, Datadog, Slack, AWS, Terraform Cloud
@@ -64,9 +95,9 @@ Steps:
 Tools: Terraform Cloud, AWS, GitHub, Slack
 Proof: The approval, the approver, and the exact plan hash they approved are chained together — the apply cannot drift from what was reviewed.
 
-## Customer Support — The answer is in five systems. Receipt reads all five.
+## Customer Support — The answer is in five systems. Kentron AI reads all five.
 
-Status: live. Support does not usually need a smarter reply — it needs the truth. Was the charge refunded? Did the webhook fire? Is this the known bug or a new one? Receipt goes and looks, in the billing system, the logs, and the tracker, then writes the reply with the evidence attached.
+Status: live. Support does not usually need a smarter reply — it needs the truth. Was the charge refunded? Did the webhook fire? Is this the known bug or a new one? Kentron AI goes and looks, in the billing system, the logs, and the tracker, then writes the reply with the evidence attached.
 
 Stops doing by hand: Escalating to engineering to ask a question the logs already answered.
 Connected stack: Zendesk, Stripe (API Key), Linear, Slack, Intercom, Notion, HubSpot, Sentry
@@ -114,9 +145,9 @@ Steps:
 Tools: Zendesk, HubSpot, Google Analytics, Slack
 Proof: The brief cites the exact conversations and usage rows it read, so the save call opens with facts rather than an apology.
 
-## Sales — Reps sell. Receipt does the CRM.
+## Sales — Reps sell. Kentron AI does the CRM.
 
-Status: live. Pipeline hygiene is the tax every sales team pays and nobody wants to collect. Receipt sits between the calendar, the call recording, the inbox, and the CRM — updating records from what actually happened, and briefing the rep before they dial.
+Status: live. Pipeline hygiene is the tax every sales team pays and nobody wants to collect. Kentron AI sits between the calendar, the call recording, the inbox, and the CRM — updating records from what actually happened, and briefing the rep before they dial.
 
 Stops doing by hand: The Friday afternoon spent guessing which stage a deal is really in.
 Connected stack: HubSpot, Salesforce, Gong (Oauth), Slack, Zoom, Apollo, Google Calendar, Notion
@@ -166,7 +197,7 @@ Proof: Each created contact records where the data came from — so the CRM neve
 
 ## Marketing & Growth — Reporting that shows its working.
 
-Status: live. Every channel has its own dashboard and every dashboard disagrees. Receipt pulls the raw numbers from each platform, reconciles them against pipeline, and publishes the report with the source rows attached — so the meeting argues about strategy instead of about whose spreadsheet is right.
+Status: live. Every channel has its own dashboard and every dashboard disagrees. Kentron AI pulls the raw numbers from each platform, reconciles them against pipeline, and publishes the report with the source rows attached — so the meeting argues about strategy instead of about whose spreadsheet is right.
 
 Stops doing by hand: The Monday export-and-paste ritual across six ad platforms.
 Connected stack: Google Ads, Meta Marketing API, LinkedIn, Google Analytics, HubSpot, Notion, Slack, Webflow
@@ -216,7 +247,7 @@ Proof: Each capture is timestamped and stored, so the claim "they raised prices 
 
 ## Finance & RevOps — A month-end close that carries its own audit trail.
 
-Status: live. Finance already knows how to reconcile. What costs the week is gathering — pulling statements, chasing approvals, matching invoices to purchase orders, and then proving it all again when the auditor arrives. Receipt does the gathering and keeps the evidence as it goes.
+Status: live. Finance already knows how to reconcile. What costs the week is gathering — pulling statements, chasing approvals, matching invoices to purchase orders, and then proving it all again when the auditor arrives. Kentron AI does the gathering and keeps the evidence as it goes.
 
 Stops doing by hand: Rebuilding the audit trail in March for work you did in January.
 Connected stack: Stripe (API Key), Quickbooks, Xero, Ramp, NetSuite (OAuth), Slack, Google Sheet, HubSpot
@@ -266,7 +297,7 @@ Proof: The billing rows behind the explanation are attached, so the note survive
 
 ## IT & Security — Give the agent access. Keep the proof.
 
-Status: live. The reason security teams distrust AI agents is that most of them cannot prove what they touched. Receipt inverts that: isolated execution, a policy gate before every write, and an immutable, hash-chained record of each call. The audit artifact is a by-product of the work, not a project after it.
+Status: live. The reason security teams distrust AI agents is that most of them cannot prove what they touched. Kentron AI inverts that: isolated execution, a policy gate before every write, and an immutable, hash-chained record of each call. The audit artifact is a by-product of the work, not a project after it.
 
 Stops doing by hand: Screenshot-based evidence collection two weeks before the audit.
 Connected stack: Okta, Google Workspace Admin, AWS, GitHub, Slack, 1Password (Events API), Vanta, Jira
@@ -316,7 +347,7 @@ Proof: Evidence arrives with provenance attached — which system produced it, w
 
 ## Data & Analytics — The ad-hoc request queue, answered at source.
 
-Status: live. Data teams do not have a modelling problem, they have an interruption problem. Receipt takes the questions that never needed a human — the pipeline that failed at 3am, the metric that moved, the one-off pull — and handles them where the data lives, with the query it ran attached to the answer.
+Status: live. Data teams do not have a modelling problem, they have an interruption problem. Kentron AI takes the questions that never needed a human — the pipeline that failed at 3am, the metric that moved, the one-off pull — and handles them where the data lives, with the query it ran attached to the answer.
 
 Stops doing by hand: Being paged for a pipeline failure whose fix is always the same three steps.
 Connected stack: Snowflake, Google BigQuery, Databricks (Workspace Level), Looker, Metabase, Slack, Notion, GitHub
@@ -366,7 +397,7 @@ Proof: The usage data behind each archival decision is retained, so restoring on
 
 ## Product — Roadmap decisions with the evidence already gathered.
 
-Status: live. The feedback is real, it is just scattered — across tickets, calls, reviews, the community, and three different feature-request boards. Receipt gathers it continuously, weights it by revenue rather than by volume, and keeps the trail so a prioritisation call can be revisited without being re-litigated.
+Status: live. The feedback is real, it is just scattered — across tickets, calls, reviews, the community, and three different feature-request boards. Kentron AI gathers it continuously, weights it by revenue rather than by volume, and keeps the trail so a prioritisation call can be revisited without being re-litigated.
 
 Stops doing by hand: Quarterly planning weeks spent assembling evidence that already existed.
 Connected stack: Linear, Jira, Zendesk, HubSpot, Notion, Gong (Oauth), Productboard, Slack
@@ -416,7 +447,7 @@ Proof: The captured competitor pages are timestamped, so the claim can be checke
 
 ## People & HR — The first day works because the week before did.
 
-Status: live. People teams run processes that touch every system in the company and own none of them. Receipt reaches across the HRIS, the ATS, identity, payroll, and the tools a new hire needs — doing the provisioning, chasing the signatures, and leaving a record of who approved each piece of access.
+Status: live. People teams run processes that touch every system in the company and own none of them. Kentron AI reaches across the HRIS, the ATS, identity, payroll, and the tools a new hire needs — doing the provisioning, chasing the signatures, and leaving a record of who approved each piece of access.
 
 Stops doing by hand: A twelve-step onboarding checklist copied between four tools.
 Connected stack: Greenhouse, BambooHR (OAuth), Okta, Google Workspace Admin, Slack, Notion, Deel, DocuSign
@@ -466,7 +497,7 @@ Proof: The post-revocation verification read is chained to the revoke call — t
 
 ## Founders & Leadership — Stop asking four people for one number.
 
-Status: live. The metrics exist. They are just in the billing system, the CRM, the warehouse, and someone's spreadsheet, and getting them costs three people an afternoon. Receipt assembles the picture directly from source, on whatever cadence you want, and shows the work.
+Status: live. The metrics exist. They are just in the billing system, the CRM, the warehouse, and someone's spreadsheet, and getting them costs three people an afternoon. Kentron AI assembles the picture directly from source, on whatever cadence you want, and shows the work.
 
 Stops doing by hand: The board-deck week that starts with five Slack messages asking for numbers.
 Connected stack: Stripe (API Key), HubSpot, Quickbooks, Snowflake, Slack, Notion, Google Sheet, Linear
@@ -516,7 +547,7 @@ Proof: The check itself is an auditable artifact — you can hand the reviewer t
 
 ## Legal & Compliance — The obligations you signed, actually tracked.
 
-Status: beta. Contracts are signed and then forgotten, along with every renewal date, SLA credit, and data-processing commitment inside them. Receipt reads the executed documents, extracts what was promised, and watches for the dates — with the clause it relied on quoted beside every claim.
+Status: beta. Contracts are signed and then forgotten, along with every renewal date, SLA credit, and data-processing commitment inside them. Kentron AI reads the executed documents, extracts what was promised, and watches for the dates — with the clause it relied on quoted beside every claim.
 
 Stops doing by hand: Discovering an auto-renewal three weeks after the notice window closed.
 Connected stack: DocuSign, Google Drive, Ironclad, Notion, Slack, Jira, Box, Vanta
@@ -612,26 +643,26 @@ Accelo, Acumatica, Affinity (v1), Affinity (v2), Apollo, Attio, Attio (MCP), Aut
 
 # Frequently asked questions
 
-## What is Receipt and what does it actually do?
-Receipt is an autonomous AI coworker platform that gives your team an AI agent with real execution capability: it runs code in a private isolated sandbox, reaches your connected tools (AWS, Jira, GitHub, Vercel, Slack, and more) through scoped actions, and converts probabilistic AI requests into deterministic, auditable outcomes. Every action is logged as an immutable, cryptographically chained “receipt”—the permanent source of truth—enabling full audit, replay, and crash recovery.
+## What is Kentron AI and what does it actually do?
+Kentron AI is an autonomous AI coworker platform that gives your team an AI agent with real execution capability: it runs code in a private isolated sandbox, reaches your connected tools (AWS, Jira, GitHub, Vercel, Slack, and more) through scoped actions, and converts probabilistic AI requests into deterministic, auditable outcomes. Every action is logged as an immutable, cryptographically chained “receipt”—the permanent source of truth—enabling full audit, replay, and crash recovery.
 
-## How is Receipt different from Claude Code, Codex, or other AI coding tools?
-Claude Code and Codex are single-session coding assistants for individual developers; Receipt is a multi-tenant production control plane that can orchestrate and run AI agents like those as auditable background workers. Receipt adds durable execution (survives crashes), deterministic replay (proves what happened), compliance logging (immutable audit trail), multi-tenant isolation (each org’s data is separate), and integration with the systems you connect—all things you need for production governance that a session-based coding tool doesn’t provide.
+## How is Kentron AI different from Claude Code, Codex, or other AI coding tools?
+Claude Code and Codex are single-session coding assistants for individual developers; Kentron AI is a multi-tenant production control plane that can orchestrate and run AI agents like those as auditable background workers. Kentron AI adds durable execution (survives crashes), deterministic replay (proves what happened), compliance logging (immutable audit trail), multi-tenant isolation (each org’s data is separate), and integration with the systems you connect—all things you need for production governance that a session-based coding tool doesn’t provide.
 
 ## Is it actually safe to give AI agents access to my production systems?
-Yes—if you use Receipt correctly. Every action runs in an isolated OpenSandbox with zero ambient access; credentials are never stored in Receipt (Nango owns them, Receipt only stores encrypted references); all state-changing operations are deterministic, replayable, and cryptographically chained so you can verify exactly what happened; and Receipt enforces org-level policy gates before any AI decision is executed. The default is “sandbox first, audit everything”—not “trust and react.”
+Yes—if you use Kentron AI correctly. Every action runs in an isolated OpenSandbox with zero ambient access; credentials are never stored in Kentron AI (Nango owns them, Kentron AI only stores encrypted references); all state-changing operations are deterministic, replayable, and cryptographically chained so you can verify exactly what happened; and Kentron AI enforces org-level policy gates before any AI decision is executed. The default is “sandbox first, audit everything”—not “trust and react.”
 
 ## What’s the difference between a "receipt" and regular logs or observability?
-Observability logs describe state that exists elsewhere; deleting logs loses visibility but not data. Receipts are the state—the append-only source of truth—and the running system is just a derived copy. Deleting receipts loses everything. This matters because it means Receipt doesn’t copy data around; it owns the provable history. You can replay any past moment, audit any decision, and prove causation—not just observe failures after they happen.
+Observability logs describe state that exists elsewhere; deleting logs loses visibility but not data. Receipts are the state—the append-only source of truth—and the running system is just a derived copy. Deleting receipts loses everything. This matters because it means Kentron AI doesn’t copy data around; it owns the provable history. You can replay any past moment, audit any decision, and prove causation—not just observe failures after they happen.
 
-## What SaaS apps and systems can Receipt connect to?
-Receipt carries a catalog of 1,000+ connectors (AWS, Google Cloud, Vercel, GitHub, GitLab, Jira, Confluence, Slack, HubSpot, Salesforce, Linear, Zendesk, and many more). You control which integrations each team member can access via org-level policy; credentials stay with the provider (Nango), never in Receipt; and you can add new integrations without waiting for a Receipt release. If Nango supports it and your team has a connection, the AI can use it—sandbox first, audit everything.
+## What SaaS apps and systems can Kentron AI connect to?
+Kentron AI carries a catalog of 1,000+ connectors (AWS, Google Cloud, Vercel, GitHub, GitLab, Jira, Confluence, Slack, HubSpot, Salesforce, Linear, Zendesk, and many more). You control which integrations each team member can access via org-level policy; credentials stay with the provider (Nango), never in Kentron AI; and you can add new integrations without waiting for a Kentron AI release. If Nango supports it and your team has a connection, the AI can use it—sandbox first, audit everything.
 
 ## How do I know the AI actually did what it claimed to do?
 Every action is a receipt: immutable, timestamped, cryptographically chained to the previous receipt, and contains the command, the evidence artifact, and the exit code. You can replay that receipt independently to verify the outcome. For external APIs (AWS, Jira, GitHub), the evidence includes the raw API response verbatim plus a tamper-evident hash. For code execution, you get the stdout, exit code, and any files created. Replay + independent verification = proof. No copying data between systems, no hidden side effects.
 
 ## What happens if the agent makes a mistake, gets stuck, or a task crashes?
-Receipt logs every step as an immutable receipt, so if a task crashes, you can replay from the last receipt without re-running earlier work—crash recovery is automatic. If the AI makes a wrong decision, that’s logged and auditable; you can review the evidence, fix the underlying issue, and replay from any point. If the agent gets stuck, Receipt detects stalled work (expired leases, watchdog, invariant checks) and self-heals with no human intervention—re-folding receipts and re-dispatching deterministically.
+Kentron AI logs every step as an immutable receipt, so if a task crashes, you can replay from the last receipt without re-running earlier work—crash recovery is automatic. If the AI makes a wrong decision, that’s logged and auditable; you can review the evidence, fix the underlying issue, and replay from any point. If the agent gets stuck, Kentron AI detects stalled work (expired leases, watchdog, invariant checks) and self-heals with no human intervention—re-folding receipts and re-dispatching deterministically.
 
 # Resources
 
@@ -650,7 +681,7 @@ What we are learning about running AI agents against production systems — the 
 - Month-end close as a replayable run: What changes when the reconciliation itself is an auditable artifact rather than a process someone remembers performing.
 
 ## Research — The work behind the architecture.
-Receipt exists because probabilistic systems need deterministic accountability. These are the papers, benchmarks, and design notes we keep coming back to — including our own.
+Kentron AI exists because probabilistic systems need deterministic accountability. These are the papers, benchmarks, and design notes we keep coming back to — including our own.
 
 ### Our work
 - Deterministic replay for non-deterministic agents: A design note on separating the decision (which the model makes) from the execution record (which must be reproducible), and the folding model that connects them.
@@ -666,7 +697,7 @@ Receipt exists because probabilistic systems need deterministic accountability. 
 Anonymised, because the interesting part is the shape of the deployment — what they connected, what they gated, and what changed by the second month.
 
 ### Deployments
-- A Series B fintech cut incident triage from 50 to 11 minutes: Connected Sentry, Vercel, GitHub and Datadog. Receipt correlates alerts to deploys and opens the revert PR; engineers review a diff instead of assembling a timeline.
+- A Series B fintech cut incident triage from 50 to 11 minutes: Connected Sentry, Vercel, GitHub and Datadog. Kentron AI correlates alerts to deploys and opens the revert PR; engineers review a diff instead of assembling a timeline.
 - A 400-person logistics platform closed the offboarding gap: The first access review found 62 credentials outside SSO. Offboarding is now a single run with a verification read after every revoke.
 - A marketplace took three days off month-end close: Card feed, processor, and ledger reconciled nightly rather than monthly. Finance sees six exceptions instead of 318 transactions.
 - A support org stopped escalating billing questions: Agents verify charge history and draft evidenced replies themselves. Refunds still wait for a human — every one of them recorded.
@@ -674,4 +705,4 @@ Anonymised, because the interesting part is the shape of the deployment — what
 ### By the numbers
 - Where the time actually goes: Across deployments, the majority of recovered hours came from cross-system gathering, not from generation. The connective work was always the expensive part.
 - What teams gate, and what they let run: Reads open up almost immediately. Writes stay gated far longer than most teams expect — and the ones that ungate do it per-operation, never wholesale.
-- The second-month pattern: Usage rarely grows by adding teams. It grows when one team moves a scheduled, recurring job onto Receipt and stops checking it.
+- The second-month pattern: Usage rarely grows by adding teams. It grows when one team moves a scheduled, recurring job onto Kentron AI and stops checking it.

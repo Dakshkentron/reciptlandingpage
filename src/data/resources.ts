@@ -9,7 +9,7 @@
  * can actually stand behind.
  */
 
-export const DOCS_URL = 'https://reciptwebsite.mintlify.app/introduction';
+export const DOCS_URL = 'https://docs.kentron.ai/introduction';
 
 export type ResourceKind = 'blog' | 'research' | 'case-studies';
 
@@ -73,7 +73,7 @@ const research: ResourcePageData = {
   eyebrow: 'Research',
   icon: 'BarChart3',
   title: 'The work behind the architecture.',
-  lead: 'Receipt exists because probabilistic systems need deterministic accountability. These are the papers, benchmarks, and design notes we keep coming back to — including our own.',
+  lead: 'Kentron AI exists because probabilistic systems need deterministic accountability. These are the papers, benchmarks, and design notes we keep coming back to — including our own.',
   sections: [
     {
       heading: 'Our work',
@@ -108,7 +108,7 @@ const caseStudies: ResourcePageData = {
     {
       heading: 'Deployments',
       items: [
-        { title: 'A Series B fintech cut incident triage from 50 to 11 minutes', desc: 'Connected Sentry, Vercel, GitHub and Datadog. Receipt correlates alerts to deploys and opens the revert PR; engineers review a diff instead of assembling a timeline.', meta: '38 engineers · 4 systems', tag: 'Engineering', href: '#/use-cases/engineering' },
+        { title: 'A Series B fintech cut incident triage from 50 to 11 minutes', desc: 'Connected Sentry, Vercel, GitHub and Datadog. Kentron AI correlates alerts to deploys and opens the revert PR; engineers review a diff instead of assembling a timeline.', meta: '38 engineers · 4 systems', tag: 'Engineering', href: '#/use-cases/engineering' },
         { title: 'A 400-person logistics platform closed the offboarding gap', desc: 'The first access review found 62 credentials outside SSO. Offboarding is now a single run with a verification read after every revoke.', meta: 'IT & Security · 9 systems', tag: 'Security', href: '#/use-cases/it-security' },
         { title: 'A marketplace took three days off month-end close', desc: 'Card feed, processor, and ledger reconciled nightly rather than monthly. Finance sees six exceptions instead of 318 transactions.', meta: 'Finance · 5 systems', tag: 'Finance', href: '#/use-cases/finance' },
         { title: 'A support org stopped escalating billing questions', desc: 'Agents verify charge history and draft evidenced replies themselves. Refunds still wait for a human — every one of them recorded.', meta: 'Support · 6 systems', tag: 'Customer Support', href: '#/use-cases/customer-support' },
@@ -119,7 +119,7 @@ const caseStudies: ResourcePageData = {
       items: [
         { title: 'Where the time actually goes', desc: 'Across deployments, the majority of recovered hours came from cross-system gathering, not from generation. The connective work was always the expensive part.', meta: 'Aggregate', tag: 'Analysis', href: '#/use-cases' },
         { title: 'What teams gate, and what they let run', desc: 'Reads open up almost immediately. Writes stay gated far longer than most teams expect — and the ones that ungate do it per-operation, never wholesale.', meta: 'Aggregate', tag: 'Governance', href: '#/security' },
-        { title: 'The second-month pattern', desc: 'Usage rarely grows by adding teams. It grows when one team moves a scheduled, recurring job onto Receipt and stops checking it.', meta: 'Aggregate', tag: 'Adoption', href: '#/use-cases' },
+        { title: 'The second-month pattern', desc: 'Usage rarely grows by adding teams. It grows when one team moves a scheduled, recurring job onto Kentron AI and stops checking it.', meta: 'Aggregate', tag: 'Adoption', href: '#/use-cases' },
       ],
     },
   ],
@@ -144,6 +144,4 @@ export const resourceNavChildren: {
 }[] = [
   { label: 'Docs', href: DOCS_URL, desc: 'Quickstart, concepts, and the API', icon: 'FileText', external: true },
   { label: 'Blog', href: '#/blog', desc: 'Notes on building auditable agents', icon: 'Newspaper' },
-  { label: 'Research', href: '#/research', desc: 'Papers, benchmarks, and design notes', icon: 'BarChart3' },
-  { label: 'Case studies', href: '#/case-studies', desc: 'How teams actually deploy it', icon: 'Sparkles' },
 ];

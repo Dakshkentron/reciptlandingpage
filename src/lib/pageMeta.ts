@@ -12,12 +12,12 @@ import { CATALOG_LABEL } from '@/data/integrations';
 import { findIntegration } from '@/data/integrationDetail';
 import { resourcePages, type ResourceKind } from '@/data/resources';
 
-const SITE_NAME = 'Receipt';
+const SITE_NAME = 'Kentron AI';
 
 const HOME = {
-  title: 'Receipt — an AI coworker that proves what it did',
+  title: 'Kentron AI — an AI coworker that proves what it did',
   description:
-    'Your AI coworker that proves what it did. Receipt runs tasks across your SaaS apps and servers, then backs every result with a verifiable receipt.',
+    'Deploy agentic AI at scale with complete confidence. One platform. Unified governance. Real-time compliance. Proof of every decision.',
 };
 
 interface Meta {
@@ -32,7 +32,7 @@ function metaFor(name: string, slug: string): Meta {
     case 'use-cases':
       return {
         title: `Use cases — ${SITE_NAME}`,
-        description: 'Worked examples of what Receipt runs for engineering, security, finance, and support teams.',
+        description: 'Worked examples of what Kentron AI runs for engineering, security, finance, and support teams.',
       };
     case 'use-case': {
       const team = teamBySlug.get(slug);
@@ -42,14 +42,14 @@ function metaFor(name: string, slug: string): Meta {
     case 'integrations':
       return {
         title: `Integrations — ${SITE_NAME}`,
-        description: `Browse ${CATALOG_LABEL} connectors Receipt can drive, from AWS and GitHub to Slack and Salesforce.`,
+        description: `Browse ${CATALOG_LABEL} connectors Kentron AI can drive, from AWS and GitHub to Slack and Salesforce.`,
       };
     case 'integration': {
       const tool = findIntegration(slug);
       if (!tool) break;
       return {
         title: `${tool.name} integration — ${SITE_NAME}`,
-        description: `Connect ${tool.name} to Receipt: what it can read, what it can change, and what each run leaves behind in the receipt chain.`,
+        description: `Connect ${tool.name} to Kentron AI: what it can read, what it can change, and what each run leaves behind in the receipt chain.`,
       };
     }
     case 'pricing':
@@ -75,7 +75,7 @@ function metaFor(name: string, slug: string): Meta {
       // already implies.
       return {
         title: `${SITE_NAME} — Internal Console`,
-        description: 'Internal tool for the Receipt team. Sign-in required.',
+        description: 'Internal tool for the Kentron AI team. Sign-in required.',
         noindex: true,
       };
   }

@@ -25,4 +25,4 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://reciptlandingpage.vercel.app/sitemap.xml
+Sitemap: https://receipt-website.vercel.app/sitemap.xml
